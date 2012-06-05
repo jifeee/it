@@ -1,0 +1,44 @@
+AT7:
+  A3: Shipment returned to shipper
+  A7: Refused by consignee
+  A9: Shipment damaged
+  AF: Carrier departed pick-up location with shipment
+  AG: Estimated delivery
+  AH: Attempted delivery
+  AI: Shipment has been reconsigned
+  AJ: Tendered for delivery
+  AM: Loaded on truck
+  AN: Diverted to air carrier
+  AP: Delivery not completed
+  AR: Rail arrival at destination intermodal ramp
+  AV: Available for delivery
+  B6: Estimated to arrive at carrier terminal
+  BA: Connecting line or cartage pick-up
+  BC: Storage in transit
+  C1: Estimated to depart terminal location
+  CA: Shipment canceled
+  CD: Carrier departed delivery location
+  CL: Trailer closed out
+  CP: Completed loading at pick-up location
+  D1: Completed unloading at delivery location
+  I1: In-Gate
+  J1: Delivered to connecting line
+  K1: Arrived at customs
+  L1: Loading
+  OA: Out-Gate
+  OO: Paperwork received - did not receive shipment or equipment
+  P1: Departed terminal location
+  PR: U.S. customs hold at in-bond location
+  R1: Received from prior carrier
+  RL: Rail departure from origin intermodal ramp
+  S1: Trailer spotted at consignee's location
+  SD: Shipment delayed
+  X1: Arrived at delivery location
+  X2: Estimated date and/or time of arrival at consignee's location
+  X3: Arrived at pick-up location
+  X4: Arrived at terminal location
+  X5: Arrived at delivery location loading dock
+  X6: En route to delivery location
+  X8: Arrived at pick-up location loading dock
+  XB: Shipment acknowledged
+

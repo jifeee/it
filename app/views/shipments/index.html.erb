@@ -1,0 +1,102 @@
+<div id='search'>
+	<div class="advanced" style="display:none;">
+    <div class="padded">
+  		<h4>Advanced Search</h4>
+  		<%= semantic_form_for @search || Shipment.new, :url => shipments_path, :html => {:method => :get} do |f| %>
+  		  <%= f.inputs do %>
+  		    <table><tr>
+      		  <td><%= f.input :service_level, :as => :select, :collection => Shipment.data["AT7"].values, :label => "Current Status", :include_blank => "-Select-" %></td>
+      		  <td><%= f.input :shipper %></td>
+      		  <td><%= f.input :consignee %></td>
+      		</tr><tr>
+      		  <td><%= f.input :hawb, :label => "HAWB number", :input_html => {:class => :hawb} %><span class="error"></span></td>
+      		  <td><%= f.input :ship, :as => :string, :label => "Ship date", :input_html => {:class => "datepicker"} %></td>
+      		  <td><%= f.input :origin %></td>
+      		</tr><tr>
+      		  <td><%= f.input :mawb, :label => "MAWB number", :input_html => {:class => :hawb} %><span class="error"></span></td>
+      		  <td><%= f.input :delivery, :as => :string, :label => "Delivery date", :input_html => {:class => "datepicker"} %></td>
+      		  <td><%= f.input :destination %></td>
+      		</tr></table>
+  	  	<% end %>
+        <div class="span" style="margin-left:0;">
+    		  <%= f.submit "Search", :class => "btn btn-success" %>
+        </div>
+        <div class="span" style="vertical-allign: middle;">
+  		    <%= link_to "Close Advanced Search", "#", :class => "toggle_advanced" %>
+        </div>
+        <div class="clearfix"></div>
+  		<% end %>
+    </div>
+	</div>
+	
+	<div class="simple">
+		<h4>Search Shipment</h4>
+		<%= form_for @search || Shipment.new, :url => shipments_path, :html => {:method => :get} do |f| %>
+		  <table><tr>
+  	    <td><%= f.select :search_type, [['HAWB number', :hawb], ['MAWB number', :mawb]], :include_blank => " - Search By - " %></td>
+  	    <td><%= f.text_field :query, :class => :hawb %><span class="error"></span></td>
+		  	<td><%= f.submit "Search", :class => "btn btn-success", :id => "simple_search" %></td>
+  		</table>
+		<% end %>
+
+		<%# this feature is nop present in new wireframe  = link_to "Show all open records", shipments_path(:shipment => {:service_level => :open}) %>
+		<%= link_to "Advanced Search", "#", :class => "toggle_advanced" %>
+	</div>
+</div>
+
+<div class="clearfix"></div>
+<br />
+
+<% if @shipments.any? %>
+  <h3 class="table_header_h3">Shipment</h3>
+  <table class="table_w bordered-table tablesorter">
+    <thead><tr>
+      <th> HAWB </th>
+      <th> Ship Date </th>
+      <th> Delivery Date </th>
+      <th> Current Status </th>
+      <th> Origin </th>
+      <th> Destination </th>
+      <th> Shipper </th>
+      <th> Consignee </th>
+    </tr></thead>
+    <% @shipments.each do |ship| %>
+      <tr>
+        <td><%= link_to ship.hawb, shipment_path(ship), :class => 'link_bold' %></td>
+        <td><%= ship.ship if ship.ship %> </td> 
+        <td><%= ship.delivery if ship.delivery %></td>
+        <td><%= ship.current_status %></td>
+        <td><%= ship.origin %></td>
+        <td><%= ship.destination %></td>
+        <td class="link_bold"><%= ship.shipper %></td>
+        <td class="link_bold"><%= ship.consignee %></td>
+      </tr>  
+    <% end %>
+  </table>
+  <%= paginate @shipments %>
+<% else %>
+  No shipments found.
+<% end %>
+<% if can? :create, Shipment %>
+  <hr>
+  <div class="well">
+    <% form_for Shipment.new, :url => upload_edi_shipments_path, :html => {:multipart => true} do |f| %>
+      <div class="control-group">
+        <%= label_tag :file_edi, 'Upload new file VendorEDI' %>
+        <%= file_field_tag :file_edi %>
+      </div>
+      <div class="control-group">
+        <%= f.submit 'Upload it...', :class => 'btn btn-danger' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $("table.tablesorter").tablesorter({
+      sortList: [[1,0]] 
+    }); 
+  });
+  
+</script>

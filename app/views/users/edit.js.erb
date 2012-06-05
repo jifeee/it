@@ -1,0 +1,4 @@
+$("#modal-div").html("<%= escape_javascript(render :partial => "edit") %>");
+$('#company_id').val(<%= params[:company_id] %>);
+$('#agent_id').val(<%= params[:agent_id] %>);
+$('#modal_user_edit').modal();

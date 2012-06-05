@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Instatrace</title>
+    <%= stylesheet_link_tag "bootstrap",
+      "style",
+      "ui-datepicker",
+      "formtastic",
+      "jquery.autocomplete",
+      "sticky"
+    %>
+    <%= javascript_include_tag "jquery",
+      "jquery_ujs",
+      "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js",
+      "jquery.datepicker",
+      "jquery.tablesorter.min",
+      "bootstrap.min",
+      "jquery.autocomplete",
+      "jquery.template.min",
+      "sticky.min",
+      "application" %>
+    <%= csrf_meta_tag %>
+  </head>
+  
+  <body>
+    <div id="rightsidebar">
+      <div id="page">
+        <%= render :partial => '/application/menu' %>
+
+        <div id="main">
+          <%= yield %>
+        </div>
+
+  			<div id="modal-div"></div>
+
+      </div>
+    </div>
+    <div class="footer">
+      <div class="row-fluid">
+        <div class="span6">© <%= Time.now.year %> InstaTrace. All Rights Reserved.</div>
+        <div class="span6" style="text-align:right"></div>
+      </div>
+    </div>
+  </body>
+  <% flash.map do |k,v| %>
+    <%= javascript_tag("$.sticky('#{escape_javascript(v)}')") %>
+  <% end %>
+</html>

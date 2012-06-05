@@ -1,0 +1,23 @@
+development:
+  adapter: mysql
+  database: instatrace
+  pool: 5
+  timeout: 5000
+  host: 127.0.0.1
+
+test:
+  adapter: mysql
+  database: instatrace_test
+  username: root
+  encoding: utf8
+  host: 127.0.0.1
+  pool: 5
+  timeout: 5000
+
+production:
+  adapter: mysql
+  database: instatrace
+  pool: 5
+  timeout: 5000
+  host: 127.0.0.1
+  

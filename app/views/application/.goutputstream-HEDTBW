@@ -1,0 +1,21 @@
+<header>
+  <div class="logo"><img src="/images/insta_logo.png"></div>
+  <div class="user">
+    <% if user_signed_in? %>
+      <span class="item"><%= current_user.login %>, <%= link_to "Log Out", destroy_user_session_path, :method => :delete %></span>
+      <span class="item admin"><%= link_to "Admin Dashboard", admin_dashboard_path if current_user.manager? %></span>
+    <% else %>
+      <span class="item"><%= link_to "Log In", new_user_session_path %></span>
+    <% end %>
+  </div>
+  <div class="clearfix"></div>
+  <div class="menu">
+    <%= link_to "Shipment", root_path, :class => (controller_name == "shipments" ? "active" : "") %>
+    <% if user_signed_in? %>
+      <%= link_to "Freight Forwarders", :class => (current_page?(root_path) ? "active" : ""), companies_path if current_user.admin? %>
+      <%= link_to "Settings", edit_user_registration_path, :class => (current_page?(edit_user_registration_path) ? "active" : "")%>
+    <% end %>
+  </div>
+</header>
+
+

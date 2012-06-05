@@ -1,0 +1,25 @@
+<%= semantic_form_for [@company, (@user || User.new)], :html => {:class => "form-vertical"} do |f| %>
+  <div class="modal-body">
+	  <div class="modal-header">
+	    <a class="close" data-dismiss="modal">×</a>
+	    <h3>Create New User</h3>
+		</div>
+	  <div class="clearfix"></div>
+		<%= f.inputs do %>
+		  <table style="width:100%"><tr><td style="width=50%;">
+	    <div class="control-group">
+	  	  <%= f.input :role_id, :as => :hidden %>
+	  	  <%= f.input :first_name %>
+	  	  <%= f.input :last_name %>
+	  	  <%= f.input :email %>
+		  	<%= f.input :phone, :label => "Phone Number" %>
+	  	</div></td>
+	  	<td style="width=50%;"><div class="control-group">
+	  	  <%= f.input :login, :label => "Username" %>
+		    <%= f.input :password %>
+		    <%= f.input :password_confirmation %>
+	  	</div></td></tr></table>
+		<% end %>
+    <%= f.submit "SAVE", :class => "btn" %>
+	</div>
+<% end %>
