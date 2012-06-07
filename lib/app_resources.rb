@@ -42,7 +42,7 @@ module AppResources
     {
       :delete => [:batch_delete],
       :create => [:upload_edi],
-      :update => [:unlinks,:unlink,:join]
+      :update => [:unlinks,:unlink,:join,:joins]
     }[action.to_sym] || Array(action)
   end
   

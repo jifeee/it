@@ -9,6 +9,7 @@ Instatrace::Application.routes.draw do
   devise_for :users, ActiveAdmin::Devise.config
 
   resources :shipments do
+    resources :milestones
     post :upload_edi, :on => :collection
   end
   resources :notifications

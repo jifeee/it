@@ -60,10 +60,10 @@
 
 <div class="header-container">
   <h3 class="table_header_h3"><strong>Milestones</strong></h3>
-<%= link_to_if can?(:create, Shipment), "Create New Milestone", "#modal", "data-toggle" => "modal", :class => 'btn btn-inverse' %>
+<%= link_to "Create New Milestone", new_shipment_milestone_path(@shipment), :class => 'popup btn btn-inverse' if can?(:update, Shipment) && can?(:create, Milestone) %>
 <br />
 <br />
-<table class="table_w bordered-table tablesorter">
+<table class="table_w bordered-table tablesorter" id="milestones_table">
   <thead><tr>
     <th> Update Date & Time </th>
     <th> Updated By </th>
@@ -81,85 +81,30 @@
       <td> <%= ms.location %></td>
       <td> <%= ms.damage_desc %> </td>
       <td> <%= ms.doc %> </td>
-      <td valign="middle"> 
-        <%= form_for ms, :remote => true do |f| %>
-          <%= f.check_box :public, :disabled => (!current_user || current_user.driver?) %> Public
-        <% end %>   
-      </td>
+      <td valign="middle"> <%= check_box_tag :public %> Public </td>
     </tr>  
   <% end %>
 </table>
 
-<%= semantic_form_for @shipment.milestones.build, :html => {:id => "modal", :class => "modal modal_small hide form-vertical", :style => "width: 750px", :multipart => true} do |f| %>
-  <div class="modal-body">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3 style="font-size:16px">Create New Milestone</h3>
-  </div>
-  <div class="clearfix"></div>
-  <%= f.inputs do %>
-    <%= f.hidden_field :shipment_id %>
-    <table style="width:100%"><tr><td style="width=50%;">
-      <%= f.input :action, :as => :select, :collection => f.object.actions.map(&:to_s).map(&:humanize).zip(f.object.actions), :label => "Select Current Shipment Status", :include_blank => false %>
-    </td><td style="width=50%;">
-      Is the shipment damaged?
-      <%= f.input :damaged, :label => false, :as => :radio %>
-		</td></tr>
-		<tr><td>
-      <%= f.input :location, :label => "Enter current shipment location", :input_html => {:style => 'width:85%;'} %></td><td>
-      <%= f.input :damage_desc, :label => "Damage Description", :input_html => {:rows => 2, :style => 'width:85%;'} %>
-		</td></tr>
-		<tr><td>
-      <%= f.fields_for :milestone_documents, f.object.milestone_documents.build do |d| %>
-        <%= d.input :name, :as => :file, :label => "Enter milestone documents", :input_html => {:name => 'milestone[milestone_documents_attributes][0][name]'} %>
-        <%= d.input :name, :as => :file, :label => "Enter milestone documents", :input_html => {:name => 'milestone[milestone_documents_attributes][1][name]'} %>
-        <%= d.input :name, :as => :file, :label => "Enter milestone documents", :input_html => {:name => 'milestone[milestone_documents_attributes][2][name]'} %>
-        <li id="libtndoc" class="pull-left" style="padding-top: 12px"><%= link_to "Add More", "#", :class => "btn btn-inverse", :id => 'btndoc' %></li>
-      <% end %>
-    </td><td>
-      <%= f.fields_for :damages, f.object.damages.build do |d| %>
-        <%= d.input :photo, :as => :file, :label => "Upload photo of damaged shipment", :input_html => {:name => 'milestone[damages_attributes][0][photo]'} %>
-        <%= d.input :photo, :as => :file, :label => "Upload photo of damaged shipment", :input_html => {:name => 'milestone[damages_attributes][1][photo]'} %>
-        <%= d.input :photo, :as => :file, :label => "Upload photo of damaged shipment", :input_html => {:name => 'milestone[damages_attributes][2][photo]'} %>
-        <li id="libtnphoto" class="pull-left" style="padding-top: 12px"><%= link_to "Add More", "#", :class => "btn btn-inverse", :id => 'btnphoto' %></li>      
-      <% end %>
-		</td></tr><tr><td>
-    Is the milestone note public?
-      <%= f.input :public, :label => false, :as => :radio %>
-  </td><td></td></tr></table>
-  <% end %>
-  <div class="pull-left">
-  <%= f.submit "SAVE", :class => "btn btn-danger", :style => "font-size:22px; font-wight:bold; padding: 10px 20px;" %>
-  </div>
-  <br/>
-  <br/>
-  </div>
-
 <script type="text/javascript">
-$(document).ready(function(){
-  $('#btndoc').click(function(){
-    var cnt = $('input[id^="milestone_milestone_documents_attributes_"]').size();
-    $("#add_document").tmpl({'cnt':cnt}).insertBefore("#libtndoc");
-  })
-  $('#btnphoto').click(function(){
-    var cnt = $('input[id^="milestone_damages_attributes_"]').size();
-    $("#add_photo").tmpl({'cnt':cnt}).insertBefore("#libtnphoto");
-  })
-})
+  function notifyCreate(data){     
+    var response = JSON.parse(data);
+    $("#milestone_table_template").tmpl(response).appendTo("#milestones_table");
+  }
+
+  function notifyError(data) {
+    alert(data);
+  }
 </script>
 
-<script id="add_document" type="text/x-jquery-tmpl">
-<li class="file optional" id="milestone_doc_input">
-  <label for="milestone_doc">Enter milestone documents</label>
-  <input id="milestone_milestone_documents_attributes_${cnt}_name" name="milestone[milestone_documents_attributes][${cnt}][name]" type="file">
-</li>
+<script id="milestone_table_template" type="text/x-jquery-tmpl">
+<tr>
+  <td> ${created_at} </td>
+  <td> ${driver} </td>
+  <td> ${action} </td>
+  <td> ${location} </td>
+  <td> ${damage_desc} </td>
+  <td> ${doc} </td>
+  <td valign="middle"> <input id="public" name="public" type="checkbox" value="${public}"> Public </td>
+</tr>
 </script>
-
-<script id="add_photo" type="text/x-jquery-tmpl">
-<li class="file optional" id="milestone_doc_input">
-  <label for="milestone_doc">Enter milestone documents</label>
-  <input id="milestone_damages_attributes_${cnt}_photo" class="dmgfile" name="milestone[damages_attributes][${cnt}][photo]" type="file">
-</li>
-</script>
-
-<% end if can?(:create, Shipment) %>

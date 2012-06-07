@@ -1,0 +1,19 @@
+<%= form_for @milestone, :url => shipment_milestones_path, :html => {:multipart => true, :class => "form-vertical"}, :remote => true do |f| %>
+	<div class="row" style="padding:0 30px;">
+		<div class="span8">
+			<header>Create New Milestone</header>
+			<%= render :partial => 'form', :object => f %>
+			<div class="control-group">
+  			<div class="controls">
+					<%= f.submit "SAVE", :class => "btn btn-danger", 'data-loading-text' => "SAVING..." %>
+				</div>
+			</div>			
+		</div>
+	</div>
+	<br clear=all />
+<% end %>
+<script type="text/javascript">
+	$('form').submit(function(){
+		$('#milestone_submit').button('loading');
+	})
+</script>

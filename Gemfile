@@ -7,7 +7,7 @@ gem 'rails', '3.0.9'
 
 gem 'mysql2', '0.2.11'
 gem 'json'
-gem "jquery-rails"
+gem 'jquery-rails', '>= 1.0.12'
 
 gem 'devise'
 gem 'cancan'

@@ -1,0 +1,86 @@
+<%#= form.hidden_field :shipment_id %>
+<div class="row">
+  <div class="span4">
+    <div class="control-group">
+      <%= label_tag :action, 'Select Current Shipment Status', :class => 'control-label' %>
+      <div class="controls">  
+        <%= form.select :action, form.object.actions.map(&:to_s).map(&:humanize).zip(form.object.actions), :include_blank => false %>
+      </div>
+      <%= label_tag :location, 'Enter current shipment location', :class => 'control-label' %>
+      <div class="controls">  
+        <%= form.text_field :location, :class => 'span4' %>        
+      </div>
+    </div>
+    <div class="control-group">
+      <%= label_tag :milestone_documents, 'Upload milestone document(s)', :class => 'control-label' %>
+      <div class="controls" id="docs">
+        <% 3.times do |x| %>
+          <%= form.fields_for :milestone_documents, form.object.milestone_documents.build do |d| %>
+            <%= d.file_field :name %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="controls">
+        <%= link_to "Add More", "#", :class => "btn btn-inverse", :id => 'btndoc' %>
+      </div>
+    </div>
+    <div class="control-group" >
+      <%= label_tag :public, 'Is the milestone note public?', :class => 'control-label' %>
+      <div class="controls">  
+        <label class="radio inline"><%= form.radio_button :public, true -%>Yes</label>
+        <label class="radio inline"><%= form.radio_button :public, false -%>No</label>
+      </div>
+    </div>
+  </div>
+  <div class="span4">
+    <div class="control-group">
+      <%= label_tag :damaged, 'Is the shipment damaged?', :class => 'control-label' %>
+      <div class="controls" style="height: 28px;">  
+        <label class="radio inline"><%= form.radio_button :damaged, true -%>Yes</label>
+        <label class="radio inline"><%= form.radio_button :damaged, false -%>No</label>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= label_tag :damage_desc, 'Damage Description', :class => 'control-label' %>
+      <div class="controls">  
+        <%= form.text_field :damage_desc, :rows => 2 %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= label_tag :photo, 'Upload photo of damaged shipment"', :class => 'control-label' %>
+      <div class="controls" id="photos">
+        <% 3.times do |x| %>
+          <%= form.fields_for :damages, form.object.damages.build do |d| %>
+            <%= d.file_field :photo %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="controls">
+        <%= link_to "Add More", "#", :class => "btn btn-inverse", :id => 'btnphoto' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#btndoc').click(function(){
+    var cnt = $('input[id^="milestone_milestone_documents_attributes_"]').size();
+    $("#add_document").tmpl({'cnt':cnt}).appendTo("#docs");
+  })
+  $('#btnphoto').click(function(){
+    var cnt = $('input[id^="milestone_damages_attributes_"]').size();
+    $("#add_photo").tmpl({'cnt':cnt}).appendTo("#photos");
+  })
+
+</script>
+
+<script id="add_document" type="text/x-jquery-tmpl">
+  <input id="milestone_milestone_documents_attributes_${cnt}_name" name="milestone[milestone_documents_attributes][${cnt}][name]" type="file">
+</script>
+
+<script id="add_photo" type="text/x-jquery-tmpl">
+  <input id="milestone_damages_attributes_${cnt}_photo" class="dmgfile" name="milestone[damages_attributes][${cnt}][photo]" type="file">
+</script>
+
+
+ 

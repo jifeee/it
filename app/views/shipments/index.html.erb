@@ -69,7 +69,6 @@
   		</table>
 		<% end %>
 
-		<%# this feature is nop present in new wireframe  = link_to "Show all open records", shipments_path(:shipment => {:service_level => :open}) %>
 		<%= link_to "Advanced Search", "#", :class => "toggle_advanced" %>
 	</div>
 </div>
@@ -119,6 +118,7 @@
         <%= f.submit 'Upload it...', :class => 'btn btn-danger' %>
       </div>
     <% end %>
+    <br clear=all />
   </div>
 <% end %>
 

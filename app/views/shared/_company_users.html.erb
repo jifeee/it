@@ -5,7 +5,7 @@
   <h3><strong><%= k.capitalize %></strong> / <%= company_users.name_with_prefix %> </h3>
   <%= link_to "Create New #{k.singularize}", url_for(:action => 'new', :controller => 'users', 
     company_users.class.to_s.foreign_key.to_sym => company_users.id, :role_id => v),
-    :class => 'btn create popup btn-inverse' if can?(:update, Agent) && can?(:create, User) %>
+    :class => 'btn create popup btn-inverse' if can?(:update, company_users.class) && can?(:create, User) %>
   <br clear=all />
 </div>
 
@@ -13,7 +13,7 @@
   <thead><tr>
     <th class="mark">
       <%= check_box_tag 'all', nil, nil, :title => 'Check to remove all', 
-        :disabled => cannot?(:update, Agent) || cannot?(:delete, User) %>
+        :disabled => cannot?(:update, company_users.class) || cannot?(:delete, User) %>
     </th>
     <th> <%= "#{k.singularize} Name" %> </th>
     <th> Email </th>
@@ -26,19 +26,19 @@
     <tr>
       <td class="mark">
         <%= check_box_tag user.id, nil, nil, :class => 'admins', :title => 'Check to remove', 
-          :disabled => cannot?(:update, Agent) || cannot?(:delete, User)  %>
+          :disabled => cannot?(:update, company_users.class) || cannot?(:delete, User)  %>
       </td>
       <td class="link_bold"> <%= user.user_fullname %> </td>
       <td> <%= user.email %> </td>
       <td> <%= user.phone %> </td>
       <td> <%= user.login %></td>
-      <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, url_for(:action => 'edit', :controller => 'users',company_users.class.to_s.foreign_key.to_sym => company_users.id, :id => user.id), :class => 'popup' if can?(:update, Agent) && can?(:update, User) %> </td>
+      <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, url_for(:action => 'edit', :controller => 'users',company_users.class.to_s.foreign_key.to_sym => company_users.id, :id => user.id), :class => 'popup' if can?(:update, company_users.class) && can?(:update, User) %> </td>
     </tr>  
   <% end %>
   </tbody>
 </table>
 <br />
-<% if can?(:update, Agent) && can?(:delete, User) %>
+<% if can?(:update, company_users.class) && can?(:delete, User) %>
   <span class='bottom_button'> <%= link_to "Delete", delete_users_path, :class => 'btn delete_user btn-danger', :confirm => 'Are you sure?' %></span>
 <% end  %>
 <a href="#top" class="small_link">Top Page</a>
