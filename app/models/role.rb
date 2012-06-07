@@ -3,6 +3,7 @@ class Role < ActiveRecord::Base
   has_and_belongs_to_many :permissions
   
   ROLES = %w[admin driver operator freight_forwarder]
+  ROLE_NAMES = %w[SA Driver Operator Admin]
 
   scope :dependant, where(:name => ["Driver", "Operator"])
   ROLES.each do |role|

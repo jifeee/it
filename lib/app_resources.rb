@@ -38,11 +38,12 @@ module AppResources
     @permissions
   end  
   
-  def action_aliases action
+  def action_aliases(action)
     {
-      :delete => :batch_delete,
-      :create => :upload_edi,
-    }[action.to_sym] || action
+      :delete => [:batch_delete],
+      :create => [:upload_edi],
+      :update => [:unlinks,:unlink,:join]
+    }[action.to_sym] || Array(action)
   end
   
   private

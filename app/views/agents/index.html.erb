@@ -1,7 +1,7 @@
 <div id='search'>
 	<div class="simple">
 		<h4>Search Agents</h4>
-		<%= form_for @search || Agent.new, :url => agents_path, :html => {:method => :get} do |f| %>
+		<%= form_for @search || Agent.new, :url => agents_path, :html => {:class => 'form-search', :method => :get} do |f| %>
 		  <table>
 		    <tr>
 	   	    <td><%= f.text_field :name %><span class="error"></span></td>
@@ -13,73 +13,75 @@
 </div>
 <div class="clearfix"></div>
 <br />
-<span class='header_button'> <%= link_to "Create New Agent", "#modal", "data-toggle" => "modal", :class => 'btn btn-inverse' %></span>
+<% if can?(:create, Agent) %>
+  <span class='header_button'> <%= link_to "Create New Agent", new_agent_path, :class => 'popup btn btn-inverse' %></span>
+<% end %>
 <br />
 <% if @agents.any? %>
   <h3 class="table_header_h3">Agents Profiles</h3>
-  <table class="table_w bordered-table tablesorter ff">
+  <table class="table_w bordered-table tablesorter ff" id="agents_table">
     <thead><tr>
-      <th class="mark" align="center"> <input type="checkbox" id="all" /></th>
-      <th width="25%"> Agent Name </th>
+      <th class="mark" align="center"> 
+        <%= check_box_tag 'all', nil, nil, :title => 'Check to remove all', :disabled => cannot?(:delete, Agent) %>
+      </th>
+      <th width="250px"> Agent Name </th>
       <th> Address </th>
       <th> Phone </th>
       <th> FFs </th>
       <th> Admins </th>
       <th> Operators </th>
       <th> Drivers </th>
-      <th class="mark"> </th>
+      <th class="mark">&nbsp;</th>
     </tr></thead>
     <% @agents.each do |agent| %>
       <tr>
-        <td><input type="checkbox" id="<%= agent.id %>", class="all", title="Check to remove"/></td>
-        <td> <%= link_to agent.name, agent_path(agent), :class => 'link_bold' %> </td>
+        <td>
+          <%= check_box_tag agent.id, nil, nil, :class => 'all', :title => 'Check to remove', :disabled => cannot?(:delete, Agent) %>
+        </td>
+        <td>
+          <%= link_to agent.name_with_prefix, agent_path(agent), :class => 'link_bold' %> 
+        </td>
         <td class="address"> <%= agent.address %> </td>
         <td class="phone"> <%= agent.phone %> </td>
         <td class="count link_bold"> <%= agent.companies.count %> </td>
         <td class="count"> <%= link_to agent.users.freight_forwarders.count, agent_path(agent, :anchor => "admins"), :class => 'link_bold' %> </td>
         <td class="count"> <%= link_to agent.users.operators.count, agent_path(agent, :anchor => "operators"), :class => 'link_bold' %> </td>
         <td class="count"> <%= link_to agent.users.drivers.count, agent_path(agent, :anchor => "drivers"), :class => 'link_bold' %> </td>        
-        <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_agent_path(agent), :remote => true, :title => 'Modify' %> </td>
+        <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_agent_path(agent), :remote => true, :title => 'Modify', :class => 'popup' if can?(:update, Agent) %> </td>
+
       </tr>  
     <% end %>
   </table>
   <br />
-  <span class='bottom_button'> <%= link_to "Delete", delete_agents_path, :class => 'btn btn-danger', :confirm => 'Are you sure?', :id => "delete_agent" %></span>
+  <% if can?(:delete, Agent) %>
+    <span class='bottom_button'> <%= link_to "Delete", delete_agents_path, :class => 'btn btn-danger', :confirm => 'Are you sure?', :id => "delete_agent" %></span>
+  <% end %>
   <%= paginate @agents %>
 <% else %>
   No Agents found.
 <% end %>
 
-<%= semantic_form_for Agent.new, :html => {:id => "modal", :class => "modal modal_small hide form-vertical"} do |f| %>
-  	<div class="modal-body">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal">×</a>
-      <h3>Create New Agent</h3>
-	  </div>
-  	<div class="clearfix"></div>
-	  	<%= f.inputs do %>
-  		  <div class="control-group">
-  		    <%= f.input :name, :label => "Agent name" %>
-  		  </div>
-        <div class="control-group">
-  		    <%= f.input :address %>
-  		    <%= f.input :city %>
-  	      <%= f.input :zip, :label => "ZIP" %>
-  		  </div><div class="control-group">
-	  	    <%= f.input :phone %>
-  		    <%= f.input :ext, :input_html => {:style => "width: 15%"} %>
-  		  </div>
-  	  <% end %>
-  	<%= f.submit "SAVE", :class => "btn btn-danger", :style => "font-size:22px; font-wight:bold; padding: 10px 20px;" %>
-  	</div>
-<% end %>
 
 <script type="text/javascript">
+  function notifyCreate(data){
+    var response = JSON.parse(data);
+    $("#agent_table_template").tmpl(response).appendTo("#agents_table");
+  }
+
+  function notifyUpdate(data){     
+    var response = JSON.parse(data);
+    $("#agent_table_template").tmpl(response).replaceAll($('#'+response.id).closest('tr'));
+  }
+
+  function notifyError(data) {
+    alert(data);
+  }
+
   $(document).ready(function() {
     $("table.tablesorter").tablesorter({
       headers: { 
         0:{sorter: false},
-        7:{sorter: false}
+        8:{sorter: false}
       },
       sortList: [[1,0]] 
     });
@@ -92,4 +94,20 @@
       $(this).attr("href", $(this).attr("href") + "?ids=" + ids);
     });
   });  
+</script>
+
+<script id="agent_table_template" type="text/x-jquery-tmpl">
+<tr>
+  <td>
+    <input class="all" id="${id}" name="${id}" title="Check to remove" type="checkbox">
+  </td>
+  <td> <a href="/agents/${id}" class="link_bold">${name} (AGT)</a> </td>
+  <td class="address"> ${address} </td>
+  <td class="phone"> ${phone} </td>
+  <td class="count link_bold">${companies}</td>
+  <td class="count"> <a href="/agents/${id}#admins" class="link_bold">${admins}</a> </td>
+  <td class="count"> <a href="/agents/${id}#operators" class="link_bold">${operators}</a> </td>
+  <td class="count"> <a href="/agents/${id}#drivers" class="link_bold">${drivers}</a> </td>        
+  <td> <a href="/agents/${id}/edit" class="popup" title="Modify"><i class="icon-pencil"></i></a> </td>
+</tr>
 </script>

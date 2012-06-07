@@ -1,8 +1,14 @@
 class Parser
   class EDITransaction
-    attr_accessor :actions, :ship
+    attr_accessor :data, :actions, :ship
     
     def initialize(data)
+      @data = data
+
+      raise 'File has wrong format' unless self.isa?
+
+
+
       plain = data.gsub(/\r\n/, '').split('~').map{|line| line.split('*')}
 
       isa = plain.find{|d| d.first.eql? "ISA"}
@@ -13,6 +19,10 @@ class Parser
         plain.shift
         (self.actions||=[]) << plain.take_while{ |el| !el.first.eql?("ST") }
       end
+    end
+
+    def isa?
+      data =~ /isa\*\d{2}\*/i
     end
     
   end
@@ -31,6 +41,13 @@ class Parser
     raise 'Data is not defined.' if self.data.nil?
     self.spec = YAML::load(File.open(File.join(Rails.root, "lib", "parser", "cargo_spec.yml")))
     self.data.actions.each {|a| create_shipment(a) }
+  rescue => e
+    @errors << {
+      :shipment_id => 'NA',
+      :message => e.message,
+      :full_message => e.message
+    }
+    puts self.errors.last[:full_message]
   end
 
   def default_files_path

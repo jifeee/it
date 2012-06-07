@@ -13,7 +13,7 @@
     <%= link_to "Shipment", root_path, :class => (controller_name == "shipments" ? "active" : ""), :style => 'margin-left:0;' if can?(:read, Shipment) %>
     <%= link_to "Freight Forwarders", companies_path, :class => (controller_name == "companies" ? "active" : "") if can?(:read, Company) %>
     <%= link_to "Agents", agents_path, :class => (controller_name == "agents" ? "active" : "") if can?(:read, Agent) %>    
-    <%= link_to "Settings", edit_user_registration_path, :class => (current_page?(edit_user_registration_path) ? "active" : "") if can?(:read, User) %>
+    <%= link_to "Settings", edit_user_registration_path, :class => (current_page?(edit_user_registration_path) ? "active" : "") if user_signed_in? %>
   </div>
 </header>
 

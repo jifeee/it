@@ -1,262 +1,8 @@
-<a name="top"></a>
-<div class="row-fluid">
-  <div class="span breadcrumbs">
-    <%= link_to "Agents", agents_path %> > <%= @agent.name %>
-  </div>
-  <div class="pull-right">
-    <div id='search'>
-      <div class="simple">
-        <h3>Search</h3>
-        <%= form_for @agent, :method => :get, :html => {:method => :get} do |f| %>
-          <table>
-            <tr>
-              <td><%= f.text_field :query %><span class="error"></span></td>
-            <td><%= f.submit "Search", :class => "btn btn-success", :id => "simple_search" %></td></tr>
-          </table>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="company">
-  <h3><%= @agent.name %></h3>
-  <%= @agent.address %><br/>
-  <%= @agent.phone %><br/>
-  <div class="container row_info">
-    <div class="row">
-      <div class="span2">Created</div>
-      <div class="span3"><span><%= @agent.created_at %>&nbsp;</span></div>
-      <div class="span2">Updated</div>
-      <div class="span3"><span><%= @agent.updated_at %>&nbsp;</span></div>
-    </div>
-    <div class="row">
-      <div class="span2">Created by</div>
-      <div class="span3"><span><%= @agent.created_by %>&nbsp;</span></div>
-      <div class="span2">Updated by</div>
-      <div class="span3"><span><%= @agent.updated_by %>&nbsp;</span></div>
-    </div>
-  </div>
-</div>
-<div style="clear: right;"></div>
-
-<span class="employees btn"><a href="#drivers">Drivers: <strong><%= @agent.users.drivers.count %></strong></a></span>
-<span class="employees btn"><a href="#operators">Operators: <strong><%= @agent.users.operators.count %></strong></a></span>
-<span class="employees btn"><a href="#admins">Admins: <strong><%= @agent.users.freight_forwarders.count %></strong></a></span>
-
-<div class="clearfix"></div>
-<br/>
-<section>
-<a name="admins"></a>
-<div class="header-container">
-  <h3><strong>Freight Forwards</strong> / <%= @agent.name %> </h3>
-  <%= link_to "Create New Company", "#modal_add_companies", "data-toggle" => "modal", :class => 'btn create', :id => 'link_agents' if current_user.manager? %>
-</div>
-<div class="clearfix"></div>
-
-<table class="table_w bordered-table tablesorter" id="companies_table">
-  <thead><tr>
-    <th class="mark"> <input type="checkbox" id="all" /></th>
-    <th> Freight Forward Name </th>
-    <th> Address </th>
-    <th> Phone </th>
-    <th class="w80"> Agents </th>
-    <th class="w80"> Admins </th>
-    <th class="w80"> Operators </th>
-    <th class="w80"> Drivers </th>
-    <th class="mark"> </th>
-  </tr></thead>
-  <tbody>
-  <% @agent.companies.map do |company| %>
-    <tr id="company_id_row<%= company.id %>">
-      <td class="mark"><input type="checkbox" id="<%= company.id %>", class="all", title="Check to remove"/></td>
-      <td> <%= link_to company.name, company_path(company), :class => 'link_bold' %> </td>
-      <td> <%= company.address %> </td>
-      <td> <%= company.phone %> </td>
-      <td class="link_bold"> <%= company.agents.count %></td>
-      <td> <%= link_to company.users.freight_forwarders.count, company_path(company, :anchor => 'admins'), :class => 'link_bold' %></td>
-      <td> <%= link_to company.users.operators.count, company_path(company, :anchor => 'operator'), :class => 'link_bold' %></td>
-      <td> <%= link_to company.users.drivers.count, company_path(company, :anchor => 'drivers'), :class => 'link_bold' %></td>
-      <td><%= link_to '<i class="icon-remove"></i>'.html_safe, 
-        unlink_agent_company_path(@agent,company), :remote => true, :title => 'Remove', :confirm => 'Are you sure?', :method => 'delete' %> </td>  
-    </tr>  
-  <% end %>
-  </tbody>
-</table>
-<br />
-<span class='bottom_button'> <%= link_to "Delete", unlink_companies_agent_path(@company), :class => 'btn delete_user btn-danger', :confirm => 'Are you sure?', :method => 'delete' %></span>
-<div class="clearfix"></div>
-<br/>
-</section>
-
-<section>
-<a name="admins"></a>
-<div class="header-container">
-  <h3><strong>Admins</strong> / <%= @agent.name %> </h3>
-  <%= link_to "Create New Admin", "#modal_freight_forwarder", "data-toggle" => "modal", :class => 'btn create' if current_user.manager? %>
-</div>
-<div class="clearfix"></div>
-
-<table class="table_w bordered-table tablesorter">
-  <thead><tr>
-    <th class="mark"> <input type="checkbox" id="all" /></th>
-    <th> Admin Name </th>
-    <th> Email </th>
-    <th> Phone </th>
-    <th> Username </th>
-    <th class="mark"> </th>
-  </tr></thead>
-  <tbody>
-  <% @agent.users.freight_forwarders.each do |user| %>
-    <tr>
-      <td class="mark"><input type="checkbox" id="<%= user.id %>", class="all", title="Check to remove"/></td>
-      <td class="link_bold"> <%= user.user_fullname %> </td>
-      <td> <%= user.email %> </td>
-      <td> <%= user.phone %> </td>
-      <td> <%= user.login %></td>
-      <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_agent_user_path(@agent, user), :remote => true %> </td>
-    </tr>  
-  <% end %>
-  </tbody>
-</table>
-<br />
-<span class='bottom_button'> <%= link_to "Delete", delete_users_path, :class => 'btn delete_user btn-danger', :confirm => 'Are you sure?' %></span>
-<a href="#top" class="small_link">Top Page</a>
-<div class="clearfix"></div>
-<br/>
-</section>
-
-<section>
-<a name="operators"></a>
-<div class="header-container">
-  <h3><strong>Operators</strong> / <%= @agent.name %> </h3>
-  <%= link_to "Create New Operator", "#modal_operator", "data-toggle" => "modal", :class => 'btn create' if current_user.manager? %>
-</div>
-
-<div class="clearfix"></div>
-<table class="table_w bordered-table tablesorter">
-  <thead><tr>
-    <th class="mark"> <input type="checkbox" id="all" /></th>
-    <th> Operator Name </th>
-    <th> Email </th>
-    <th> Phone </th>
-    <th> Username </th>
-    <th class="mark">  </th>
-  </tr></thead>
-  <% @agent.users.operators.each do |user| %>
-    <tr>
-      <td class="mark"><input type="checkbox" id="<%= user.id %>", class="all", title="Check to remove"/></td>
-      <td class="link_bold"> <%= user.user_fullname %> </td>
-      <td> <%= user.email %> </td>
-      <td> <%= user.phone %> </td>
-      <td> <%= user.login %></td>
-      <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_agent_user_path(@agent, user), :remote => true %> </td>
-    </tr>  
-  <% end %>
-</table>
-<br />
-<span class='bottom_button'> <%= link_to "Delete", delete_users_path, :class => 'btn delete_user btn-danger', :confirm => 'Are you sure?' %></span>
-<a href="#top" class="small_link">Top Page</a>
-<div class="clearfix"></div>
-<br/>
-</section>
-
-<section>
-<a name="drivers"></a>
-<div class="header-container">
-  <h3><strong>Drivers</strong> / <%= @agent.name %> </h3>
-  <%= link_to "Create New Driver", "#modal_driver", "data-toggle" => "modal", :class => 'btn create' if current_user.manager? %>
-</div>
-<div class="clearfix"></div>
-
-<table class="table_w bordered-table tablesorter">
-  <thead><tr>
-    <th class="mark"> <input type="checkbox" id="all" /></th>
-    <th> Driver Name </th>
-    <th> Email </th>
-    <th> Phone </th>
-    <th> Username </th>
-    <th class="mark">  </th>
-  </tr></thead>
-  <% @agent.users.drivers.each do |user| %>
-    <tr>
-      <td class="mark"><input type="checkbox" id="<%= user.id %>", class="all", title="Check to remove"/></td>
-      <td class="link_bold"> <%= user.user_fullname %> </td>
-      <td> <%= user.email %> </td>
-      <td> <%= user.phone %> </td>
-      <td> <%= user.login %></td>
-      <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_agent_user_path(@agent, user), :remote => true %> </td>
-    </tr>  
-  <% end %>
-</table>
-<br />
-<span class='bottom_button'> <%= link_to "Delete", delete_users_path, :class => 'btn delete_user btn-danger', :confirm => 'Are you sure?' %></span>
-<a href="#top" class="small_link">Top Page</a>
-<div class="clearfix"></div>
-</section>
-
-<% {:freight_forwarder => "Admin", :operator => "Operator", :driver => "Driver"}.each_pair do |role, label| %>
-	<%= semantic_form_for [@agent, User.new], :html => {:id => "modal_#{role}", :class => "modal hide form-vertical company"} do |f| %>
-		<div class="modal-body">
-	    <div class="modal-header">
-	      <a class="close" data-dismiss="modal">×</a>
-	      <h3>Create New <%= label %></h3>
-		  </div>
-	  	<div class="clearfix"></div>
-		  <%= f.inputs do %>
-		    <table style="width:100%"><tr><td style="width=50%;">
-	  	  <div class="control-group">
-	  		  <%= f.input :role_id, :as => :hidden, :input_html => {:value => Role.send(role).first.id} %>
-	  		  <%= f.input :first_name %>
-	  		  <%= f.input :last_name %>
-	  		  <%= f.input :email %>
-	  		</div>
-        <div class="control-group">
-          <%= f.input :phone %>
-          <%= f.input :ext, :label => "Ext", :input_html => {:style => "width: 25%"} %>          
-        </div>
-      </td>
-	  		<td style="width=50%;"><div class="control-group">
-	  	    <%= f.input :login, :label => "Username" %>
-		  	  <%= f.input :password %>
-		  	  <%= f.input :password_confirmation %>
-	  		</div></td></tr></table>
-		  	<% end %>
-        <div class="row-fluid">
-          <div class="span">
-            <%= f.submit "SAVE", :class => "btn btn-danger", :style => "font-size:22px; font-wight:bold; padding: 10px 20px;" %>
-          </div>
-          <div class="pull-right" style="line-height: 28px;">
-            <%= link_to "SAVE & Automaticaly Email Login Details to the #{label}", '#' %>
-          </div>
-        </div>	  
-	  </div>
-	<% end %>
-<% end %>
-
-
-<%= semantic_form_for @agent, :url => joincompanies_agent_path(@agent),
-  :html => {:id => "modal_add_companies", :class => "modal modal_small hide form-vertical"}, :remote => true do |f| %>
-<div class="modal-body">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3>Create New Company</h3>
-  </div>
-  <div class="clearfix"></div>
-  <div>
-    <div>
-      <%= label_tag :company, 'Please select new company from exists' %>
-      <%= text_field_tag :company, nil, :style => 'width:100%;' %>
-    </div>
-  </div>
-  <ul id="selected_companies" class="selections"></ul>
-  <hr>
-  <%= f.submit "SAVE", :class => "btn btn-danger" %>
-</div>
-<% end %>
+<%= render :partial => 'shared/company_header', :object => @agent %>
+<%= render :partial => 'shared/company_relation', :object => @agent %>
+<%= render :partial => 'shared/company_users', :object => @agent %>
 
 <script type="text/javascript">
-    
   function notifyJoinCompanies(data) {
     var response = JSON.parse(data);
     $.each(response, function(i, company) {
@@ -272,25 +18,25 @@
     $('#company_id_row'+data).fadeOut();
   };
 
-  $(document).ready(function() {
-    $("#company").autocomplete({
-      url: "<%= get_companies_companies_path(:json) -%>",
-      remoteDataType: 'json',
-      mustMatch: true,
-      maxItemsToShow: 5,
-      selectFirst: false,
-      autoFill: false,
-      selectOnly: true,
-      extraParams: {'agent_id':<%= @agent.id %>,'exclude':0},
-      onItemSelect: function(item) {
-        if ($('#company_'+item.data.id).text() == '') 
-          $("#company_template").tmpl(item.data.obj).appendTo("#selected_companies");
-        $('#company').val('');
-      }
-    });
+  function notifyUserCreate(data) {
+    var response = JSON.parse(data);
+    var roles = {"4": "admins","3": "operators","2": "drivers"};
+      $("#user_table_template").tmpl(response).appendTo('#'+roles[response.role_id]+'_table');
+  }
 
+  function notifyUserUpdate(data) {
+    var response = JSON.parse(data);
+    var roles = {"4": "admins","3": "operators","2": "drivers"};
+    $("#user_table_template").tmpl(response).replaceAll($('.'+roles[response.role_id]+'#'+response.id).closest('tr'));
+  }
+
+  function notifyError(data) {
+    alert(data);
+  }
+
+  $(document).ready(function() {
     $("a.delete_user").click(function() {
-      var ids = $.map($(this).closest("section").find("input.all:checked"), function(val) { return val.id; })
+      var ids = $.map($(this).closest("section").find("input:checked"), function(val) { return val.id; })
       if (ids.length == 0) {
         alert("No Members checked");
         return false;
@@ -300,24 +46,31 @@
   });
 </script>
 
-<script id="company_template" type="text/x-jquery-tmpl">
-<li id="company_${id}">
-  <span>${name}</span>
-  <a href="#" onclick="$('#company_${id}').remove(); return false;"><i class="icon-remove"></i></a>
-  <input type="hidden" name="company_ids[]" value="${id}" />
-</li>
-</script>
-
 <script id="company_table_template" type="text/x-jquery-tmpl">
 <tr id="company_id_row${id}">
   <td class="mark"><input type="checkbox" id="${id}", class="all", title="Check to remove"/></td>
   <td><a href="/companies/${id}" class="link_bold">${name} (FF)</a></td>
   <td>${address}</td>
   <td>${phone}</td>
-  <td>${Agents}</td>
+  <td class="link_bold">${agents}</td>
   <td><a href="/companies/${id}#admins" class="link_bold">${admins}</a></td>
   <td><a href="/companies/${id}#admins" class="link_bold">${operators}</a></td>
   <td><a href="/companies/${id}#admins" class="link_bold">${drivers}</a></td>
-  <td><a href="/agents/${agent_id}/companies/${id}/unlink" data-confirm="Are you sure?" data-method="delete" data-remote="true" rel="nofollow" title="Remove"><i class="icon-remove"></i></a></td>
+  <td><a href="/companies/${id}/agents/${agent_id}/unlink" data-confirm="Are you sure?" data-method="delete" data-remote="true" rel="nofollow" title="Remove"><i class="icon-remove"></i></a></td>
+</tr>
+</script>
+
+<script id="user_table_template" type="text/x-jquery-tmpl">
+<tr>
+  <td class="mark">
+    <input class="all" id="${id}" name="${id}" title="Check to remove" type="checkbox">
+  </td>
+  <td class="link_bold"> ${user_fullname} </td>
+  <td> ${email} </td>
+  <td> ${phome} </td>
+  <td> ${login} </td>
+  <td>
+    <a href="/agents/${company_id}/users/${id}/edit" class="popup"><i class="icon-pencil"></i></a>
+  </td>
 </tr>
 </script>

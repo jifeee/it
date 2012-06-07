@@ -1,0 +1,52 @@
+<%= form_for @company, :url => join_company_path(@company), :html => {:class => "form-vertical"}, :remote => true do |f| %>
+  <fieldset>
+    <legend>Create New Agent</legend>
+  </fieldset>
+  <div style="padding:30px">
+    <div class="control-group">
+      <div class="controls">
+        <%= text_field_tag :agent, nil, :class => 'input-xxlarge' %>
+        <span class="help-inline">Please select new agent from exists</span>
+      </div>
+    </div>
+    <div class="well">
+      <ul id="selected_agents" class="selections"></ul>
+    </div>
+  </div>
+  <br clear=all />
+  <footer id='dialog-footer'>
+    <div class="controls pull-right">
+      <%= f.submit "Save changes", :class => "btn btn-primary", 'data-loading-text' => "Saving changes" %>
+      <a href="#" class="btn" onclick="$.colorbox.close(); return false;">Cancel</a>
+    </div>
+  </footer>
+<% end %>
+
+<script type="text/javascript">
+  $('form').submit(function(){
+    $('#company_submit').button('loading');
+  })
+
+  $("#agent").autocomplete({
+    url: "<%= get_agents_agents_path(:json) -%>",
+    remoteDataType: 'json',
+    mustMatch: true,
+    maxItemsToShow: 5,
+    selectFirst: false,
+    autoFill: false,
+    selectOnly: true,
+    extraParams: {'doc_id':<%= @company.id %>,'exclude':0},
+    onItemSelect: function(item) {
+      if ($('#agent_'+item.data.id).text() == '') 
+        $("#agent_template").tmpl(item.data.obj).appendTo("#selected_agents");
+      $('#agent').val('');
+    }
+  });
+</script>
+
+<script id="agent_template" type="text/x-jquery-tmpl">
+<li id="agent_${id}">
+  <a href="#" class="btn" onclick="$('#agent_${id}').remove(); return false;"><i class="icon-remove"></i>${name}</a>
+  <input type="hidden" name="agent_ids[]" value="${id}" />
+</li>
+</script>

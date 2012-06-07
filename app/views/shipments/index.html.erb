@@ -2,36 +2,66 @@
 	<div class="advanced" style="display:none;">
     <div class="padded">
   		<h4>Advanced Search</h4>
-  		<%= semantic_form_for @search || Shipment.new, :url => shipments_path, :html => {:method => :get} do |f| %>
-  		  <%= f.inputs do %>
-  		    <table><tr>
-      		  <td><%= f.input :service_level, :as => :select, :collection => Shipment.data["AT7"].values, :label => "Current Status", :include_blank => "-Select-" %></td>
-      		  <td><%= f.input :shipper %></td>
-      		  <td><%= f.input :consignee %></td>
-      		</tr><tr>
-      		  <td><%= f.input :hawb, :label => "HAWB number", :input_html => {:class => :hawb} %><span class="error"></span></td>
-      		  <td><%= f.input :ship, :as => :string, :label => "Ship date", :input_html => {:class => "datepicker"} %></td>
-      		  <td><%= f.input :origin %></td>
-      		</tr><tr>
-      		  <td><%= f.input :mawb, :label => "MAWB number", :input_html => {:class => :hawb} %><span class="error"></span></td>
-      		  <td><%= f.input :delivery, :as => :string, :label => "Delivery date", :input_html => {:class => "datepicker"} %></td>
-      		  <td><%= f.input :destination %></td>
-      		</tr></table>
-  	  	<% end %>
-        <div class="span" style="margin-left:0;">
-    		  <%= f.submit "Search", :class => "btn btn-success" %>
+  		<%= form_for @search || Shipment.new, :url => shipments_path, :html => {:method => :get} do |f| %>
+        <div class="row-fluid">
+          <div class="span3">
+            <%= f.label :service_level, 'Current Status' %>
+            <%= f.select :service_level, Shipment.data["AT7"].values, :include_blank => "-Select-" %>
+          </div><div class="span1"></div>
+          <div class="span3">
+            <%= f.label :shipper %>
+            <%= f.text_field :shipper %>
+          </div><div class="span1"></div>
+          <div class="span3">
+            <%= f.label :consignee %>
+            <%= f.text_field :consignee %>
+          </div>
         </div>
-        <div class="span" style="vertical-allign: middle;">
-  		    <%= link_to "Close Advanced Search", "#", :class => "toggle_advanced" %>
+        <div class="row-fluid">
+          <div class="span3">
+            <%= f.label :hawb, 'HAWB number' %>
+            <%= f.text_field :hawb, :label => "HAWB number", :class => :hawb %><span class="error"></span>
+          </div><div class="span1"></div>
+          <div class="span3">
+            <%= f.label :ship, 'Ship Date' %>
+            <%= f.text_field :ship, :class => "datepicker" %>
+          </div><div class="span1"></div>
+          <div class="span2">
+            <%= f.label :origin, 'Origin / City' %>
+            <%= f.text_field :origin %>
+          </div>
+          <div class="span2">
+            <%= f.label :field1, 'Origin / Airport Code' %>
+            <%= text_field_tag :field1 %>
+          </div>
         </div>
-        <div class="clearfix"></div>
+        <div class="row-fluid">
+          <div class="span3">
+            <%= f.label :mawb, 'MAWB number' %>
+            <%= f.text_field :mawb, :class => :hawb %><span class="error"></span>
+          </div><div class="span1"></div>
+          <div class="span3">
+            <%= f.label :delivery, 'Delivery Date' %>
+            <%= f.text_field :delivery, :class => "datepicker" %>
+          </div><div class="span1"></div>
+          <div class="span2">
+            <%= f.label :destination %>
+            <%= f.text_field :destination %>
+          </div>
+          <div class="span2">
+            <%= f.label :field2, 'Destination / Airport Code' %>
+            <%= text_field_tag :field2 %>
+          </div>
+        </div>
+        <%= f.submit "Search", :class => "btn btn-success" %>
+        <%= link_to "Close Advanced Search", "#", :class => "toggle_advanced" %>
   		<% end %>
-    </div>
+    </div><br />
 	</div>
 	
 	<div class="simple">
 		<h4>Search Shipment</h4>
-		<%= form_for @search || Shipment.new, :url => shipments_path, :html => {:method => :get} do |f| %>
+		<%= form_for @search || Shipment.new, :url => shipments_path, :html => {:class => 'form-search', :method => :get} do |f| %>
 		  <table><tr>
   	    <td><%= f.select :search_type, [['HAWB number', :hawb], ['MAWB number', :mawb]], :include_blank => " - Search By - " %></td>
   	    <td><%= f.text_field :query, :class => :hawb %><span class="error"></span></td>

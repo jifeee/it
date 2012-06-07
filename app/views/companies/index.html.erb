@@ -8,8 +8,7 @@
 		  	    <td><%= f.submit "Search", :class => "btn btn-success", :id => "simple_search" %></td>
 		  	</tr>
   		</table>
-		<% end %>
-		
+		<% end %>	
 	</div>
 </div>
 
@@ -17,15 +16,17 @@
 <br />
 <% if can?(:create, Company) %>
   <span class='header_button'> 
-    <%= link_to "Create New Company", "#modal", "data-toggle" => "modal", :class => 'btn btn-inverse' %>
+    <%= link_to "Create New Company", new_company_path, :class => 'popup btn btn-inverse' %>
   </span>
 <% end %>
 <br />
 <% if @companies.any? %>
   <h3 class="table_header_h3">Freight Forwarders Profiles</h3>
-  <table class="table_w bordered-table tablesorter ff">
+  <table class="table_w bordered-table tablesorter ff" id="companies_table">
     <thead><tr>
-      <th class="mark" align="center"> <input type="checkbox" id="all" /></th>
+      <th class="mark" align="center"> 
+        <%= check_box_tag 'all', nil, nil, :title => 'Check to remove all', :disabled => cannot?(:delete, Company) %>
+      </th>
       <th width="25%"> Company Name </th>
       <th> Address </th>
       <th> Phone </th>
@@ -33,62 +34,57 @@
       <th> Admins </th>
       <th> Operators </th>
       <th> Drivers </th>
-      <th class="mark"> </th>
+      <th class="mark">&nbsp;</th>
     </tr></thead>
     <% @companies.each do |cmp| %>
       <tr>
-        <td class="mark"><input type="checkbox" id="<%= cmp.id %>", class="all", title="Check to remove"/></td>
-        <td> <%= link_to cmp.name, company_path(cmp), :class => 'link_bold' %> </td>
+        <td class="mark">
+          <%= check_box_tag cmp.id, nil, nil, :class => 'all', :title => 'Check to remove', :disabled => cannot?(:delete, Company) %>
+        </td>
+        <td> <%= link_to cmp.name_with_prefix, company_path(cmp), :class => 'link_bold' %> </td>
         <td class="address"> <%= cmp.address %> </td>
         <td class="phone"> <%= cmp.phone %> </td>
         <td class="count link_bold"> <%= cmp.agents.count %> </td>
         <td class="count"> <%= link_to cmp.users.freight_forwarders.count, company_path(cmp, :anchor => "admins"), :class => 'link_bold' %> </td>
         <td class="count link_bold"> <%= link_to cmp.users.operators.count, company_path(cmp, :anchor => "operators"), :class => 'link_bold'  %> </td>
         <td class="count link_bold"> <%= link_to cmp.users.drivers.count, company_path(cmp, :anchor => "drivers"), :class => 'link_bold'  %> </td>
-        <td><%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_company_path(cmp), :remote => true, :title => 'Modify' if can?(:update, Company) %></td>
+        <td><%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_company_path(cmp), :class => 'popup', :remote => true, :title => 'Modify' if can?(:update, Company) %></td>
       </tr>  
     <% end %>
   </table>
   <br />
-  <span class='bottom_button'> <%= link_to "Delete", delete_companies_path, :class => 'btn btn-danger', :confirm => 'Are you sure?', :id => "delete_cmp" %></span>
-  <%= paginate @companies %>
+  <div class="row">
+    <% if can?(:delete, Company) %>
+      <span class='span'> <%= link_to "Delete", delete_companies_path, :class => 'btn btn-danger', :confirm => 'Are you sure?', :id => "delete_cmp" %></span>
+    <% end %>
+    <div class="span pull-right">
+      <%= paginate @companies %>
+    </div>
+  </div>
 <% else %>
   No Freight Forwarders found.
 <% end %>
 
-<% if can?(:create, Company) %>
-  <%= semantic_form_for Company.new, :html => {:id => "modal", :class => "modal modal_small hide form-vertical"} do |f| %>
-  	<div class="modal-body2">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal">×</a>
-      <h3 class="table_header_h3">Create New Freight Forwarder</h3>
-	  </div>
-  	<div class="clearfix"></div>
-	  	<%= f.inputs do %>
-  		  <div class="control-group">
-  		    <%= f.input :name, :label => "Company name" %>
-  		  </div>
-        <div class="control-group">
-  		    <%= f.input :address %>
-  		    <%= f.input :city %>
-  	      <%= f.input :zip, :label => "ZIP" %>
-  		  </div><div class="control-group">
-	  	    <%= f.input :phone, :li => {:style => 'padding-right:20px'}%>
-  		    <%= f.input :ext, :input_html => {:style => "width: 25%"} %>
-  		  </div>
-  	  <% end %>
-  	<%= f.submit "SAVE", :class => "btn btn-danger", :style => "font-size:22px; font-wight:bold; padding: 10px 20px;" %>
-  	</div>
-  <% end %>
-<% end %>
+<script type="text/javascript">
+  function notifyCreate(data){     
+    var response = JSON.parse(data);
+    $("#company_table_template").tmpl(response).appendTo("#companies_table");
+  }
 
+  function notifyUpdate(data){     
+    var response = JSON.parse(data);
+    $("#company_table_template").tmpl(response).replaceAll($('#'+response.id).closest('tr'));
+  }
 
-<script>
+  function notifyError(data) {
+    alert(data);
+  }
+
   $(document).ready(function() {
     $("table.tablesorter").tablesorter({
       headers: { 
         0:{sorter: false},
-        7:{sorter: false}
+        8:{sorter: false}
       },
       sortList: [[1,0]] 
     });
@@ -102,3 +98,20 @@
     });
   });
 </script>
+
+<script id="company_table_template" type="text/x-jquery-tmpl">
+<tr>
+  <td class="mark">
+    <input class="all" id="${id}" name="${id}" title="Check to remove" type="checkbox">
+  </td>
+  <td> <a href="/companies/${id}" class="link_bold">${name} (FF)</a> </td>
+  <td class="address"> ${address} </td>
+  <td class="phone"> ${phone} </td>
+  <td class="count link_bold"> ${agents} </td>
+  <td class="count"> <a href="/companies/${id}#admins" class="link_bold">${admins}</a> </td>
+  <td class="count link_bold"> <a href="/companies/${id}#operators" class="link_bold">${operators}</a> </td>
+  <td class="count link_bold"> <a href="/companies/${id}#drivers" class="link_bold">${drivers}</a> </td>
+  <td><a href="/companies/${id}/edit" data-remote="true" title="Modify"><i class="icon-pencil"></i></a></td>
+</tr>
+</script>
+<!-- <a href="/companies/25/edit" class="popup cboxElement" data-remote="true" title="Modify"><i class="icon-pencil"></i></a> -->

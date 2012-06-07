@@ -17,8 +17,9 @@ Instatrace::Application.routes.draw do
   resources :agents do
     resources :users
     member do
-      delete :unlink_companies
-      put :joincompanies
+      delete :unlinks
+      put :join, :action => 'join'
+      get :join, :action => 'joins'
     end
     collection do
         get :get_agents
@@ -34,8 +35,9 @@ Instatrace::Application.routes.draw do
   resources :companies do
     resources :users
     member do
-      delete :unlink_agents
-      put :joinagents
+      delete :unlinks
+      put :join, :action => 'join'
+      get :join, :action => 'joins'
     end
     resources :agents, :only => [] do
       member do 
@@ -64,7 +66,7 @@ namespace "api" do
     
     post '/shipment' => "shipments#show"
     get '/shipment/new' => "milestones#new"
-    post '/shipment' => "milestones#update"
+    post '/shipment/damage' => "milestones#update"
     post '/shipment/signature' => "signatures#create"
     post '/shipment/doc' => "milestones#update" 
     get '/shipment/complete' => "milestones#complete"

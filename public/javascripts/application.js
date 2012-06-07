@@ -2,6 +2,16 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 $(document).ready(function() {
+  $('.popup').live('click',function(e) {
+    url = this.href;
+    $.fn.colorbox({href: url});
+    return false;
+  });  
+  
+  $(".popup-big").colorbox({innerWidth:640, innerHeight:480, initialWidth:640, initialHeight:480, onLoad: function() {
+    $('#cboxClose').remove();
+  }});
+
   $("a.remove_link").live("click", function() {
     $(this).parents(".notification").hide();
     return false;

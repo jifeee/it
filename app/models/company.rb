@@ -6,6 +6,8 @@ class Company < ActiveRecord::Base
   has_many  :users, :through => :user_relations
 
   attr_accessor :query
+
+  validates :name, :presence => true, :uniqueness => true
   
   scope :search, lambda {|params|
     where(["name LIKE ?", "%#{params['name']}%"]) if params && params['name'].present?
@@ -15,8 +17,20 @@ class Company < ActiveRecord::Base
     [self.zip, self.address, self.city].compact.join(',') rescue nil
   end
 
-  def name
+  def name_with_prefix
     "#{self['name']} (FF)"
+  end
+
+  def relation_objects
+    self.agents    
+  end
+
+  def relation_object_name
+    'agent'
+  end
+
+  def alias
+    'Freight Forwarders'    
   end
 
 end

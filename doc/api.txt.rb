@@ -21,7 +21,7 @@
   RestClient.post 'http://localhost:3001/api/shipment', :code => 'DVyctJnG14Q5jm1EPuWr', :cargo => '00128138843'
 
 # Post additional shipment info or driver action
-+ POST  /api/shipment (6)
++ POST  /api/shipment/damage (6)
   RestClient.post 'http://localhost:3001/api/shipment', :code => 'DVyctJnG14Q5jm1EPuWr', :driver_action => "back_at_base"
   RestClient.post 'http://localhost:3001/api/shipment', :code => 'DVyctJnG14Q5jm1EPuWr', :damage => "Some damage description"
   RestClient.post 'http://localhost:3001/api/shipment', :code => 'DVyctJnG14Q5jm1EPuWr', :photo => File.new(Rails.root.to_s + "/public/images/insta_logo.png", 'rb')

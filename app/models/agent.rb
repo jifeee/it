@@ -9,6 +9,8 @@ class Agent < ActiveRecord::Base
 
 	has_many :company_relations
 
+	validates :name, :presence => true, :uniqueness => true
+
 	scope :search, lambda {|params|
 		where(["name LIKE ?", "%#{params['name']}%"]) if params && params['name'].present?
 	}
@@ -17,8 +19,21 @@ class Agent < ActiveRecord::Base
 		[self.zip, self.address, self.city].compact.join(',') rescue nil
 	end
 
-	def name
+	def name_with_prefix
     	"#{self['name']} (AGT)"
   	end
+
+  	def relation_objects
+    	self.companies
+  	end
+
+  	def relation_object_name
+    	'company'
+  	end
+
+  	def alias
+    	'agents'    
+  	end
+
 	
 end

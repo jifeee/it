@@ -1,0 +1,19 @@
+<%= form_for @agent, :remote => true, :html => {:class => "form-vertical"} do |f| %>
+	<div class="row" style="padding:0 30px;">
+		<div class="span4">
+			<header><%= f.object.new_record? ? 'Create New' : 'Update' %> Agent</header>
+			<%= render :partial => 'form', :object => f %>
+			<div class="control-group">
+  			<div class="controls">
+					<%= f.submit "SAVE", :class => "btn btn-danger", 'data-loading-text' => "SAVING..." %>
+				</div>
+			</div>			
+		</div>
+	</div>
+	<br clear=all />
+<% end %>
+<script type="text/javascript">
+	$('form').submit(function(){
+		$('#company_submit').button('loading');
+	})
+</script>

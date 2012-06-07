@@ -1,0 +1,76 @@
+<%= form.hidden_field :role_id, :value => @user.role_id %>
+<div class="row">
+  <div class="span4">
+    <div class="control-group">
+      <div class="controls">  
+        <%= label_tag :first_name, 'First name', :class => 'control-label' %>
+        <%= form.text_field :first_name, :class => 'span4' %>
+        <%= label_tag :last_name, 'Last name', :class => 'control-label' %>
+        <%= form.text_field :last_name, :class => 'span4' %>
+        <%= label_tag :email, 'e-mail', :class => 'control-label' %>
+        <%= form.text_field :email, :class => 'span4' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <div class="row">
+          <div class="span3">
+            <%= label_tag :phone, 'Phone', :class => 'control-label' %>
+            <%= form.text_field :phone, :class => 'span3' %>
+          </div>
+          <div class="span1">
+            <%= label_tag :ext, 'Ext', :class => 'control-labe' %>
+            <%= form.text_field :ext, :class => 'span1' %>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="span4">
+    <div class="control-group">
+      <div class="controls">  
+        <%= label_tag :login, 'Login', :class => 'control-label' %>
+        <%= form.text_field :login, :class => 'span4' %>
+        <%= label_tag :password, 'Password', :class => 'control-label' %>
+        <%= form.password_field :password, :class => 'span4' %>
+        <%= label_tag :password_confirmation, 'Password confirmation', :class => 'control-label' %>
+        <%= form.password_field :password_confirmation, :class => 'span4' %>
+      </div>
+    </div>
+  </div>
+</div>
+<% if form.object.role_id == 2  %>
+  <div class="row">
+    <div class="span6">
+      <div class="control-group">
+        <%= label_tag :activation_code %>
+        <div class="controls">
+          <div class="input-append">
+            <%= form.text_field :activation_code, :style => 'width:40%;' %><a href="#" class='btn' id="new_activation_code">generate new activation code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $('form').submit(function(){
+    $('#user_submit').button('loading');
+  })
+</script>
+<script type="text/javascript">
+  $('#new_activation_code').click(function(){
+    $('#user_activation_code').val(password(6));
+    return false;
+  })
+
+  function password(passwordLength) {
+    var characters = 'QWERTYUIOPLKJHGFDSAZXCVBNM01234567890';
+    var newPassword = '';
+    for (i=0;i<passwordLength;i++) {
+      num = (Math.floor((Math.random() * characters.length)));
+        newPassword += characters[num];
+    }
+    return newPassword;
+  }
+</script>

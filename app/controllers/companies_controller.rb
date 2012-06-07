@@ -1,6 +1,8 @@
 class CompaniesController < ApplicationController
+  layout Proc.new {|p| (%w(new create edit update destroy join joins).include?(self.action_name)) ? 'popup' : 'application' }
+
   load_resource
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:get_companies]
 
   respond_to :json
 
@@ -14,15 +16,41 @@ class CompaniesController < ApplicationController
   end
   
   def create
-    @company = Company.create params[:company]
-    redirect_to companies_path
+    @company = Company.new params[:company]
+    respond_with(@company) do |format|
+      format.js do
+        render :update do |page|
+          if @company.save
+            page.call "parent.$.fn.colorbox.close"
+            page.call 'notifyCreate', {:agents => 0, :admins => 0, :operators => 0, :drivers => 0}.update(@company.attributes).to_json
+          else
+            page.call '$("#company_submit").button','reset'
+            page.call 'notifyError', @company.errors.full_messages.first
+          end          
+        end
+      end
+      format.any {render :nothing => true}
+    end
   end
   
   def update
-    if @company.update_attributes(params[:company])
-      redirect_to companies_path
-    else
-      render :edit
+    respond_with(@company) do |format|
+      format.js do
+        render :update do |page|
+          if @company.update_attributes(params[:company])
+            page.call "parent.$.fn.colorbox.close"
+            page.call 'notifyUpdate', {
+              :agents => @company.agents.count,
+              :admins => @company.users.freight_forwarders.count,
+              :operators => @company.users.operators.count, 
+              :drivers => @company.users.drivers.count}.update(@company.attributes).to_json
+          else
+            page.call '$("#company_submit").button','reset'
+            page.call 'notifyError', @company.errors.full_messages.first
+          end          
+        end
+      end
+      format.any {render :nothing => true}
     end
   end
   
@@ -32,23 +60,22 @@ class CompaniesController < ApplicationController
   end
 
   def unlink
-    agent = Agent.find_by_id(params[:agent_id])
-    agent.company_relations.find_by_company_id(params[:id]).destroy
-    respond_with(agent) do |format|
+    @company.company_relations.find_by_agent_id(params[:agent_id]).destroy
+    respond_with(@company) do |format|
       format.json do
         render :update do |page|
-          page.call 'notifyUnlinkCompany', params[:id]
+          page.call 'notifyUnlinkAgent', params[:agent_id]
         end
       end
     end     
   end
 
-  def unlink_agents
+  def unlinks
     @company.company_relations.where(:agent_id => params[:ids].split(',')).destroy_all
     redirect_to @company    
   end
 
-  def joinagents
+  def join
     new_agents = Agent.where(:id => params[:agent_ids]).all
     begin
       @company.agents << new_agents
@@ -65,9 +92,10 @@ class CompaniesController < ApplicationController
               :operators => a.users.operators.count,
               :drivers => a.users.drivers.count
              }.update(a.attributes)}
-            page << "$('#modal_add_agents').modal('hide');"
+            page.call "parent.$.fn.colorbox.close"
             page.call 'notifyJoinAgents', new_agents.to_json
           else
+            page.call '$("#company_submit").button','reset'
             page.call 'notifyJoinAgentsError', @company.errors.full_messages.first
           end        
         end
