@@ -8,7 +8,7 @@ class Api::SessionsController < ApplicationController
                        :language => params[:language]
     if user.valid?
       user.generate_token!
-      render :json => {:code => user.api_token}
+      render :json => {:token => user.api_token}
     else
       render :status => 403, :json => {:errors => user.errors.full_messages}
     end
