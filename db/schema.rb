@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120531073811) do
+ActiveRecord::Schema.define(:version => 20120611144944) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -101,6 +101,8 @@ ActiveRecord::Schema.define(:version => 20120531073811) do
     t.datetime "updated_at"
     t.string   "doc"
     t.string   "doc_type"
+    t.float    "latitude",    :limit => 10, :default => 0.0
+    t.float    "longitude",   :limit => 10, :default => 0.0
   end
 
   create_table "notifications", :force => true do |t|

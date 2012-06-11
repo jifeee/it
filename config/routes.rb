@@ -57,14 +57,14 @@ Instatrace::Application.routes.draw do
   
   root :to => "shipments#index"
 
-namespace "api" do
+  namespace "api" do
     match '/login' => "sessions#login"
-    
+
     post '/activation' => "api#activation"
-    
+
     get '/settings' => "settings#show"
     post '/settings' => "settings#update"
-    
+
     post '/shipment' => "shipments#show"
     get '/shipment/new' => "milestones#new"
     post '/shipment/damage' => "milestones#update"
