@@ -19,7 +19,7 @@ class Api::MilestonesController < Api::ApiController
     if @milestone.update_attributes attrs
       render :nothing => true
     else
-      render :status => 400, :json => { :errors => @milestone.errors.full_messages }
+      render :status => 400, :json => { :errors => @milestone.errors.full_messages }.to_json
     end
   end
   
@@ -27,7 +27,7 @@ class Api::MilestonesController < Api::ApiController
     if @milestone.update_attributes :completed => true
       render :nothing => true
     else
-      render :status => 400, :json => { :errors => @milestone.errors.full_messages }
+      render :status => 400, :json => { :errors => @milestone.errors.full_messages }.to_json
     end
   end
   

@@ -5,9 +5,9 @@ class Api::ApiController < ApplicationController
     user = User.find_by_activation_code params[:code] unless params[:code].blank?
     if user
       user.generate_token!
-      render :json => {:token => user.api_token}
+      render :json => {:token => user.api_token}.to_json
     else
-      render :status => 403, :json => { :errors => "Not Authorized" } and return
+      render :status => 403, :json => { :errors => "Not Authorized" }.to_json and return
     end
   end
   
