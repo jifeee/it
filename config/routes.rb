@@ -70,6 +70,6 @@ Instatrace::Application.routes.draw do
     post '/shipment/damage' => "milestones#update"
     post '/shipment/signature' => "signatures#create"
     post '/shipment/doc' => "milestones#update" 
-    get '/shipment/complete' => "milestones#complete"
+    post '/shipment/complete' => "milestones#complete"
   end
 end

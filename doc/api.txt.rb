@@ -36,7 +36,7 @@
   RestClient.post 'http://localhost:3001/api/shipment/doc', :token => 'NA5LwCPEV8gBQD6qHhJE', :type => "hawb", :document => File.new(Rails.root.to_s + "/public/images/insta_logo.png", 'rb')
 
 # Shipment details completed
-+ GET   /api/shipment/complete
++ POST   /api/shipment/complete
   # RestClient.get 'http://localhost:3001/api/shipment/complete', {:params => {:token => 'NA5LwCPEV8gBQD6qHhJE'}}
   RestClient.get('http://localhost:3001/api/shipment/complete', :params => {:token => 'NA5LwCPEV8gBQD6qHhJE'}){|response, request, result| response }
 
