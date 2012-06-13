@@ -9,10 +9,10 @@
     <td ROWSPAN=2>
       <div id='search'>
         <div class="simple">
-          <h3>Search page</h3>
+          <h3><%= t(:header_search_page) %></h3>
           <%= form_for company_header, :method => :get, :html => {:class => 'form-search', :method => :get} do |f| %>
               <%= f.text_field :query %>
-              <%= f.submit "Search", :class => "btn btn-success", :id => "simple_search" %>
+              <%= f.submit t(:button_search), :class => "btn btn-success", :id => "simple_search" %>
           <% end %>
         </div>
       </div>
@@ -33,13 +33,13 @@
       </div>
     </td>
     <td>
-      <span class="employees btn"><a href="#drivers">Drivers: <strong><%= company_header.users.drivers.count %></strong></a></span>
-      <span class="employees btn"><a href="#operators">Operators: <strong><%= company_header.users.operators.count %></strong></a></span>
-      <span class="employees btn"><a href="#admins">Admins: <strong><%= company_header.users.freight_forwarders.count %></strong></a></span>
+      <span class="employees btn"><a href="#drivers"><%= t(:button_drivers) %>: <strong><%= company_header.users.drivers.count %></strong></a></span>
+      <span class="employees btn"><a href="#operators"><%= t(:button_operators) %>: <strong><%= company_header.users.operators.count %></strong></a></span>
+      <span class="employees btn"><a href="#admins"><%= t(:button_admins) %>: <strong><%= company_header.users.freight_forwarders.count %></strong></a></span>
       <% if company_header.class == Agent %>
-        <span class="employees btn"><a href="#company">FFs: <strong><%= company_header.companies.count %></strong></a></span>
+        <span class="employees btn"><a href="#company"><%= t(:button_ffs) %>: <strong><%= company_header.companies.count %></strong></a></span>
       <% else %>
-        <span class="employees btn"><a href="#company">Agents: <strong><%= company_header.agents.count %></strong></a></span>
+        <span class="employees btn"><a href="#company"><%= t(:button_agents) %>: <strong><%= company_header.agents.count %></strong></a></span>
       <% end %>
     </td>
   </tr>
@@ -48,15 +48,15 @@
 <div class="company">
   <div class="row_info">
     <div class="row">
-      <div class="span2">Created</div>
+      <div class="span2"><%= t(:text_created) %></div>
       <div class="span3"><span><%= company_header.created_at %>&nbsp;</span></div>
-      <div class="span2">Updated</div>
+      <div class="span2"><%= t(:text_updated) %></div>
       <div class="span3"><span><%= company_header.updated_at %>&nbsp;</span></div>
     </div>
     <div class="row">
-      <div class="span2">Created by</div>
+      <div class="span2"><%= t(:text_created_by) %></div>
       <div class="span3"><span><%= company_header.created_by %>&nbsp;</span></div>
-      <div class="span2">Updated by</div>
+      <div class="span2"><%= t(:text_updated_by) %></div>
       <div class="span3"><span><%= company_header.updated_by %>&nbsp;</span></div>
     </div>
   </div>

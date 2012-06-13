@@ -1,51 +1,51 @@
 <div class="container">
   <div class="part pwd">
   
-    <h4>Change Your Password</h4>
+    <h4><%= t(:header_change_your_password) %></h4>
 
     <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
       <span class="error"><%= f.object.errors.full_messages.join("; ") %></span>
 
       <div>
-        <%= f.label :current_password %>
+        <%= f.label :current_password, t(:label_current_password) %>
         <%= f.password_field :current_password %>
       </div>
   
       <div>
-      <%= f.label :password, "New Password" %>
+      <%= f.label :password, t(:label_new_password) %>
       <%= f.password_field :password %></div>
 
-      <div><%= f.label :password_confirmation, 'Confirm New Password' %>
+      <div><%= f.label :password_confirmation, t(:label_new_password_confirmation) %>
       <%= f.password_field :password_confirmation %></div>
 
       <br />
-      <div><%= f.submit "Save", :class => "btn btn-danger" %></div>
+      <div><%= f.submit t(:button_save), :class => "btn btn-danger" %></div>
     <% end %>
   </div>
   <div class="part damage">
     <div class="event">
-      <h4>Damage Notifications</h4>
+      <h4><%= t(:header_damage_notifications) %></h4>
       <%= form_for Notification.find_or_initialize_by_user_id_and_event_and_shipment_id(current_user.id, "damage", nil), :remote => true do |f| %>
         <%= f.hidden_field :user_id %>
         <%= f.hidden_field :event %>
         <div class="notification common">
           <%= check_box_tag "used", !f.object.new_record? %>
-          <span class="notify_label">Notify me when any shipment is damaged</span>
-          <%= f.text_field "email", :placeholder => "Enter Email(s) here" %>
+          <span class="notify_label"><%= t(:text_notify_if_damaged) %></span>
+          <%= f.text_field "email", :placeholder => t(:placeholder_email) %>
         </div>
       <% end %>
     </div>
     <br />
     <hr>
     <div class="event">
-      <h4>Delay Notifications</h4>
+      <h4><%= t(:text_delay_notifications) %></h4>
       <%= form_for Notification.find_or_initialize_by_user_id_and_event_and_shipment_id(current_user.id, "delay", nil), :remote => true do |f| %>
         <%= f.hidden_field :user_id %>
         <%= f.hidden_field :event %>
         <div class="notification common">
           <%= check_box_tag "used", !f.object.new_record? %>
-          <span class="notify_label">Notify me when any shipment is delayed</span>
-          <%= f.text_field "email", :placeholder => "Enter Email(s) here" %>
+          <span class="notify_label"><%= t(:text_notify_if_delayed) %></span>
+          <%= f.text_field "email", :placeholder => t(:placeholder_email) %>
         <% end %>
       </div>
     </div>

@@ -2,7 +2,7 @@
 <section>
 <div class="header-container">
   <h3 class="table_header_h3"><strong><%= company_relation.relation_object_name.capitalize.pluralize %></strong> / <%= company_relation.name_with_prefix %> </h3>
-  <%= link_to "Create New #{company_relation.relation_object_name.capitalize}", url_for(:action => 'join', :controller => company_relation.class.to_s.pluralize.downcase, :id => company_relation.id),
+  <%= link_to "#{t(:button_create_new)} #{company_relation.relation_object_name.capitalize}", url_for(:action => 'join', :controller => company_relation.class.to_s.pluralize.downcase, :id => company_relation.id),
   :class => 'popup-big btn create btn-inverse', :remote => true if can?(:update, company_relation.class) %>
   <br clear=all />
 </div>
@@ -10,23 +10,22 @@
 <table class="table_w bordered-table tablesorter" id="<%= company_relation.relation_object_name.pluralize.downcase %>_table">
   <thead><tr>
     <th class="mark"> 
-      <%= check_box_tag 'all', nil, nil, :title => 'Check to remove all', 
+      <%= check_box_tag 'all', nil, nil, :title => t(:title_check_to_remove_all), 
         :disabled => cannot?(:update, company_relation.class) %>
-    <th> <%= "#{company_relation.class.to_s.capitalize} Name" %> </th>
-    <th> Address </th>
-    <th> Phone </th>
-    <th class="w80"> FFs </th>
-    <th class="w80"> Admins </th>
-    <th class="w80"> Operators </th>
-    <th class="w80"> Drivers </th>
+    <th><%= "#{company_relation.class.to_s.capitalize} #{t(:column_name)}" %></th>
+    <th><%= t(:column_address) %></th>
+    <th><%= t(:column_phone) %></th>
+    <th class="w80"><%= t(:column_ffs) %></th>
+    <th class="w80"><%= t(:column_admins) %></th>
+    <th class="w80"><%= t(:column_operators) %></th>
+    <th class="w80"><%= t(:column_drivers) %></th>
     <th class="mark">&nbsp;</th>
   </tr></thead>
   <tbody>
   <% company_relation.relation_objects.map do |company| %>
     <tr id='<%= "#{company.class.to_s.foreign_key}_row#{company.id}" %>'>
       <td class="mark">
-        <%= check_box_tag company.id, nil, nil, :class => company.class.to_s.pluralize, :title => 'Check to remove', 
-          :disabled => cannot?(:update, company_relation.class) %>
+        <%= check_box_tag company.id, nil, nil, :class => company.class.to_s.pluralize, :title => t(:title_check_to_remove), :disabled => cannot?(:update, company_relation.class) %>
       </td>
       <td> <%= link_to company.name_with_prefix, url_for(:action => "show", :controller => company.class.to_s.downcase.pluralize), :class => 'link_bold' %> </td>
       <td> <%= company.address %> </td>
@@ -36,15 +35,15 @@
       <td> <%= link_to company.users.operators.count, url_for(:action => "show", :controller => company.class.to_s.pluralize.downcase, :anchor => 'operators'), :class => 'link_bold' %></td>
       <td> <%= link_to company.users.drivers.count, url_for(:action => "show", :controller => company.class.to_s.pluralize.downcase, :anchor => 'drivers'), :class => 'link_bold' %></td>    
       <td><%= link_to '<i class="icon-remove"></i>'.html_safe, 
-        url_for(:action => 'unlink', :controller => company_relation.class.to_s.pluralize.downcase, company.class.to_s.foreign_key.to_sym => company.id, :id => company_relation.id), :remote => true, :title => 'Remove', :confirm => 'Are you sure?', :method => 'delete' if can?(:update, company_relation.class) %> </td>
+        url_for(:action => 'unlink', :controller => company_relation.class.to_s.pluralize.downcase, company.class.to_s.foreign_key.to_sym => company.id, :id => company_relation.id), :remote => true, :title => t(:title_remove), :confirm => t(:confirm_are_you_sure), :method => 'delete' if can?(:update, company_relation.class) %> </td>
     </tr>  
   <% end %>
   </tbody>
 </table>
 <br />
 <% if can?(:update, company_relation.class) %>
-  <span class='bottom_button'> <%= link_to "Delete", 
-  url_for(:action => 'unlinks', :controller => company_relation.class.to_s.pluralize.downcase, :id => company_relation.id), :class => 'btn delete_user btn-danger', :confirm => 'Are you sure?', :method => 'delete' %></span>
+  <span class='bottom_button'> <%= link_to t(:button_delete), 
+  url_for(:action => 'unlinks', :controller => company_relation.class.to_s.pluralize.downcase, :id => company_relation.id), :class => 'btn delete_user btn-danger', :confirm => t(:confirm_are_you_sure), :method => 'delete' %></span>
 <% end %>
 <div class="clearfix"></div>
 <br/>

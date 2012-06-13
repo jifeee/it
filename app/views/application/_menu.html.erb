@@ -2,18 +2,18 @@
   <div class="logo"><img src="/images/insta_logo.png"></div>
   <div class="user">
     <% if user_signed_in? %>
-      <span class="item"><%= current_user.username %>, <%= link_to "Log Out", destroy_user_session_path, :method => :delete %></span>
-      <span class="item admin pull-right"><%= link_to "Admin Dashboard", admin_dashboard_path if current_user.manager? %></span>
+      <span class="item"><%= current_user.username %>, <%= link_to t(:button_log_out), destroy_user_session_path, :method => :delete %></span>
+      <span class="item admin pull-right"><%= link_to t(:button_admin_dashboard), admin_dashboard_path if current_user.manager? %></span>
     <% else %>
-      <span class="item"><%= link_to "Log In", new_user_session_path %></span>
+      <span class="item"><%= link_to t(:button_log_in), new_user_session_path %></span>
     <% end %>
   </div>
   <div class="clearfix"></div>
   <div class="menu">
-    <%= link_to "Shipment", root_path, :class => (controller_name == "shipments" ? "active" : ""), :style => 'margin-left:0;' if can?(:read, Shipment) %>
-    <%= link_to "Freight Forwarders", companies_path, :class => (controller_name == "companies" ? "active" : "") if can?(:read, Company) %>
-    <%= link_to "Agents", agents_path, :class => (controller_name == "agents" ? "active" : "") if can?(:read, Agent) %>    
-    <%= link_to "Settings", edit_user_registration_path, :class => (current_page?(edit_user_registration_path) ? "active" : "") if user_signed_in? %>
+    <%= link_to t(:menu_shipment), root_path, :class => (controller_name == "shipments" ? "active" : ""), :style => 'margin-left:0;' if can?(:read, Shipment) %>
+    <%= link_to t(:menu_freight_forwarders), companies_path, :class => (controller_name == "companies" ? "active" : "") if can?(:read, Company) %>
+    <%= link_to t(:menu_agents), agents_path, :class => (controller_name == "agents" ? "active" : "") if can?(:read, Agent) %>    
+    <%= link_to t(:menu_settings), edit_user_registration_path, :class => (current_page?(edit_user_registration_path) ? "active" : "") if user_signed_in? %>
   </div>
 </header>
 

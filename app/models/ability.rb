@@ -29,10 +29,3 @@ class Ability
   end
   
 end
- 
-=begin
-:Shipments
-read - everyone
-
-
-=end

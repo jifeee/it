@@ -70,5 +70,6 @@ class Shipment < ActiveRecord::Base
       :destination => destination,
       :damaged => damaged? }
   end
+
 end
 

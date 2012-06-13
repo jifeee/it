@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Instatrace</title>
+    <title><%= t(:title) %></title>
     <%= stylesheet_link_tag "bootstrap",
       "style",
       "ui-datepicker",
@@ -29,6 +29,9 @@
   <body>
     <div id="rightsidebar">
       <div id="page">
+        <div id="locale_panel">
+          <%= locale_urls %>
+        </div>
         <%= render :partial => '/application/menu' %>
 
         <div id="main">
@@ -41,7 +44,7 @@
     </div>
     <div class="footer">
       <div class="row-fluid">
-        <div class="span6">© <%= Time.now.year %> InstaTrace. All Rights Reserved.</div>
+        <div class="span6">© <%= Time.now.year %> <%= t(:copyright) %></div>
         <div class="span6" style="text-align:right"></div>
       </div>
     </div>

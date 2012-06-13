@@ -3,7 +3,7 @@ class MilestonesController < ApplicationController
   load_resource
   load_and_authorize_resource :except => [:get_companies]
 
-  respond_to :html, :js
+  respond_to :html, :json
 
   def new
   	shipment = Shipment.find(params[:shipment_id])  	
@@ -16,7 +16,7 @@ class MilestonesController < ApplicationController
 
     respond_to do |format|
     	if milestone.save
-    		format.html { redirect_to shipment_path(shipment), :notice => 'Milestone was successfully created.' }  
+    		format.html { redirect_to shipment_path(shipment), :notice => 'messages.notice.milestone_created_ok' }  
     		format.js do
     			render :update do |page|
     				page.call "parent.$.fn.colorbox.close"
@@ -28,20 +28,10 @@ class MilestonesController < ApplicationController
     		format.js do
     			render :update do |page|
  						page.call "parent.$.fn.colorbox.close"
-	      		redirect_to shipment_path(shipment.id), :notice => 'Milestone was successfully created.'
+            page.call 'notifyError', milestone.errors.full_messages.join(', ')
 	      	end
     		end
     	end
     end
   end
 end
-
-# render :update, :content_type => 'text/javascript' do |page|
-#           if milestone.save
-#             page.call "parent.$.fn.colorbox.close"
-#             # page.call 'notifyCreate', milestone.to_json
-#           else
-#             page.call '$("#milestone_submit").button','reset'
-#             # page.call 'notifyError', milestone.errors.full_messages.first
-#           end          
-#         end

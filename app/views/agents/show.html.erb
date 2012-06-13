@@ -38,7 +38,7 @@
     $("a.delete_user").click(function() {
       var ids = $.map($(this).closest("section").find("input:checked"), function(val) { return val.id; })
       if (ids.length == 0) {
-        alert("No Members checked");
+        alert("<%= t(:alert_no_members_checked) %>");
         return false;
       }
       $(this).attr("href", $(this).attr("href") + "?ids=" + ids);
@@ -48,7 +48,7 @@
 
 <script id="company_table_template" type="text/x-jquery-tmpl">
 <tr id="company_id_row${id}">
-  <td class="mark"><input type="checkbox" id="${id}", class="all", title="Check to remove"/></td>
+  <td class="mark"><input type="checkbox" id="${id}", class="all", title="<%= t(:title_check_to_remove) %>"/></td>
   <td><a href="/companies/${id}" class="link_bold">${name} (FF)</a></td>
   <td>${address}</td>
   <td>${phone}</td>
@@ -56,14 +56,14 @@
   <td><a href="/companies/${id}#admins" class="link_bold">${admins}</a></td>
   <td><a href="/companies/${id}#admins" class="link_bold">${operators}</a></td>
   <td><a href="/companies/${id}#admins" class="link_bold">${drivers}</a></td>
-  <td><a href="/companies/${id}/agents/${agent_id}/unlink" data-confirm="Are you sure?" data-method="delete" data-remote="true" rel="nofollow" title="Remove"><i class="icon-remove"></i></a></td>
+  <td><a href="/companies/${id}/agents/${agent_id}/unlink" data-confirm="<%= t(:confirm_are_you_sure) %>" data-method="delete" data-remote="true" rel="nofollow" title="<%= t(:title_remove) %>"><i class="icon-remove"></i></a></td>
 </tr>
 </script>
 
 <script id="user_table_template" type="text/x-jquery-tmpl">
 <tr>
   <td class="mark">
-    <input class="all" id="${id}" name="${id}" title="Check to remove" type="checkbox">
+    <input class="all" id="${id}" name="${id}" title="<%= t(:title_check_to_remove) %>" type="checkbox">
   </td>
   <td class="link_bold"> ${user_fullname} </td>
   <td> ${email} </td>

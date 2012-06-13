@@ -1,5 +1,5 @@
 <div class="breadcrumbs">
-<%= link_to "Shipment", shipments_path %> > <%= @shipment.shipment_id %>
+<%= link_to t(:text_shipment), shipments_path %> > <%= @shipment.shipment_id %>
 </div>
 <table width="100%">
   <tr>
@@ -10,9 +10,9 @@
     <td valign="top">
       <table class="table_detail" cellspacing="20" width="100%">
         <tr>
-          <th>HAWB</th>
-          <th>MAWB</th>
-          <th>Service Level</th>
+          <th><%= t(:column_hawb) %></th>
+          <th><%= t(:column_mawb) %></th>
+          <th><%= t(:column_service_level) %></th>
         </tr>
         <tr>
           <td valign="top"><%= @shipment.hawb %></td>
@@ -24,9 +24,9 @@
     <td width="50%" valign="top">
       <table class="table_detail2" width="100%">
         <tr>
-          <th>Weight</th>
-          <th>Pieces</th>
-          <th>Expected Delivery Date</th>
+          <th><%= t(:column_weight) %></th>
+          <th><%= t(:column_pieces) %></th>
+          <th><%= t(:column_expected_delivery_date) %></th>
         </tr>
         <tr>
           <td valign="top"><%= @shipment.weight %></td>
@@ -42,12 +42,12 @@
   </tr>
   <tr class="ships_info">
     <td>
-      <div class="sub-header" style="margin-right:6px;">Ship From</div>
+      <div class="sub-header" style="margin-right:6px;"><%= t(:text_ship_from) %></div>
       <h3><%= @shipment.shipper %></h3>
       <%= @shipment.origin %>
     </td>
     <td>
-      <div class="sub-header" style="margin-left:6px;">Ship To</div>
+      <div class="sub-header" style="margin-left:6px;"><%= t(:text_ship_to) %></div>
       <h3><%= @shipment.consignee %></h3>
       <%= @shipment.destination %>
     </td>
@@ -59,19 +59,19 @@
 </table>
 
 <div class="header-container">
-  <h3 class="table_header_h3"><strong>Milestones</strong></h3>
-<%= link_to "Create New Milestone", new_shipment_milestone_path(@shipment), :class => 'popup btn btn-inverse' if can?(:update, Shipment) && can?(:create, Milestone) %>
+  <h3 class="table_header_h3"><strong><%= t(:header_milestones) %></strong></h3>
+<%= link_to t(:button_create_new_milestone), new_shipment_milestone_path(@shipment), :class => 'popup btn btn-inverse' if can?(:update, Shipment) && can?(:create, Milestone) %>
 <br />
 <br />
 <table class="table_w bordered-table tablesorter" id="milestones_table">
   <thead><tr>
-    <th> Update Date & Time </th>
-    <th> Updated By </th>
-    <th> Status </th>
-    <th> Location </th>
-    <th> Damage </th>
-    <th> Documents </th>
-    <th> Note </th>
+    <th><%= t(:column_update_date_and_time) %></th>
+    <th><%= t(:column_updated_by) %></th>
+    <th><%= t(:column_status) %></th>
+    <th><%= t(:column_location) %></th>
+    <th><%= t(:column_damage) %></th>
+    <th><%= t(:column_documents) %></th>
+    <th><%= t(:column_note) %></th>
   </tr></thead>
   <% @shipment.milestones.order("updated_at DESC").each do |ms| %>
     <tr>
@@ -81,7 +81,7 @@
       <td> <%= ms.location %></td>
       <td> <%= ms.damage_desc %> </td>
       <td> <%= ms.doc %> </td>
-      <td valign="middle"> <%= check_box_tag :public %> Public </td>
+      <td valign="middle"> <%= check_box_tag :public %><%= t(:text_public) %></td>
     </tr>  
   <% end %>
 </table>
@@ -105,6 +105,6 @@
   <td> ${location} </td>
   <td> ${damage_desc} </td>
   <td> ${doc} </td>
-  <td valign="middle"> <input id="public" name="public" type="checkbox" value="${public}"> Public </td>
+  <td valign="middle"> <input id="public" name="public" type="checkbox" value="${public}"><%= t(:text_public) %></td>
 </tr>
 </script>

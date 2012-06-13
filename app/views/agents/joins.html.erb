@@ -1,12 +1,12 @@
 <%= form_for @agent, :url => join_agent_path(@agent), :html => {:style => 'padding:30px', :class => "form-vertical"}, :remote => true do |f| %>
   <fieldset>
-    <legend>Create New Company</legend>
+    <legend><%= t(:header_create_new_company) %></legend>
   </fieldset>
   <div style="padding:30px">
     <div class="control-group">
       <div class="controls">
         <%= text_field_tag :agent, nil, :class => 'input-xxlarge' %>
-        <span class="help-inline">Please select new company from exists</span>
+        <span class="help-inline"><%= t(:text_prompt_select_company) %></span>
       </div>
     </div>
     <div class="well">
@@ -16,7 +16,7 @@
   <br clear=all />
   <footer id='dialog-footer'>
     <div class="controls pull-right">
-      <%= f.submit "Save changes", :class => "btn btn-primary", 'data-loading-text' => "Saving changes" %>
+      <%= f.submit t(:button_save), :class => "btn btn-primary", 'data-loading-text' => t(:button_saving) %>
       <a href="#" class="btn" onclick="$.colorbox.close(); return false;">Cancel</a>
     </div>
   </footer>
