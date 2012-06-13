@@ -15,7 +15,7 @@
   RestClient.post('http://localhost:3001/api/settings', :params => ''){|response, request, result| response }
   RestClient.post 'http://localhost:3001/api/settings', :token => 'Lc68SuqSyxJYxzKCHyqU', :language => "en"
 
-# Get shipment data by shipment ID or Cargo Code
+# Get shipment data by shipment ID or Cargo Code AND set current milestone
 + POST  /api/shipment
   RestClient.post 'http://localhost:3001/api/shipment', :token => 'Lc68SuqSyxJYxzKCHyqU', :shipment_id => 1
   RestClient.post 'http://localhost:3001/api/shipment', :token => 'Lc68SuqSyxJYxzKCHyqU', :cargo => '00128138843'
@@ -29,7 +29,8 @@
 
 # Post signature data
 + POST  /api/shipment/signature (2)
-  RestClient.post 'http://localhost:3001/api/shipment/signature', :token => 'Lc68SuqSyxJYxzKCHyqU', :name => "Signame", :email => "vkalion@gmail.com", :signature => File.new(Rails.root.to_s + "/public/images/insta_logo.png", 'rb')
+  # RestClient.post 'http://localhost:3001/api/shipment/signature', :token => 'Lc68SuqSyxJYxzKCHyqU', :name => "Signame", :email => "vkalion@gmail.com", :signature => File.new(Rails.root.to_s + "/public/images/insta_logo.png", 'rb')
+  RestClient.post 'http://localhost:3001/api/shipment/signature', :token => 'Lc68SuqSyxJYxzKCHyqU', :name => "Signame", :email => "vkalion@gmail.com", :signature => "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABkCAYAAAA8AQ3AAAAC+klEQVR4Ae3UgQkAIAwDQXX/nau4xcN1gnAp2fNuOQIECAQETiCjiAQIEPgCBssjECCQETBYmaoEJUDAYPkBAgQyAgYrU5WgBAgYLD9AgEBGwGBlqhKUAAGD5QcIEMgIGKxMVYISIGCw/AABAhkBg5WpSlACBAyWHyBAICNgsDJVCUqAgMHyAwQIZAQMVqYqQQkQMFh+gACBjIDBylQlKAECBssPECCQETBYmaoEJUDAYPkBAgQyAgYrU5WgBAgYLD9AgEBGwGBlqhKUAAGD5QcIEMgIGKxMVYISIGCw/AABAhkBg5WpSlACBAyWHyBAICNgsDJVCUqAgMHyAwQIZAQMVqYqQQkQMFh+gACBjIDBylQlKAECBssPECCQETBYmaoEJUDAYPkBAgQyAgYrU5WgBAgYLD9AgEBGwGBlqhKUAAGD5QcIEMgIGKxMVYISIGCw/AABAhkBg5WpSlACBAyWHyBAICNgsDJVCUqAgMHyAwQIZAQMVqYqQQkQMFh+gACBjIDBylQlKAECBssPECCQETBYmaoEJUDAYPkBAgQyAgYrU5WgBAgYLD9AgEBGwGBlqhKUAAGD5QcIEMgIGKxMVYISIGCw/AABAhkBg5WpSlACBAyWHyBAICNgsDJVCUqAgMHyAwQIZAQMVqYqQQkQMFh+gACBjIDBylQlKAECBssPECCQETBYmaoEJUDAYPkBAgQyAgYrU5WgBAgYLD9AgEBGwGBlqhKUAAGD5QcIEMgIGKxMVYISIGCw/AABAhkBg5WpSlACBAyWHyBAICNgsDJVCUqAgMHyAwQIZAQMVqYqQQkQMFh+gACBjIDBylQlKAECBssPECCQETBYmaoEJUDAYPkBAgQyAgYrU5WgBAgYLD9AgEBGwGBlqhKUAAGD5QcIEMgIGKxMVYISIGCw/AABAhkBg5WpSlACBAyWHyBAICNgsDJVCUqAgMHyAwQIZAQMVqYqQQkQMFh+gACBjIDBylQlKAECBssPECCQETBYmaoEJUDgAsEIBMQScsQXAAAAAElFTkSuQmCC"
 
 # Post document (HAWB or POD)
 + POST  /api/shipment/doc (3)

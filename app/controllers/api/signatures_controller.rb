@@ -1,7 +1,13 @@
 class Api::SignaturesController < Api::MilestonesController
  
   def create    
-    signature = Signature.new :signature => params[:signature], :name => params[:name], :email => params[:email]
+    encoded_img = params[:signature].sub('data:image/png;base64,', '')
+    
+    io = FilelessIO.new(Base64.decode64(encoded_img))
+    io.original_filename = "signature.png"
+    
+    signature = Signature.new :name => params[:name], :email => params[:email]
+    signature.signature = io
     signature.milestone = @milestone
     
     if signature.save

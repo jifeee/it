@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     return cookies["language"] unless cookies["language"].nil?
     return extract_locale_from_accept_language_header || i18n.default_locale
   rescue 
-    i18n.default_locale || 'en'
+    I18n.default_locale || 'en'
   end
 
   def extract_locale_from_accept_language_header
