@@ -1,6 +1,7 @@
 class Milestone < ActiveRecord::Base
   has_many :damages
   has_many :milestone_documents
+  
   has_one :signature
   belongs_to :shipment
   belongs_to :driver, :class_name => 'User'

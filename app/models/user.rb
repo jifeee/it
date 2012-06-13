@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
   enum_attr :language, %w(en es)
   
   belongs_to :role
-  
   has_many :notifications
   accepts_nested_attributes_for :notifications, :reject_if => proc{|att| att['shipment_id'].blank? || att['email'].blank?}, :allow_destroy => true
   
@@ -18,6 +17,8 @@ class User < ActiveRecord::Base
   Role::ROLES.each do |role|
     delegate :"#{role}?", :to => :role, :allow_nil => true
   end
+
+  has_many :user_relations
 
   scope :freight_forwarders, proc{ where(:role_id => Role.where(:name => "freight_forwarder".humanize).first) }
   scope :drivers, proc{ where(:role_id => Role.where(:name => "driver".humanize).first) }

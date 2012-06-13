@@ -10,4 +10,12 @@ class Mailer < ActionMailer::Base
     @user, @pwd = user, user.password
     mail(:to => user.email, :subject => "Your account was updated at instatrace.com")   
   end
+
+  def damage_notifier(milestone)
+  	@shipment = milestone.shipment
+  	subject = "Shimpent #{@shipment.shipment_id} was damaged"
+  	milestone.driver.user_relations.first.owner.users.operators do |operator|
+    	mail(:to => operator.email, :subject => subject)
+  	end
+  end
 end
