@@ -13,7 +13,9 @@
     </div>
     <div class="control-group">
       <%= label_tag :milestone_documents, t('milestone.form.upload_milestone_documents'), :class => 'control-label' %>
+      <p class="help-block" style="font-size:10px;">txt, doc, docx, xls, xlsx, pdf</p>
       <div class="controls" id="docs">
+        <%= select_tag :doc_type, options_for_select(MilestoneDocument::DOC_TYPES), :include_blank => false %>
         <% 3.times do |x| %>
           <%= form.fields_for :milestone_documents, form.object.milestone_documents.build do |d| %>
             <%= d.file_field :name %>
@@ -48,6 +50,7 @@
     </div>
     <div class="control-group">
       <%= label_tag :photo, t('milestone.form.upload_damaged_shipment'), :class => 'control-label' %>
+      <p class="help-block" style="font-size:10px;">jpg gif png</p>      
       <div class="controls" id="photos">
         <% 3.times do |x| %>
           <%= form.fields_for :damages, form.object.damages.build do |d| %>

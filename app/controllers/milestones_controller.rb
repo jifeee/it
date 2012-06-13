@@ -13,11 +13,15 @@ class MilestonesController < ApplicationController
   def create
   	shipment = Shipment.find(params[:shipment_id])
     milestone = shipment.milestones.new(params[:milestone])
+    
+    # Fix one doc type for all documents
+    milestone.milestone_documents.map {|document| document.doc_type = params[:doc_type]}
+    
     milestone.driver_id = current_user.id if current_user.driver?
     respond_to do |format|
       if milestone.save
         Mailer.damage_notifier(milestone).deliver if current_user.driver? && milestone.damages && milestone.damages.size > 0
-        format.html { redirect_to shipment_path(shipment), :notice => 'messages.notice.milestone_created_ok' }  
+        format.html { redirect_to shipment_path(shipment.id), :notice => 'messages.notice.milestone_created_ok' }  
         format.js do
     			render :update do |page|
     				page.call "parent.$.fn.colorbox.close"
