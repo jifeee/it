@@ -1,11 +1,11 @@
 <%= form_for @agent, :remote => true, :html => {:class => "form-vertical"} do |f| %>
 	<div class="row" style="padding:0 30px;">
 		<div class="span4">
-			<header><%= f.object.new_record? ? 'Create New' : 'Update' %> Agent</header>
+			<header><%= f.object.new_record? ? t(:header_create_new) : t(:header_update) %> <%= t(:header_freight_agent) %></header>
 			<%= render :partial => 'form', :object => f %>
 			<div class="control-group">
   			<div class="controls">
-					<%= f.submit "SAVE", :class => "btn btn-danger", 'data-loading-text' => "SAVING..." %>
+					<%= f.submit t(:button_save), :class => "btn btn-danger", 'data-loading-text' => t(:button_saving) %>
 				</div>
 			</div>			
 		</div>

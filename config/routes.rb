@@ -1,7 +1,9 @@
 Instatrace::Application.routes.draw do
-  get "agents/index"
+  filter :locale,    :exclude => /^\/admin|^\/api/
 
-  get "agents/show"
+  get "agents/index"
+  get "agents/show"  
+  match 'language/:language' => 'application#set_locale', :as => :language
 
   ActiveAdmin.routes(self)
 
@@ -72,4 +74,6 @@ Instatrace::Application.routes.draw do
     post '/shipment/doc' => "milestones#update" 
     post '/shipment/complete' => "milestones#complete"
   end
+
+   match '*path' => "shipments#index"
 end

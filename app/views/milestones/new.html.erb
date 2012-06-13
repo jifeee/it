@@ -1,11 +1,11 @@
 <%= form_for @milestone, :url => shipment_milestones_path, :html => {:multipart => true, :class => "form-vertical"}, :remote => true do |f| %>
 	<div class="row" style="padding:0 30px;">
 		<div class="span8">
-			<header>Create New Milestone</header>
+			<header><%= t('milestone.form.new') %></header>
 			<%= render :partial => 'form', :object => f %>
 			<div class="control-group">
   			<div class="controls">
-					<%= f.submit "SAVE", :class => "btn btn-danger", 'data-loading-text' => "SAVING..." %>
+					<%= f.submit t(:button_save), :class => "btn btn-danger", 'data-loading-text' => t(:button_saving) %>
 				</div>
 			</div>			
 		</div>

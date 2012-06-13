@@ -1,16 +1,16 @@
 <div class="control-group">
   <div class="controls">
-    <%= label_tag :name, 'Company name', :class => 'control-label' %>
-    <%= form.text_field :name, :label => "Company name", :class => 'span4' %>
+    <%= label_tag :name, t(:label_company_name), :class => 'control-label' %>
+    <%= form.text_field :name, :class => 'span4' %>
   </div>
 </div>
 <div class="control-group">
   <div class="controls">  
-    <%= label_tag :address, 'Address', :class => 'control-label' %>
+    <%= label_tag :address, t(:label_address), :class => 'control-label' %>
     <%= form.text_field :address, :class => 'span4' %>
-    <%= label_tag :city, 'City', :class => 'control-label' %>
+    <%= label_tag :city, t(:label_city), :class => 'control-label' %>
     <%= form.text_field :city, :class => 'span4' %>
-    <%= label_tag :zip, 'Zip', :class => 'control-label' %>
+    <%= label_tag :zip, t(:label_zip), :class => 'control-label' %>
     <%= form.text_field :zip, :class => 'span4' %>
   </div>
 </div>
@@ -18,11 +18,11 @@
   <div class="controls">
     <div class="row">
       <div class="span3">
-        <%= label_tag :phone, 'Phone', :class => 'control-label' %>
+        <%= label_tag :phone, t(:label_phone), :class => 'control-label' %>
         <%= form.text_field :phone, :class => 'span3' %>
       </div>
       <div class="span1">
-        <%= label_tag :ext, 'Ext', :class => 'control-label' %>
+        <%= label_tag :ext, t(:label_ext), :class => 'control-label' %>
         <%= form.text_field :ext, :class => 'span1' %>
       </div>  
     </div>

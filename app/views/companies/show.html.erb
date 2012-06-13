@@ -38,7 +38,7 @@
     $("a.delete_user").click(function() {
       var ids = $.map($(this).closest("section").find("input:checked"), function(val) { return val.id; })
       if (ids.length == 0) {
-        alert("No Members checked");
+        alert("<%= t(:alert_no_members_checked) %>");
         return false;
       }
       $(this).attr("href", $(this).attr("href") + "?ids=" + ids);
@@ -49,7 +49,7 @@
 <!-- JS Templates section -->
 <script id="agent_table_template" type="text/x-jquery-tmpl">
 <tr id="agent_id_row${id}">
-  <td class="mark"><input type="checkbox" id="${id}", class="all", title="Check to remove"/></td>
+  <td class="mark"><input type="checkbox" id="${id}", class="all", title="<%= t(:title_check_to_remove) %>"/></td>
   <td><a href="/agents/${id}" class="link_bold">${name} (AGT)</a></td>
   <td>${address}</td>
   <td>${phone}</td>

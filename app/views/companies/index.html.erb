@@ -1,11 +1,11 @@
 <div id='search'>
 	<div class="simple">
-		<h4>Search Freight Forwarder</h4>
+		<h4><%= t(:header_search_freight_forwarder) %></h4>
 		<%= form_for @search || Company.new, :url => companies_path, :html => {:method => :get} do |f| %>
 		  <table>
 		    <tr>
   	   	    <td><%= f.text_field :name %><span class="error"></span></td>
-		  	    <td><%= f.submit "Search", :class => "btn btn-success", :id => "simple_search" %></td>
+		  	    <td><%= f.submit t(:button_search), :class => "btn btn-success", :id => "simple_search" %></td>
 		  	</tr>
   		</table>
 		<% end %>	
@@ -16,30 +16,30 @@
 <br />
 <% if can?(:create, Company) %>
   <span class='header_button'> 
-    <%= link_to "Create New Company", new_company_path, :class => 'popup btn btn-inverse' %>
+    <%= link_to t(:button_create_new_company), new_company_path, :class => 'popup btn btn-inverse' %>
   </span>
 <% end %>
 <br />
 <% if @companies.any? %>
-  <h3 class="table_header_h3">Freight Forwarders Profiles</h3>
+  <h3 class="table_header_h3"><%= t(:header_freight_forwarders_profiles) %></h3>
   <table class="table_w bordered-table tablesorter ff" id="companies_table">
     <thead><tr>
       <th class="mark" align="center"> 
-        <%= check_box_tag 'all', nil, nil, :title => 'Check to remove all', :disabled => cannot?(:delete, Company) %>
+        <%= check_box_tag 'all', nil, nil, :title => t(:title_check_to_remove_all), :disabled => cannot?(:delete, Company) %>
       </th>
-      <th width="25%"> Company Name </th>
-      <th> Address </th>
-      <th> Phone </th>
-      <th> Agents </th>      
-      <th> Admins </th>
-      <th> Operators </th>
-      <th> Drivers </th>
+      <th width="25%"><%= t(:column_company_name) %></th>
+      <th><%= t(:column_address) %></th>
+      <th><%= t(:column_phone) %></th>
+      <th><%= t(:column_agents) %><th>      
+      <th><%= t(:column_admins) %></th>
+      <th><%= t(:column_operators) %><th>
+      <th><%= t(:column_drivers) %><th>
       <th class="mark">&nbsp;</th>
     </tr></thead>
     <% @companies.each do |cmp| %>
       <tr>
         <td class="mark">
-          <%= check_box_tag cmp.id, nil, nil, :class => 'all', :title => 'Check to remove', :disabled => cannot?(:delete, Company) %>
+          <%= check_box_tag cmp.id, nil, nil, :class => 'all', :title => t(:title_check_to_remove), :disabled => cannot?(:delete, Company) %>
         </td>
         <td> <%= link_to cmp.name_with_prefix, company_path(cmp), :class => 'link_bold' %> </td>
         <td class="address"> <%= cmp.address %> </td>
@@ -48,21 +48,21 @@
         <td class="count"> <%= link_to cmp.users.freight_forwarders.count, company_path(cmp, :anchor => "admins"), :class => 'link_bold' %> </td>
         <td class="count link_bold"> <%= link_to cmp.users.operators.count, company_path(cmp, :anchor => "operators"), :class => 'link_bold'  %> </td>
         <td class="count link_bold"> <%= link_to cmp.users.drivers.count, company_path(cmp, :anchor => "drivers"), :class => 'link_bold'  %> </td>
-        <td><%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_company_path(cmp), :class => 'popup', :remote => true, :title => 'Modify' if can?(:update, Company) %></td>
+        <td><%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_company_path(cmp), :class => 'popup', :remote => true, :title => t(:title_modify) if can?(:update, Company) %></td>
       </tr>  
     <% end %>
   </table>
   <br />
   <div class="row">
     <% if can?(:delete, Company) %>
-      <span class='span'> <%= link_to "Delete", delete_companies_path, :class => 'btn btn-danger', :confirm => 'Are you sure?', :id => "delete_cmp" %></span>
+      <span class='span'> <%= link_to t(:button_delete), delete_companies_path, :class => 'btn btn-danger', :confirm => t(:confirm_are_you_sure), :id => "delete_cmp" %></span>
     <% end %>
     <div class="span pull-right">
       <%= paginate @companies %>
     </div>
   </div>
 <% else %>
-  No Freight Forwarders found.
+  <%= t(:text_no_freight_forwarders_found) %>
 <% end %>
 
 <script type="text/javascript">
@@ -102,7 +102,7 @@
 <script id="company_table_template" type="text/x-jquery-tmpl">
 <tr>
   <td class="mark">
-    <input class="all" id="${id}" name="${id}" title="Check to remove" type="checkbox">
+    <input class="all" id="${id}" name="${id}" title="<%= t(:title_check_to_remove) %>" type="checkbox">
   </td>
   <td> <a href="/companies/${id}" class="link_bold">${name} (FF)</a> </td>
   <td class="address"> ${address} </td>
@@ -111,6 +111,6 @@
   <td class="count"> <a href="/companies/${id}#admins" class="link_bold">${admins}</a> </td>
   <td class="count link_bold"> <a href="/companies/${id}#operators" class="link_bold">${operators}</a> </td>
   <td class="count link_bold"> <a href="/companies/${id}#drivers" class="link_bold">${drivers}</a> </td>
-  <td><a href="/companies/${id}/edit" data-remote="true" title="Modify"><i class="icon-pencil"></i></a></td>
+  <td><a href="/companies/${id}/edit" data-remote="true" title="<%= t(:title_modify) %>"><i class="icon-pencil"></i></a></td>
 </tr>
 </script>

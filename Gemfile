@@ -31,4 +31,5 @@ gem 'unicorn'
 #  gem 'shoulda-matchers'
 #end
 
+gem 'routing-filter'
 gem 'rest-client', :git => 'git://github.com/archiloque/rest-client.git'

@@ -513,3 +513,10 @@ footer#dialog-footer {
   font-wight:bold; 
   padding: 10px 20px;
 }
+
+#locale_panel {
+  position: absolute;
+  top:0;
+}
+#locale_panel a {padding:0 4px;}
+#locale_panel .active {background-color: #dedede;}

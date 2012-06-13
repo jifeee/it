@@ -1,75 +1,75 @@
 <div id='search'>
 	<div class="advanced" style="display:none;">
     <div class="padded">
-  		<h4>Advanced Search</h4>
+  		<h4><%= t(:header_advanced_search) %></h4>
   		<%= form_for @search || Shipment.new, :url => shipments_path, :html => {:method => :get} do |f| %>
         <div class="row-fluid">
           <div class="span3">
-            <%= f.label :service_level, 'Current Status' %>
-            <%= f.select :service_level, Shipment.data["AT7"].values, :include_blank => "-Select-" %>
+            <%= f.label :service_level, t(:label_current_status) %>
+            <%= f.select :service_level, Shipment.data["AT7"].values, :include_blank => t(:text_prompt_select) %>
           </div><div class="span1"></div>
           <div class="span3">
-            <%= f.label :shipper %>
+            <%= f.label :shipper, t(:label_shipper) %>
             <%= f.text_field :shipper %>
           </div><div class="span1"></div>
           <div class="span3">
-            <%= f.label :consignee %>
+            <%= f.label :consignee, t(:label_consignee) %>
             <%= f.text_field :consignee %>
           </div>
         </div>
         <div class="row-fluid">
           <div class="span3">
-            <%= f.label :hawb, 'HAWB number' %>
-            <%= f.text_field :hawb, :label => "HAWB number", :class => :hawb %><span class="error"></span>
+            <%= f.label :hawb, t(:label_hawb_number) %>
+            <%= f.text_field :hawb, :class => :hawb %><span class="error"></span>
           </div><div class="span1"></div>
           <div class="span3">
-            <%= f.label :ship, 'Ship Date' %>
+            <%= f.label :ship, t(:label_ship_date) %>
             <%= f.text_field :ship, :class => "datepicker" %>
           </div><div class="span1"></div>
           <div class="span2">
-            <%= f.label :origin, 'Origin / City' %>
+            <%= f.label :origin, t(:label_origin_city) %>
             <%= f.text_field :origin %>
           </div>
           <div class="span2">
-            <%= f.label :field1, 'Origin / Airport Code' %>
+            <%= f.label :field1, t(:label_origin_airport) %>
             <%= text_field_tag :field1 %>
           </div>
         </div>
         <div class="row-fluid">
           <div class="span3">
-            <%= f.label :mawb, 'MAWB number' %>
+            <%= f.label :mawb, t(:label_mawb_number) %>
             <%= f.text_field :mawb, :class => :hawb %><span class="error"></span>
           </div><div class="span1"></div>
           <div class="span3">
-            <%= f.label :delivery, 'Delivery Date' %>
+            <%= f.label :delivery, t(:label_delivery_date) %>
             <%= f.text_field :delivery, :class => "datepicker" %>
           </div><div class="span1"></div>
           <div class="span2">
-            <%= f.label :destination %>
+            <%= f.label :destination, t(:label_destination) %>
             <%= f.text_field :destination %>
           </div>
           <div class="span2">
-            <%= f.label :field2, 'Destination / Airport Code' %>
+            <%= f.label :field2, t(:label_destination_airport) %>
             <%= text_field_tag :field2 %>
           </div>
         </div>
-        <%= f.submit "Search", :class => "btn btn-success" %>
-        <%= link_to "Close Advanced Search", "#", :class => "toggle_advanced" %>
+        <%= f.submit t(:button_search), :class => "btn btn-success" %>
+        <%= link_to t(:button_close_advanced_search), "#", :class => "toggle_advanced" %>
   		<% end %>
     </div><br />
 	</div>
 	
 	<div class="simple">
-		<h4>Search Shipment</h4>
+		<h4><%= t(:header_search_shipment) %></h4>
 		<%= form_for @search || Shipment.new, :url => shipments_path, :html => {:class => 'form-search', :method => :get} do |f| %>
 		  <table><tr>
-  	    <td><%= f.select :search_type, [['HAWB number', :hawb], ['MAWB number', :mawb]], :include_blank => " - Search By - " %></td>
+  	    <td><%= f.select :search_type, [[t(:label_hawb_number), :hawb], [t(:label_mawb_number), :mawb]], :include_blank => t(:text_prompt_search) %></td>
   	    <td><%= f.text_field :query, :class => :hawb %><span class="error"></span></td>
-		  	<td><%= f.submit "Search", :class => "btn btn-success", :id => "simple_search" %></td>
+		  	<td><%= f.submit t(:button_search), :class => "btn btn-success", :id => "simple_search" %></td>
   		</table>
 		<% end %>
 
-		<%= link_to "Advanced Search", "#", :class => "toggle_advanced" %>
+		<%= link_to t(:button_advanced_search), "#", :class => "toggle_advanced" %>
 	</div>
 </div>
 
@@ -77,17 +77,17 @@
 <br />
 
 <% if @shipments.any? %>
-  <h3 class="table_header_h3">Shipment</h3>
+  <h3 class="table_header_h3"><%= t(:header_shipment) %></h3>
   <table class="table_w bordered-table tablesorter">
     <thead><tr>
-      <th> HAWB </th>
-      <th> Ship Date </th>
-      <th> Delivery Date </th>
-      <th> Current Status </th>
-      <th> Origin </th>
-      <th> Destination </th>
-      <th> Shipper </th>
-      <th> Consignee </th>
+      <th><%= t(:column_hawb) %></th>
+      <th><%= t(:column_ship_date) %></th>
+      <th><%= t(:column_delivery_date) %></th>
+      <th><%= t(:column_current_status) %></th>
+      <th><%= t(:column_origin) %></th>
+      <th><%= t(:column_destination) %></th>
+      <th><%= t(:column_shipper) %></th>
+      <th><%= t(:column_consignee) %></th>
     </tr></thead>
     <% @shipments.each do |ship| %>
       <tr>
@@ -104,18 +104,18 @@
   </table>
   <%= paginate @shipments %>
 <% else %>
-  No shipments found.
+  <%= t(:text_no_shipments_found) %>
 <% end %>
 <% if can? :create, Shipment %>
   <hr>
   <div class="well">
     <% form_for Shipment.new, :url => upload_edi_shipments_path, :html => {:multipart => true} do |f| %>
       <div class="control-group">
-        <%= label_tag :file_edi, 'Upload new file VendorEDI' %>
+        <%= label_tag :file_edi, t(:label_upload_new_shipment) %>
         <%= file_field_tag :file_edi %>
       </div>
       <div class="control-group">
-        <%= f.submit 'Upload it...', :class => 'btn btn-danger' %>
+        <%= f.submit t(:button_upload), :class => 'btn btn-danger' %>
       </div>
     <% end %>
     <br clear=all />
@@ -127,6 +127,5 @@
     $("table.tablesorter").tablesorter({
       sortList: [[1,0]] 
     }); 
-  });
-  
+  });  
 </script>

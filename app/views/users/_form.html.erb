@@ -3,11 +3,11 @@
   <div class="span4">
     <div class="control-group">
       <div class="controls">  
-        <%= label_tag :first_name, 'First name', :class => 'control-label' %>
+        <%= label_tag :first_name, t('user.form.first_name'), :class => 'control-label' %>
         <%= form.text_field :first_name, :class => 'span4' %>
-        <%= label_tag :last_name, 'Last name', :class => 'control-label' %>
+        <%= label_tag :last_name, t('user.form.last_name'), :class => 'control-label' %>
         <%= form.text_field :last_name, :class => 'span4' %>
-        <%= label_tag :email, 'e-mail', :class => 'control-label' %>
+        <%= label_tag :email, t('user.form.email'), :class => 'control-label' %>
         <%= form.text_field :email, :class => 'span4' %>
       </div>
     </div>
@@ -15,11 +15,11 @@
       <div class="controls">
         <div class="row">
           <div class="span3">
-            <%= label_tag :phone, 'Phone', :class => 'control-label' %>
+            <%= label_tag :phone, t('user.form.phone'), :class => 'control-label' %>
             <%= form.text_field :phone, :class => 'span3' %>
           </div>
           <div class="span1">
-            <%= label_tag :ext, 'Ext', :class => 'control-labe' %>
+            <%= label_tag :ext, t('user.form.ext'), :class => 'control-labe' %>
             <%= form.text_field :ext, :class => 'span1' %>
           </div>  
         </div>
@@ -29,11 +29,11 @@
   <div class="span4">
     <div class="control-group">
       <div class="controls">  
-        <%= label_tag :login, 'Login', :class => 'control-label' %>
+        <%= label_tag :login, t('user.form.login'), :class => 'control-label' %>
         <%= form.text_field :login, :class => 'span4' %>
-        <%= label_tag :password, 'Password', :class => 'control-label' %>
+        <%= label_tag :password, t(:label_password), :class => 'control-label' %>
         <%= form.password_field :password, :class => 'span4' %>
-        <%= label_tag :password_confirmation, 'Password confirmation', :class => 'control-label' %>
+        <%= label_tag :password_confirmation, t(:label_password_confirmation), :class => 'control-label' %>
         <%= form.password_field :password_confirmation, :class => 'span4' %>
       </div>
     </div>
@@ -43,7 +43,7 @@
   <div class="row">
     <div class="span6">
       <div class="control-group">
-        <%= label_tag :activation_code %>
+        <%= label_tag :activation_code, t('user.form.activation_code') %>
         <div class="controls">
           <div class="input-append">
             <%= form.text_field :activation_code, :style => 'width:40%;' %><a href="#" class='btn' id="new_activation_code">generate new activation code</a>
