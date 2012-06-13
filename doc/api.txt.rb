@@ -23,7 +23,7 @@
 # Post additional shipment info or driver action
 + POST  /api/shipment/damage (6)
   RestClient.post 'http://localhost:3001/api/shipment/damage', :token => 'Lc68SuqSyxJYxzKCHyqU', :driver_action => "back_at_base", :lat => "48.314934", :lon => "34.917324"
-  RestClient.post 'http://localhost:3001/api/shipment/damage', :token => 'Lc68SuqSyxJYxzKCHyqU', :damage => "Some damage description"
+  RestClient.post 'http://localhost:3001/api/shipment/damage', :token => 'Lc68SuqSyxJYxzKCHyqU', :damage => "Some damage description", :damaged => 0
   RestClient.post 'http://localhost:3001/api/shipment/damage', :token => 'Lc68SuqSyxJYxzKCHyqU', :photo => File.new(Rails.root.to_s + "/public/images/insta_logo.png", 'rb')
   RestClient.post 'http://localhost:3001/api/shipment/damage', :token => 'Lc68SuqSyxJYxzKCHyqU', :driver_action => "back_at_base", :damage => "Some damage description", :photo => File.new(Rails.root.to_s + "/public/images/insta_logo.png", 'rb')
 

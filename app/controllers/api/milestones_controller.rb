@@ -8,7 +8,8 @@ class Api::MilestonesController < Api::ApiController
   def update        
     attrs = {}
     attrs.merge! :action => params[:driver_action] unless params[:driver_action].blank?
-    attrs.merge! :damaged => true, :damage_desc => params[:damage] if params[:damage].present?        
+    attrs.merge! :damage_desc => params[:damage] if params[:damage].present?        
+    attrs.merge! :damaged => params[:damaged] if params[:damaged].present?        
     attrs.merge! :doc_type => params[:type], :doc => params[:document] if params[:document].present?
     
     attrs.merge! :latitude => params[:lat] unless params[:lat].blank?
