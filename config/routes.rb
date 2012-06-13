@@ -61,18 +61,18 @@ Instatrace::Application.routes.draw do
 
   namespace "api" do
     match '/login' => "sessions#login"
-    
+
     post '/activation' => "api#activation"
-    
+
     get '/settings' => "settings#show"
     post '/settings' => "settings#update"
-    
+
     post '/shipment' => "shipments#show"
     get '/shipment/new' => "milestones#new"
     post '/shipment/damage' => "milestones#update"
     post '/shipment/signature' => "signatures#create"
     post '/shipment/doc' => "milestones#update" 
-    get '/shipment/complete' => "milestones#complete"
+    post '/shipment/complete' => "milestones#complete"
   end
 
    match '*path' => "shipments#index"

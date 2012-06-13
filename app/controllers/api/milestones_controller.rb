@@ -11,6 +11,9 @@ class Api::MilestonesController < Api::ApiController
     attrs.merge! :damaged => true, :damage_desc => params[:damage] if params[:damage].present?        
     attrs.merge! :doc_type => params[:type], :doc => params[:document] if params[:document].present?
     
+    attrs.merge! :latitude => params[:lat] unless params[:lat].blank?
+    attrs.merge! :longitude => params[:lon] unless params[:lon].blank?
+    
     @milestone.damages.create(:photo => params[:photo]) if params[:photo].present?
     
     if @milestone.update_attributes attrs

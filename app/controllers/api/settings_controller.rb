@@ -11,7 +11,7 @@ class Api::SettingsController < Api::ApiController
     if current_user.save
       render :status => 200, :nothing => true
     else
-      render :status => 400, :json => {:errors => current_user.errors.full_messages}
+      render :status => 400, :json => {:errors => current_user.errors.full_messages}.to_json
     end
   end
   
