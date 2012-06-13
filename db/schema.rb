@@ -86,8 +86,6 @@ ActiveRecord::Schema.define(:version => 20120613115447) do
     t.boolean  "public"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "doc"
-    t.string   "doc_type"
     t.float    "latitude",    :limit => 10, :default => 0.0
     t.float    "longitude",   :limit => 10, :default => 0.0
   end
