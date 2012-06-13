@@ -11,7 +11,7 @@ class Milestone < ActiveRecord::Base
 
   mount_uploader :doc, PhotoUploader
   
-  validates :shipment_id, :driver_id, :doc, :action, :presence => {:if => :completed?}  
+  validates :shipment_id, :driver_id, :action, :presence => {:if => :completed?}  
   validates :latitude, :longitude, :numericality => true
 
   after_save :update_shipment, :if => :completed?
