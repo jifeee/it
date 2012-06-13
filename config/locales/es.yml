@@ -1,0 +1,189 @@
+
+es:
+  language: Spain
+  title: 'Instatrace-ES'
+  copyright: InstaTrace. All Rights Reserved.
+
+  prefix_freight_forwarder: FF
+  prefix_agent: AGT
+
+  yes: Yes
+  no: No
+
+  role_admin: Admin
+  role_admins: Admins
+  role_operator: Operator
+  role_operators: Operators
+  role_driver: Driver
+  role_drivers: Drivers
+
+  menu_shipment: Shipment
+  menu_freight_forwarders: Freight Forwarders
+  menu_agents: Agents
+  menu_settings: Settings
+
+  button_search: Search
+  button_close_advanced_search: Close Advanced Search
+  button_advanced_search: Advanced Search
+  button_upload: Upload
+  button_save: SAVE
+  button_saving: SAVING
+  button_create_new_milestone: Create New Milestone
+  button_create_new_company: Create New Company
+  button_create_new_agent: Create New Agent
+  button_delete: Delete
+  button_drivers: Drivers
+  button_operators: Operators
+  button_admins: Admins
+  button_ffs: FFs
+  button_agents: Agents
+  button_create_new: Create new
+  button_log_out: Log Out
+  button_log_in: Log In
+  button_admin_dashboard: Admin Dashboard
+  button_sign_up: Sign up
+  button_add_more: Add More
+  
+  label_current_status: Current Status
+  label_shipper: Shipper
+  label_consignee: Consignee
+  label_hawb_number: HAWB number
+  label_ship_date: Ship Date
+  label_origin_city: Origin / City
+  label_origin_airport: Origin / Airport Code
+  label_mawb_number: MAWB number
+  label_delivery_date: Delivery Date
+  label_destination: Destination
+  label_destination_airport: Destination / Airport Code
+  label_upload_new_shipment: Upload new shipment
+  label_company_name: Company name
+  label_address: Address
+  label_city: City
+  label_zip: Zip
+  label_phone: Phone
+  label_ext: Ext
+  label_email: Email
+  label_password: Password
+  label_new_password: New password
+  label_password_confirmation: Password confirmation
+  label_new_password_confirmation: Confirm New Password
+  label_current_password: Current password
+
+  header_advanced_search: Advanced Search
+  header_search_shipment: Search Shipment
+  header_search_page: Search page
+  header_milestones: Milestones
+  header_shipment: Shipment
+  header_search_freight_forwarder: Search Freight Forwarder
+  header_search_agent: Search Agent
+  header_freight_forwarders_profiles: Freight Forwarders Profiles
+  header_freight_agents_profiles: Agents Profiles
+  header_create_new: Create New
+  header_update: Update
+  header_freight_forwarder: Freight Forwarder
+  header_freight_agent: Agent
+  header_create_new_agent: Create New Agent
+  header_create_new_company: Create New Freight Forwarder
+  header_sign_up: Sign up
+  header_change_your_password: Change Your Password
+  header_damage_notifications: Damage Notifications
+
+  text_prompt_select: '-Select-'
+  text_prompt_search: '- Search By -'
+  text_prompt_select_agent: Please select new agent from exists
+  text_prompt_select_company: Please select new company from exists
+  text_no_shipments_found: No shipments found
+  text_no_freight_forwarders_found: No Freight Forwarders found
+  text_no_agents_found: No Agents found
+  text_ship_from: Ship From
+  text_ship_to: Ship To
+  text_public: Public
+  text_created: Created
+  text_updated: Updated
+  text_created_by: Created by
+  text_updated_by: Updated by
+  text_notify_if_damaged: Notify me when any shipment is damaged
+  text_notify_if_delayed: Notify me when any shipment is delayed
+  text_delay_notifications: Delay Notifications
+  
+  title_check_to_remove_all: Check to remove all
+  title_check_to_remove: Check to remove
+  title_modify: Modify
+  title_remove: Remove
+
+  confirm_are_you_sure: Are you sure?
+
+  alert_no_members_checked: No Members checked
+  alert_no_agents_checked: No Agents checked
+
+  placeholder_email: Enter Email(s) here
+  
+  column_hawb: HAWB
+  column_mawb: MAWB
+  column_ship_date: Ship Date
+  column_delivery_date: Delivery Date
+  column_current_status: Current Status
+  column_origin: Origin
+  column_destination: Destination
+  column_shipper: Shipper
+  column_consignee: Consignee
+  column_service_level: Service Level
+  column_weight: Weight
+  column_pieces: Pieces
+  column_expected_delivery_date: Expected Delivery Date
+  column_update_date_and_time: 'Update Date & Time'
+  column_updated_by: Updated By
+  column_status: Status
+  column_location: Location
+  column_damage: Damage
+  column_documents: Documents
+  column_note: Note
+  column_company_name: Company Name
+  column_agent_name: Agent Name
+  column_address: Address
+  column_phone: Phone
+  column_email: Email
+  column_agents: Agents
+  column_admins: Admins
+  column_operators: Operators
+  column_drivers: Drivers
+  column_name: Name
+  column_ffs: FFs
+  column_username: Username
+  column_signature: Signature
+
+  user:
+    form:
+      first_name: First name
+      last_name: Last name
+      email: e-mail
+      phone: Phone
+      ext: Ext
+      login: Login
+      activation_code: Activation code
+      new_activation_code: Generate new activation code
+
+  milestone:
+    form:
+      action: Select Current Shipment Status
+      location: Enter current shipment location
+      upload_milestone_documents: Upload milestone document(s)
+      is_public: Is the milestone note public?
+      is_damaged: Is the shipment damaged?
+      damage_description: Damage Description
+      upload_damaged_shipment: Upload photo of damaged shipment
+      new: Create New Milestone
+
+  views:  
+    pagination:  
+      previous: "&lt; Previous"  
+      next: "Next &gt;"
+      truncate: "..."
+      last: "Last &raquo;"
+
+  messages:
+    notice:
+      milestone_created_ok: Milestone was successfully created.
+    upload_edi: 
+      header: Upload file EDI
+      notice: File was uploaded successfully
