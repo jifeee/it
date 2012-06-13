@@ -34,7 +34,7 @@
 
 # Post document (HAWB or POD)
 + POST  /api/shipment/doc (3)
-  RestClient.post 'http://localhost:3001/api/shipment/doc', :token => 'Lc68SuqSyxJYxzKCHyqU', :type => "hawb", :document => File.new(Rails.root.to_s + "/public/images/insta_logo.png", 'rb')
+  RestClient.post 'http://localhost:3001/api/shipment/doc', :token => 'Lc68SuqSyxJYxzKCHyqU', :type => "hawb", :document => File.new(Rails.root.to_s + "/public/robots.txt", 'rb')
 
 # Shipment details completed
 + POST   /api/shipment/complete

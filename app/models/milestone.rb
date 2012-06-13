@@ -7,9 +7,6 @@ class Milestone < ActiveRecord::Base
   belongs_to :driver, :class_name => 'User'
   
   enum_attr :action, %w(pick-up back_at_base en_route_to_carrier tendered_to_carrier recovered_from_carrier out_for_delivery delivery)
-  enum_attr :doc_type, %w(hawb pod), :default => :hawb
-
-  mount_uploader :doc, PhotoUploader
   
   validates :shipment_id, :driver_id, :action, :presence => {:if => :completed?}  
   validates :latitude, :longitude, :numericality => true
