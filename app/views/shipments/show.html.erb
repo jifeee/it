@@ -69,6 +69,7 @@
     <th><%= t(:column_updated_by) %></th>
     <th><%= t(:column_status) %></th>
     <th><%= t(:column_location) %></th>
+    <th><%= t(:column_signature) %></th>
     <th><%= t(:column_damage) %></th>
     <th><%= t(:column_documents) %></th>
     <th><%= t(:column_note) %></th>
@@ -76,11 +77,12 @@
   <% @shipment.milestones.order("updated_at DESC").each do |ms| %>
     <tr>
       <td> <%= ms.updated_at %> </td>
-      <td> <strong><%= ms.driver.try(:email) %></strong> </td>
+      <td> <strong><%= ms.driver.try(:username) %></strong> </td>
       <td> <%= ms.action.try(:to_s).try(:humanize) %> </td>
       <td> <%= ms.location %></td>
-      <td> <%= ms.damage_desc %> </td>
-      <td> <%= ms.doc %> </td>
+      <td> <%= ms.signature.signature rescue nil %></td>
+      <td> <%= damages_urls(ms) %></td>
+      <td> <%= documents_urls(ms) %> </td>
       <td valign="middle"> <%= check_box_tag :public %><%= t(:text_public) %></td>
     </tr>  
   <% end %>
@@ -99,12 +101,12 @@
 
 <script id="milestone_table_template" type="text/x-jquery-tmpl">
 <tr>
-  <td> ${created_at} </td>
-  <td> ${driver} </td>
-  <td> ${action} </td>
-  <td> ${location} </td>
-  <td> ${damage_desc} </td>
-  <td> ${doc} </td>
+  <td>${created_at}</td>
+  <td><strong>${driver}</strong></td>
+  <td>${action}</td>
+  <td>${location}</td>
+  <td>${damage_desc}</td>
+  <td>${doc}</td>
   <td valign="middle"> <input id="public" name="public" type="checkbox" value="${public}"><%= t(:text_public) %></td>
 </tr>
 </script>

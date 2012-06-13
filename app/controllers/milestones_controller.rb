@@ -13,21 +13,24 @@ class MilestonesController < ApplicationController
   def create
   	shipment = Shipment.find(params[:shipment_id])
     milestone = shipment.milestones.new(params[:milestone])
-
+    milestone.driver_id = current_user.id if current_user.driver?
     respond_to do |format|
-    	if milestone.save
-    		format.html { redirect_to shipment_path(shipment), :notice => 'messages.notice.milestone_created_ok' }  
-    		format.js do
+      if milestone.save
+        Mailer.damage_notifier(milestone).deliver if current_user.driver? && milestone.damages && milestone.damages.size > 0
+        format.html { redirect_to shipment_path(shipment), :notice => 'messages.notice.milestone_created_ok' }  
+        format.js do
     			render :update do |page|
     				page.call "parent.$.fn.colorbox.close"
-            page.call 'notifyCreate', milestone.to_json
+            page.call 'notifyCreate', {:driver => milestone.driver.username}.update(milestone.attributes).to_json
     			end
     		end
     	else
-    		format.html { redirect_to shipment_path(shipment) }  
+    		format.html do
+          flash[:error] = milestone.errors.full_messages.join(', ')
+          redirect_to shipment_path(shipment)
+        end
     		format.js do
     			render :update do |page|
- 						page.call "parent.$.fn.colorbox.close"
             page.call 'notifyError', milestone.errors.full_messages.join(', ')
 	      	end
     		end

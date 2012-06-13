@@ -152,6 +152,7 @@ en:
   column_name: Name
   column_ffs: FFs
   column_username: Username
+  column_signature: Signature
 
   user:
     form:

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120611144944) do
+ActiveRecord::Schema.define(:version => 20120613115447) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -49,16 +49,8 @@ ActiveRecord::Schema.define(:version => 20120611144944) do
     t.string   "zip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "company_type_id"
     t.string   "created_by"
     t.string   "updated_by"
-  end
-
-  create_table "company_agents", :force => true do |t|
-    t.integer  "company_id"
-    t.integer  "company_parent_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "company_relations", :force => true do |t|
@@ -66,12 +58,6 @@ ActiveRecord::Schema.define(:version => 20120611144944) do
     t.integer  "agent_id",   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "company_types", :force => true do |t|
-    t.string "name",        :null => false
-    t.string "description"
-    t.string "code",        :null => false
   end
 
   create_table "damages", :force => true do |t|
@@ -86,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20120611144944) do
     t.string   "name",         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "doc_type"
   end
 
   create_table "milestones", :force => true do |t|
@@ -99,8 +86,6 @@ ActiveRecord::Schema.define(:version => 20120611144944) do
     t.boolean  "public"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "doc"
-    t.string   "doc_type"
     t.float    "latitude",    :limit => 10, :default => 0.0
     t.float    "longitude",   :limit => 10, :default => 0.0
   end
@@ -147,7 +132,7 @@ ActiveRecord::Schema.define(:version => 20120611144944) do
   create_table "shipments", :force => true do |t|
     t.string   "shipment_id"
     t.integer  "pieces"
-    t.float    "weight"
+    t.decimal  "weight",        :precision => 12, :scale => 2
     t.string   "origin"
     t.string   "shipper"
     t.datetime "ship"
