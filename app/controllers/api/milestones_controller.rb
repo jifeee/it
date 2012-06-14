@@ -20,10 +20,12 @@ class Api::MilestonesController < Api::ApiController
     if @milestone.update_attributes attrs
       render :nothing => true
     else
-      render :status => 400, :json => { :errors => @milestone.errors.full_messages }
+p "ERROR: #{@milestone.errors}"
+p @milestone.errors
+      render :status => 401, :json => { :errors => @milestone.errors.full_messages }
     end
   rescue => e
-    render :status => 400, :json => { :errors => e.message }
+    render :status => 402, :json => { :errors => e.message }
   end
   
   def complete
