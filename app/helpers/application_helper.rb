@@ -12,7 +12,7 @@ module ApplicationHelper
 	def damages_urls(milestone)
 		urls = []
 		milestone.damages.each_with_index do |damage,i| 
-        	urls << link_to("#{i+1}", damage.photo.url, :target => :blank)
+        	urls << link_to("#{i+1}", damage.photo.url, :target => "_blank")
         end if milestone.damages
         raw(urls.join(', '))
 	end
@@ -20,7 +20,7 @@ module ApplicationHelper
 	def documents_urls(milestone)
 		urls = []
 		milestone.milestone_documents.each_with_index do |document,i| 
-        	urls << link_to("#{i+1}", document.name.url, :target => :blank)
+        	urls << link_to("#{i+1}", document.name.url, :target => "_blank")
         end if milestone.milestone_documents
         raw(urls.join(', '))
 	end
