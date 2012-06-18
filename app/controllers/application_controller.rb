@@ -1,6 +1,5 @@
 # Uncomment if need manual test I18n
 # module I18n; def self.t(id); '~'; end; end
-require 'localetest'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
