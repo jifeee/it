@@ -1,7 +1,7 @@
 <%= form_for @user, :url => @company_url, :remote => true, :html => {:class => "form-vertical"} do |f| %>
 	<div class="row" style="padding:0 30px;">
 		<div class="span8">
-			<header><%= f.object.new_record? ? t(:header_create_new) : t(:header_update) %> <%= Role::ROLE_NAMES[f.object.role_id-1].humanize %></header>
+			<header><%= f.object.new_record? ? t(:header_create_new) : t(:header_update) %> <%= t("role_#{Role::ROLE_NAMES[f.object.role_id-1].to_sym}").humanize %></header>
 			<%= render :partial => 'form', :object => f %>
 			<div class="control-group">
   			<div class="controls">

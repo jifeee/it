@@ -1,9 +1,10 @@
 module ApplicationHelper
 	def locale_urls
 		urls = []
-		%w(es en).map do |locale|
+		I18n::available_locales.map do |locale|
 			options = {}
 			options[:class] = 'active' if current_locale == locale
+			options[:title] = t(:language, :locale => locale)
 			urls << link_to(locale, language_path(locale), options)
 		end
 		raw(urls.join(' | '))

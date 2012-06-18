@@ -28,12 +28,11 @@ class Agent < ActiveRecord::Base
   	end
 
   	def relation_object_name
-    	'company'
+    	I18n::t(:header_freight_forwarder)
   	end
 
   	def alias
-    	'agents'    
+    	I18n::t(:header_freight_agent)
   	end
-
-	
+  		
 end

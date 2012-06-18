@@ -14,7 +14,8 @@ task :tst do
   set :scm, "git"
   set :repository, "https://juliavetl:VbifRheu10@github.com/mobilezapp/Instatrace.git"
   set :branch, "master"
-  set :deploy_via, :remote_cache
+  # set :deploy_via, :remote_cache
+  set :deploy_via, :checkout
   set :git_shallow_clone, 1
   default_run_options[:pty] = true
 
@@ -59,6 +60,11 @@ task :tst do
     task :restart, :roles => :app, :except => { :no_release => true } do
       run "touch #{File.join(current_path,'tmp','restart.txt')}"
     end
+
+    task :migrate do
+        desc "Migrating database"
+        run "cd #{current_path} && rake db:migrate RAILS_ENV=production"
+    end
   end
 
   after "deploy:update_code", :symlink_config_files,
@@ -72,21 +78,21 @@ task :tst do
   
   namespace :bundler do
     task :bundle_install, :roles => :app do
-      run "cd #{current_path} && bundle install --without test"
+      # run "cd #{current_path} && bundle install --without test"
     end
   end
 
   desc "Config symlinks"
   task :symlink_config_files do
-    run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{current_path}/config/database.yml"
+    run "ln -nfs #{deploy_to}/config/database.yml #{current_path}/config/database.yml"
   end
 
   desc "Fix dirs permission"
   task :fix_public_dir_permission do
-    run "chmod -R g+w #{current_path}/public"
+    # run "chmod -R g+w #{current_path}/public"
   end    
   task :fix_tmp_dir_permission do
-    run "chmod -R a+rw #{current_path}/tmp"
+    # run "chmod -R a+rw #{current_path}/tmp"
   end
 
   desc <<-DESC

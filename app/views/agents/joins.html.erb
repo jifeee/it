@@ -17,7 +17,7 @@
   <footer id='dialog-footer'>
     <div class="controls pull-right">
       <%= f.submit t(:button_save), :class => "btn btn-primary", 'data-loading-text' => t(:button_saving) %>
-      <a href="#" class="btn" onclick="$.colorbox.close(); return false;">Cancel</a>
+      <a href="#" class="btn" onclick="$.colorbox.close(); return false;"><%= t(:button_cancel) %></a>
     </div>
   </footer>
 <% end %>

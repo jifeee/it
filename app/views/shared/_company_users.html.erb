@@ -4,7 +4,7 @@
 <%= content_tag :a, nil, :name => k %>
 <div class="header-container">
   <h3><strong><%= t("role_#{k}".to_sym).capitalize %></strong> / <%= company_users.name_with_prefix %> </h3>
-  <%= link_to "#{t(:button_create_new)} #{k.singularize}", url_for(:action => 'new', :controller => 'users', 
+  <%= link_to "#{t(:button_create_new)} #{t("role_#{k}".to_sym).singularize}", url_for(:action => 'new', :controller => 'users', 
     company_users.class.to_s.foreign_key.to_sym => company_users.id, :role_id => v),
     :class => 'btn create popup btn-inverse' if can?(:update, company_users.class) && can?(:create, User) %>
   <br clear=all />
@@ -42,7 +42,7 @@
 <% if can?(:update, company_users.class) && can?(:delete, User) %>
   <span class='bottom_button'> <%= link_to t(:button_delete), delete_users_path, :class => 'btn delete_user btn-danger', :confirm => t(:confirm_are_you_sure) %></span>
 <% end  %>
-<a href="#top" class="small_link">Top Page</a>
+<a href="#top" class="small_link"><%= t(:button_top_page) %></a>
 <div class="clearfix"></div>
 <br/>
 </section>

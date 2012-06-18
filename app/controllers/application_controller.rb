@@ -1,3 +1,7 @@
+# Uncomment if need manual test I18n
+# module I18n; def self.t(id); '~'; end; end
+require 'localetest'
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
@@ -15,6 +19,26 @@ class ApplicationController < ActionController::Base
   def set_locale
     cookies["language"] = params[:language]
     redirect_to root_path(:locale => params[:language])
+  end
+
+  def reflatten(hash,key=nil)
+    (key.nil? ? hash : hash[key]).map {|k,v| (v.class == Hash ? reflatten(v) : {k => v})}
+  end
+
+  def check_locale
+    r = []
+    default_locale = YAML::load(File.open(File.join(Rails.root,'config','locales',"#{I18n.default_locale}.yml")))
+    d = reflatten(default_locale).flatten
+    d_keys = d.map{|a| a.keys}
+    I18n::available_locales.map do |locale|
+      next if locale == I18n.default_locale
+      l = YAML::load(File.open(File.join(Rails.root,'config','locales',"#{locale}.yml")))
+      dd = reflatten(l).flatten
+      dd_keys = dd.map{|a| a.keys}
+      r << d_keys - dd_keys
+    end
+    r.flatten!
+    @res = d.select {|a| r.include?(a.keys.first.to_s)}
   end
 
   protected

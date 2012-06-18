@@ -1,198 +1,242 @@
-
 es:
   language: Spain
-  title: 'Instatrace-ES'
+  title: Instatrace
   copyright: InstaTrace. All Rights Reserved.
 
   prefix_freight_forwarder: FF
   prefix_agent: AGT
 
-  yes: Yes
+  yes: Si   
   no: No
 
   role_admin: Admin
   role_admins: Admins
-  role_operator: Operator
-  role_operators: Operators
-  role_driver: Driver
-  role_drivers: Drivers
+  role_operator: Operador
+  role_operators: Operadores
+  role_driver: Chofer
+  role_drivers: Choferes
 
-  menu_shipment: Shipment
-  menu_freight_forwarders: Freight Forwarders
-  menu_agents: Agents
-  menu_settings: Settings
+  menu_shipment: Envio
+  menu_freight_forwarders: Agente transitorio
+  menu_agents: Agentes
+  menu_settings: Ajustes
 
-  button_search: Search
-  button_close_advanced_search: Close Advanced Search
-  button_advanced_search: Advanced Search
-  button_upload: Upload
-  button_save: SAVE
-  button_saving: SAVING
-  button_create_new_milestone: Create New Milestone
-  button_create_new_company: Create New Company
-  button_create_new_agent: Create New Agent
-  button_delete: Delete
-  button_drivers: Drivers
-  button_operators: Operators
+  button_search: Buscar
+  button_close_advanced_search: Cerrar busqueda avazada
+  button_advanced_search: Busqueda avanzada
+  button_upload: Cargar
+  button_save: Guardar
+  button_saving: Guardando
+  button_create_new_milestone: Crear un punto de referencia
+  button_create_new_company: Crear nueva compania
+  button_create_new_agent: Crear nuevo agente
+  button_delete: Borrar
+  button_drivers: Choferes
+  button_operators: Operadores
   button_admins: Admins
   button_ffs: FFs
-  button_agents: Agents
-  button_create_new: Create new
-  button_log_out: Log Out
-  button_log_in: Log In
-  button_admin_dashboard: Admin Dashboard
-  button_sign_up: Sign up
-  button_add_more: Add More
+  button_agents: Agentes
+  button_create_new: Crear Nuevo
+  button_log_out: Abrir sesion
+  button_log_in: Cerrar sesion
+  button_admin_dashboard: Admin Panel de control
+  button_sign_up: Registrarse
+  button_add_more: Anexar Mas
   
-  label_current_status: Current Status
-  label_shipper: Shipper
-  label_consignee: Consignee
-  label_hawb_number: HAWB number
-  label_ship_date: Ship Date
-  label_origin_city: Origin / City
-  label_origin_airport: Origin / Airport Code
-  label_mawb_number: MAWB number
-  label_delivery_date: Delivery Date
-  label_destination: Destination
-  label_destination_airport: Destination / Airport Code
-  label_upload_new_shipment: Upload new shipment
-  label_company_name: Company name
-  label_address: Address
-  label_city: City
-  label_zip: Zip
-  label_phone: Phone
-  label_ext: Ext
+  label_current_status: Estado Actual 
+  label_shipper: Fletador
+  label_consignee: Consignatario
+  label_hawb_number: Numero de HAWB 
+  label_ship_date: Fecha de Envío
+  label_origin_city: Origen / Ciudad
+  label_origin_airport: Origen / Código de Aeropuerto
+  label_mawb_number: Numero de MAWB 
+  label_delivery_date: Fecha de Entrega
+  label_destination: Destino
+  label_destination_airport: Destino / Codigo de Aeropuerto
+  label_upload_new_shipment: Cargar envío nuevo
+  label_company_name: Nombre de la Compañía
+  label_address: Domicilio
+  label_city: Ciudad  
+  label_zip: código Postal    
+  label_phone: Teléfono 
+  label_ext: Extension
   label_email: Email
-  label_password: Password
-  label_new_password: New password
-  label_password_confirmation: Password confirmation
-  label_new_password_confirmation: Confirm New Password
-  label_current_password: Current password
+  label_password: Contrasena
+  label_new_password: Contrasena nueva
+  label_password_confirmation: Confirmar contrasena
+  label_new_password_confirmation: Confirmar nueva contrasena
+  label_current_password: Contrasena actual
 
-  header_advanced_search: Advanced Search
-  header_search_shipment: Search Shipment
-  header_search_page: Search page
-  header_milestones: Milestones
-  header_shipment: Shipment
-  header_search_freight_forwarder: Search Freight Forwarder
-  header_search_agent: Search Agent
-  header_freight_forwarders_profiles: Freight Forwarders Profiles
-  header_freight_agents_profiles: Agents Profiles
-  header_create_new: Create New
-  header_update: Update
-  header_freight_forwarder: Freight Forwarder
-  header_freight_agent: Agent
-  header_create_new_agent: Create New Agent
-  header_create_new_company: Create New Freight Forwarder
-  header_sign_up: Sign up
-  header_change_your_password: Change Your Password
-  header_damage_notifications: Damage Notifications
+  header_advanced_search: Busqueda avanzada
+  header_search_shipment: Buscar envio
+  header_search_page: Buscar pagina
+  header_milestones: Punto de referencia
+  header_shipment: Envio
+  header_search_freight_forwarder: Buscar agente transitorio
+  header_search_agent: Buscar agente
+  header_freight_forwarders_profiles: Perfil de agente transitorio
+  header_freight_agents_profiles: Perfil de agentes
+  header_create_new: Crear nuevo
+  header_update: Actualizar
+  header_freight_forwarder: Agente transitorio
+  header_freight_agent: Agente
+  header_create_new_agent: Crear agente nuevo
+  header_create_new_company: Crear Agente transitorio nuevo
+  header_sign_up: Registrarse
+  header_change_your_password: Cambiar contrasena
+  header_damage_notifications: Notificacion de danos  
 
-  text_prompt_select: '-Select-'
-  text_prompt_search: '- Search By -'
-  text_prompt_select_agent: Please select new agent from exists
-  text_prompt_select_company: Please select new company from exists
-  text_no_shipments_found: No shipments found
-  text_no_freight_forwarders_found: No Freight Forwarders found
-  text_no_agents_found: No Agents found
-  text_ship_from: Ship From
-  text_ship_to: Ship To
-  text_public: Public
-  text_created: Created
-  text_updated: Updated
-  text_created_by: Created by
-  text_updated_by: Updated by
-  text_notify_if_damaged: Notify me when any shipment is damaged
-  text_notify_if_delayed: Notify me when any shipment is delayed
-  text_delay_notifications: Delay Notifications
+  text_prompt_select: '-Seleccionar-'
+  text_prompt_search: '- Buscar por -'
+  text_prompt_select_agent: 'Por favor, seleccione nuevo agente en existencia'
+  text_prompt_select_company: 'Por favor, seleccione nueva compañía en existensia'
+  text_no_shipments_found: Envio no encontrado
+  text_no_freight_forwarders_found: Agente Transitorio no encontrado
+  text_no_agents_found: Agente no encontrado
+  text_ship_from: Enviar desde
+  text_ship_to: Enviar a
+  text_public: Publico
+  text_created: Crear
+  text_updated: Actualizar
+  text_created_by: Creado por
+  text_updated_by: Actualizado Por
+  text_notify_if_damaged: Notificarme Cuando Cualquier Envio sea Danado
+  text_notify_if_delayed: Notificarme Cuando Cualquier Envio este Retrasado
+  text_delay_notifications: Notificaciones de retraso
   
-  title_check_to_remove_all: Check to remove all
-  title_check_to_remove: Check to remove
-  title_modify: Modify
-  title_remove: Remove
+  title_check_to_remove_all: Seleccionar para remover todo
+  title_check_to_remove: Seleccionar para remover
+  title_modify: Modificar
+  title_remove: Remover
 
-  confirm_are_you_sure: Are you sure?
+  confirm_are_you_sure: Esta usted seguro?
 
-  alert_no_members_checked: No Members checked
-  alert_no_agents_checked: No Agents checked
+  alert_no_members_checked: No hay miembro seleccionado
+  alert_no_agents_checked: No hay agente seleccionado
 
-  placeholder_email: Enter Email(s) here
-  
+  placeholder_email: Ingrese Email(s) aqui  
   column_hawb: HAWB
   column_mawb: MAWB
-  column_ship_date: Ship Date
-  column_delivery_date: Delivery Date
-  column_current_status: Current Status
-  column_origin: Origin
-  column_destination: Destination
-  column_shipper: Shipper
-  column_consignee: Consignee
-  column_service_level: Service Level
-  column_weight: Weight
-  column_pieces: Pieces
-  column_expected_delivery_date: Expected Delivery Date
-  column_update_date_and_time: 'Update Date & Time'
-  column_updated_by: Updated By
-  column_status: Status
-  column_location: Location
-  column_damage: Damage
-  column_documents: Documents
-  column_note: Note
-  column_company_name: Company Name
-  column_agent_name: Agent Name
-  column_address: Address
-  column_phone: Phone
+  column_ship_date: Fecha de envio
+  column_delivery_date: Fecha de entrega
+  column_current_status: Estatus actual
+  column_origin: Origen
+  column_destination: Destino
+  column_shipper: Fletador
+  column_consignee: Consignatario
+  column_service_level: Nivel de servicio
+  column_weight: Peso
+  column_pieces: Piezas
+  column_expected_delivery_date: Fecha tentativa de entrega
+  column_update_date_and_time: 'Actualizar fecha & hora'
+  column_updated_by: Actualizar por
+  column_status: Estatus
+  column_location: Locación
+  column_damage: Daños
+  column_documents: Documentos
+  column_note: Notas
+  column_company_name: Nombre de la compañía
+  column_agent_name: Nombre del agente
+  column_address: Domicilio
+  column_phone: Teléfono
   column_email: Email
-  column_agents: Agents
+  column_agents: Agentes
   column_admins: Admins
-  column_operators: Operators
-  column_drivers: Drivers
-  column_name: Name
+  column_operators: Operadores
+  column_drivers: Choferes
+  column_name: Nombre
   column_ffs: FFs
-  column_username: Username
-  column_signature: Signature
+  column_username: Nombre de Usuario
 
-  user:
-    form:
-      first_name: First name
-      last_name: Last name
-      email: e-mail
-      phone: Phone
-      ext: Ext
-      login: Login
-      activation_code: Activation code
-      new_activation_code: Generate new activation code
+  user: 
+    form: 
+      first_name: Nombre  
+      last_name: Apellido
+      email: Email
+      phone: Telefono
+      ext: Extensión
+      login: Iniciar sesión
+      activation_code: código de activación
+      new_activation_code: Generar nuevo código de activación
 
-  milestone:
+  milestone: 
     form:
-      action: Select Current Shipment Status
-      location: Enter current shipment location
-      upload_milestone_documents: Upload milestone document(s)
-      is_public: Is the milestone note public?
-      is_damaged: Is the shipment damaged?
-      damage_description: Damage Description
-      upload_damaged_shipment: Upload photo of damaged shipment
-      new: Create New Milestone
+      action: 'Seleccionar estatus actual del envío'
+      location: 'Ingresar Locación Actual del envío'
+      upload_milestone_documents: Cargar documento(s) de punto de referencia
+      is_public: Es el punto de referencia publico?
+      is_damaged: El envío esta dañado?
+      damage_description: Describir el daño
+      upload_damaged_shipment: Cargar foto del envío dañado
+      new: Crear Nuevo punto de referencia
 
   views:  
     pagination:  
-      previous: "&lt; Previous"  
+      previous: "&lt; Previo"  
       next: "Next &gt;"
       truncate: "..."
       last: "Last &raquo;"
 
-  messages:
-    notice:
-      milestone_created_ok: Milestone was successfully created.
+  messages: 
+    notice: 
+      milestone_created_ok:Punto de referencia fue creado exitosamente.
     upload_edi: 
-      header: Upload file EDI
-      notice: File was uploaded successfully
+      header: Cargar archivo EDI
+      notice: Archivo fue Cargado exitosamente 
 
   errors:
     messages:
-      carrierwave_processing_error: failed to be processed
-      carrierwave_integrity_error: is not of an allowed file type
-      extension_white_list_error: "You are not allowed to upload %{extension} files, allowed types: %{allowed_types}"
-      rmagick_processing_error: "Failed to manipulate with rmagick, maybe it is not an image? Original Error: %{e}"
-      mime_types_processing_error: "Failed to process file with MIME::Types, maybe not valid content-type? Original Error: %{e}"
-      mini_magick_processing_error: "Failed to manipulate with MiniMagick, maybe it is not an image? Original Error: %{e}"
+      expired: "Ha expirado, por favor solicite una nueva"
+      not_found: "No encontrado"
+      already_confirmed: "Ha sido previamente confirmado, por favor intente de ingresar nuevamente"
+      not_locked: "No fue bloqueado"
+      not_saved:
+        one: "1 error a prohibido %{resource} de poder guardarlo:"
+        other: "%{count} errors han prohibido %{resource} de poder salvarlo:"
+
+  devise:
+    failure:
+      already_authenticated: 'Usted ya esta registrado.'
+      unauthenticated: 'Tienes que iniciar sesión o registrarse antes de continuar'
+      unconfirmed: 'Tiene que confirmar su cuenta antes de continuar.'
+      locked: 'Tu cuenta fue bloqueada.'
+      invalid: 'Email o Contraseña inválidos.'
+      invalid_token: 'Ficha de autenticación invalida.'
+      timeout: 'Su sesión a expirado, por favor inicie su sesión nuevamente para continuar.'
+      inactive: 'Tu cuenta aun no ha sido activada.'
+    sessions:
+      signed_in: 'Registro exitoso.'
+      signed_out: 'Registro No exitoso.'
+    passwords:
+      send_instructions: 'Recibirás un correo electrónico con instrucciones de como cambiar) tu contraseña en pocos minutos.'
+      updated: 'Tu contraseña a sido modificada exitosamente, haz sido registrado.'
+      updated_not_active: 'Tu contraseña ha sido modificada exitosamente.'
+      send_paranoid_instructions: "Si tu correo electrónico esta en nuestra base de datos, recibiras en tu correo un link para recuperar tu contraseña"
+    confirmations:
+      send_instructions: 'Recibirás un correo electrónico con instrucciones de como confirmar tu cuenta en pocos minutos.'
+      send_paranoid_instructions: 'Si tu correo electrónico esta en nuestra base de datos, recibirás un correo con instrucciones acerca de cómo confirmar tu cuenta en pocos minutos.'
+      confirmed: 'Tu cuenta ha sido confirmada con éxito. haz ingresado.'
+    registrations:
+      signed_up: 'Bienvenido, haz sido registrado exitosamente.'
+      inactive_signed_up: 'Haz sido registrado exitosamente, pero no podrás ingresar a tu cuenta debido a que %{reason}.'
+      updated: 'Haz actualizado tu cuenta exitosamente.'
+      destroyed: 'Adiós! Tu cuenta fue cancelada exitosamente. Esperamos vuelvas muy pronto.'
+      reasons:
+        inactive: 'Inactivo'
+        unconfirmed: 'No confirmada'
+        locked: 'Bloqueada'
+    unlocks:
+      send_instructions: 'Recibirás un correo electrónico con instrucciones de como desbloquear tu cuenta en pocos minutos.'
+      unlocked: 'Tu cuenta fue desbloqueada exitosamente. Puedes ingresar ahora.'
+      send_paranoid_instructions: 'Si tu cuenta existe, recibirás un correo electronico con instrucciones de como desbloquearla en pocos minutos.'
+    omniauth_callbacks:
+      success: 'Con éxito la autorización de %{kind} cuenta.'
+      failure: 'No se ha podido autorizar a usted a partir %{kind} porque "%{reason}".'
+    mailer:
+      confirmation_instructions:
+        subject: 'Instrucciones de confirmacion'
+      reset_password_instructions:
+        subject: 'Instrucciones para cambiar tu contraseña'
+      unlock_instructions:
+        subject: 'Instrucciones para Desbloquear'

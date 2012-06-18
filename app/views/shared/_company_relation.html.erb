@@ -12,7 +12,7 @@
     <th class="mark"> 
       <%= check_box_tag 'all', nil, nil, :title => t(:title_check_to_remove_all), 
         :disabled => cannot?(:update, company_relation.class) %>
-    <th><%= "#{company_relation.class.to_s.capitalize} #{t(:column_name)}" %></th>
+    <th><%= "#{company_relation.alias.to_s.capitalize} #{t(:column_name)}" %></th>
     <th><%= t(:column_address) %></th>
     <th><%= t(:column_phone) %></th>
     <th class="w80"><%= t(:column_ffs) %></th>
