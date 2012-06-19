@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_filter :retrieve_users, :only => :index
   before_filter :find_company, :only => [:new,:create,:edit,:update]
 
-  respond_to :json
+  respond_to :json,:js,:html
   
   def index
     @search = User.new(params[:user])
@@ -18,26 +18,22 @@ class UsersController < ApplicationController
 
   def new
     @user = @some_company.users.new
-    if @some_company.class == Agent 
-      @company_url = agent_users_path(@some_company.id)
-    else
-      @company_url = company_users_path(@some_company.id)
-    end      
-    @user.role_id = params[:role_id] rescue nil
+    correct_user
   end
 
   def create
-    user = @some_company.users.new params[:user]
+    @user = @some_company.users.new params[:user]
+    correct_user
     respond_with(@some_company) do |format|
       format.js do
         render :update do |page|
-          if user.valid? && @some_company.save          
+          if @user.valid? && @some_company.save          
             page.call "parent.$.fn.colorbox.close"
-            page.call 'notifyUserCreate', {:user_fullname => user.user_fullname,
-              :company_id => @some_company.id}.update(user.attributes).to_json
+            page.call 'notifyUserCreate', {:user_fullname => @user.user_fullname,
+              :company_id => @some_company.id}.update(@user.attributes).to_json
           else
             page.call '$("#user_submit").button','reset'
-            page.call 'notifyError', user.errors.full_messages.first
+            page.call "$('#user_form').replaceWith", render(:template => 'users/new')
           end          
         end
       end
@@ -59,6 +55,11 @@ class UsersController < ApplicationController
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation) 
     end
+    if @some_company.class == Agent 
+      @company_url = agent_user_path(@some_company.id)
+    else
+      @company_url = company_user_path(@some_company.id)
+    end
     respond_with(@user) do |format|
       format.js do
         render :update do |page|
@@ -66,10 +67,10 @@ class UsersController < ApplicationController
             page.call "parent.$.fn.colorbox.close"
             page.call 'notifyUserUpdate', {:user_fullname => @user.user_fullname,
               :company_id => @some_company.id}.update(@user.attributes).to_json
-            # Mailer.user_updated(@user).deliver if params[:notify] == 'true'
+            Mailer.user_updated(@user).deliver if params[:notify] == 'true'
           else
             page.call '$("#user_submit").button','reset'
-            page.call 'notifyError', @user.errors.full_messages.first
+            page.call "$('#user_form').replaceWith", render(:template => 'users/new')
           end          
         end
       end
@@ -84,10 +85,18 @@ class UsersController < ApplicationController
   
 protected
 
+  def correct_user
+    if @some_company.class == Agent 
+      @company_url = agent_users_path(@some_company.id)
+    else
+      @company_url = company_users_path(@some_company.id)
+    end      
+    @user.role_id = params[:role_id] unless @user.role_id rescue nil
+  end
+  
   def find_company
     @some_company = Company.find(params[:company_id]) unless params[:company_id].nil?    
     @some_company = Agent.find(params[:agent_id]) unless params[:agent_id].nil?
-
   end
 
   def retrieve_users

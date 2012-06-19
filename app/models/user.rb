@@ -7,6 +7,16 @@ class User < ActiveRecord::Base
 
   attr_accessible :password, :password_confirmation, :email, :login, :language, :role_id, :user_id, :api_token, :company_name, :address, :phone, :first_name, :last_name, :name, :ext, :activation_code
   
+  validates :login, :email,
+    :uniqueness => {:case_sensitive => false}
+  
+  validates :password, :password_confirmation, :presence => true, :length => {:maximum => 255}, :on => :create
+
+  validates :login, :first_name, :last_name, :email, :phone,
+    :presence => true, :length => {:maximum => 255}
+    
+  validates :activation_code, :presence => true, :uniqueness => {:case_sensitive => false} if "role_id.to_i == 2"
+
   enum_attr :language, %w(en es)
   
   belongs_to :role

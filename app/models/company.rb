@@ -7,14 +7,19 @@ class Company < ActiveRecord::Base
 
   attr_accessor :query
 
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :uniqueness => {:case_sensitive => false}
+  validates :name, :address, :city, :zip, :phone, :presence => true, :length => {:maximum => 255}
   
   scope :search, lambda {|params|
     where(["name LIKE ?", "%#{params['name']}%"]) if params && params['name'].present?
   }
 
   def full_address
-    [self.zip, self.address, self.city].compact.join(',') rescue nil
+    [self.zip, self.address, self.city].compact.join(', ') rescue nil
+  end
+
+  def full_phone
+    self.ext.blank? ? "#{self['phone']}" : "#{self['phone']} (ext. #{self['ext']})"
   end
 
   def name_with_prefix

@@ -6,6 +6,12 @@ class Api::MilestonesController < Api::ApiController
   end
   
   def update        
+puts 'request************************************************************************'
+p request
+puts "PARAMS************************************************************************"
+p params
+puts "PARAMS END************************************************************************"
+
     attrs = {}
     attrs.merge! :action => params[:driver_action] unless params[:driver_action].blank?
     attrs.merge! :damage_desc => params[:damage] if params[:damage].present?        

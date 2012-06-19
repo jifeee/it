@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
   load_resource
   load_and_authorize_resource :except => [:get_companies]
 
-  respond_to :json
+  respond_to :json,:html,:js
 
   def show
     @company.query = params[:company][:query] if params[:company]
@@ -25,7 +25,7 @@ class CompaniesController < ApplicationController
             page.call 'notifyCreate', {:agents => 0, :admins => 0, :operators => 0, :drivers => 0}.update(@company.attributes).to_json
           else
             page.call '$("#company_submit").button','reset'
-            page.call 'notifyError', @company.errors.full_messages.first
+            page.call "$('#new_company').replaceWith", render(:template => 'companies/new')
           end          
         end
       end

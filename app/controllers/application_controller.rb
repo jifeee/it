@@ -5,7 +5,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :locale
-  helper_method :current_locale
+  helper_method :current_locale, :t
+
+  def t(*args)
+    super(*args)
+  end
  
   rescue_from CanCan::AccessDenied do
     redirect_to root_path

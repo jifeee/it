@@ -58,6 +58,7 @@ en:
   label_destination_airport: Destination / Airport Code
   label_upload_new_shipment: Upload new shipment
   label_company_name: Company name
+  label_agent_name: Agent name
   label_address: Address
   label_city: City
   label_zip: Zip
@@ -191,6 +192,7 @@ en:
 
   errors:
     messages:
+      file_was_not_found: File was not found
       expired: "has expired, please request a new one"
       not_found: "not found"
       already_confirmed: "was already confirmed, please try signing in"

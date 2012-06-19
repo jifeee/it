@@ -25,7 +25,7 @@ class AgentsController < ApplicationController
             page.call 'notifyCreate', {:companies => 0, :admins => 0, :operators => 0, :drivers => 0}.update(@agent.attributes).to_json
           else
             page.call '$("#agent_submit").button','reset'
-            page.call 'notifyError', @agent.errors.full_messages.first
+            page.call "$('#new_agent').replaceWith", render(:template => 'agents/new')
           end          
         end
       end

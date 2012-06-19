@@ -520,3 +520,7 @@ footer#dialog-footer {
 }
 #locale_panel a {padding:0 4px;}
 #locale_panel .active {background-color: #dedede;}
+
+form span.error { color: #610e0e; }
+.field_with_errors { display: inline; }
+.field_with_errors input { background-color: #ff6f6f; }

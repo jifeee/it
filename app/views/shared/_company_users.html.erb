@@ -26,7 +26,7 @@
   <% company_users.users.where(:role_id => v).map do |user| %>
     <tr>
       <td class="mark">
-        <%= check_box_tag user.id, nil, nil, :class => 'admins', :title => t(:title_check_to_remove), 
+        <%= check_box_tag user.id, nil, nil, :class => k, :title => t(:title_check_to_remove), 
           :disabled => cannot?(:update, company_users.class) || cannot?(:delete, User)  %>
       </td>
       <td class="link_bold"> <%= user.user_fullname %> </td>

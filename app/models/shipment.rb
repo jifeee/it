@@ -30,8 +30,9 @@ class Shipment < ActiveRecord::Base
   }
   
   attr_accessor :search_type, :query
-  validates :mawb, :cargo => true, :allow_blank => true
-  validates :hawb, :cargo => true, :allow_blank => true
+  
+  # validates :mawb, :cargo => true, :allow_blank => true
+  # validates :hawb, :cargo => true, :allow_blank => true
   
   before_validation do |record|
     record.mawb.gsub!(/\D/, '') if record.mawb

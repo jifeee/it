@@ -1,7 +1,7 @@
 <div id='search'>
 	<div class="simple">
 		<h4><%= t(:header_search_freight_forwarder) %></h4>
-		<%= form_for @search || Company.new, :url => companies_path, :html => {:method => :get} do |f| %>
+		<%= form_for @search || Company.new, :url => companies_path, :html => {:method => :get, :id => 'search_form'} do |f| %>
 		  <table>
 		    <tr>
   	   	    <td><%= f.text_field :name %><span class="error"></span></td>

@@ -43,6 +43,10 @@ module Instatrace
     
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
+    
+    # fieldWithErrors style
+    config.action_view.field_error_proc = Proc.new{ |html_tag, instance| %{<span class="field_with_errors" title="#{instance.error_message.first}">#{html_tag}</span>}.html_safe }
+    
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
