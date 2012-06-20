@@ -48,7 +48,7 @@ class Shipment < ActiveRecord::Base
   
   def self.api_search(cargo)
     return nil if cargo.nil?
-    return self.where("hawb = :cargo OR mawb = :cargo", {:cargo => cargo.gsub!(/\D/, '')}).first
+    return self.where("hawb = :cargo OR mawb = :cargo", {:cargo => cargo.to_i}).first
   end
   
   def damaged?
