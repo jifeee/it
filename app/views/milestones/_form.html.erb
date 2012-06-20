@@ -30,7 +30,7 @@
       <%= label_tag :public, t('milestone.form.is_public'), :class => 'control-label' %>
       <div class="controls">  
         <label class="radio inline"><%= form.radio_button :public, true -%><%= t(:yes) %></label>
-        <label class="radio inline"><%= form.radio_button :public, false -%><%= t(:no) %></label>
+        <label class="radio inline"><%= form.radio_button :public, false, :checked => true -%><%= t(:no) %></label>
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@
       <%= label_tag :damaged, t('milestone.form.is_damaged'), :class => 'control-label' %>
       <div class="controls" style="height: 28px;">  
         <label class="radio inline"><%= form.radio_button :damaged, true -%><%= t(:yes) %></label>
-        <label class="radio inline"><%= form.radio_button :damaged, false -%><%= t(:no) %></label>
+        <label class="radio inline"><%= form.radio_button :damaged, false, :checked => true -%><%= t(:no) %></label>
       </div>
     </div>
     <div class="control-group">
@@ -75,6 +75,17 @@
     $("#add_photo").tmpl({'cnt':cnt}).appendTo("#photos");
   })
 
+  function damage_status() {
+    if (
+      ($('#milestone_damage_desc').val().length > 0)
+      || ($('input[id^="milestone_damages_attributes_"]').filter(function(){return $(this).val().length > 0}).length > 0))
+      $('#milestone_damaged_true').attr('checked', true);
+    else
+      $('#milestone_damaged_false').attr('checked', true);
+  }
+
+  $('#milestone_damage_desc').keyup(function() {damage_status()});
+  $('#milestone_damage_desc, input[id^="milestone_damages_attributes_"]').change(function() {damage_status()});
 </script>
 
 <script id="add_document" type="text/x-jquery-tmpl">

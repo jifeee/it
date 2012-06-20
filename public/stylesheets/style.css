@@ -191,14 +191,13 @@ form span.error {
 .table_w.no-border > tbody > tr > td { border: 1px solid transparent; }
 table.no-border { width: 100% }
 .table_w th.mark {width: 24px !important;}
-.table_w {
-  width: 100%;
-  text-indent: 5px;
-}
+.table_w {width: 100%;}
 .table_w, .table_w th, .table_w td {
   border: 1px solid #b7b7b7;
   font-size: 13px;
   color: #010101;
+  padding: 0 5px;
+  vertical-align: top; 
 }
 .table_w td {
   /*overflow:auto;*/

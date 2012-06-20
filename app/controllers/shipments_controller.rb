@@ -17,7 +17,7 @@ class ShipmentsController < ApplicationController
      		flash[:error] = "<b>#{t('messages.upload_edi.header')}</b><p>#{parser.errors.map {|e| e[:full_message]}.join('<br />')}</p>" 
      	end
     else
-      flash[:error] = "<b>#{t('messages.upload_edi.header')}</b><p><%= t(:file_was_not_found) %></p>" 
+      flash[:error] = "<b>#{t('messages.upload_edi.header')}</b><p>#{t('errors.messages.file_was_not_found')}</p>" 
     end
   	redirect_to shipments_path
   end

@@ -16,16 +16,24 @@ class MilestonesController < ApplicationController
     
     # Fix one doc type for all documents
     milestone.milestone_documents.map {|document| document.doc_type = params[:doc_type]}
+
+    # Fix if is_damage is not checked but damage photos or damage description present - set true
+    milestone.damaged = milestone.damaged?
     
     milestone.driver_id = current_user.id if current_user.driver?
     respond_to do |format|
       if milestone.save
         Mailer.damage_notifier(milestone).deliver if current_user.driver? && milestone.damages && milestone.damages.size > 0
-        format.html { redirect_to shipment_path(shipment.id), :notice => 'messages.notice.milestone_created_ok' }  
+        format.html { redirect_to shipment_path(shipment.id), :notice => t('messages.notice.milestone_created_ok')}  
         format.js do
     			render :update do |page|
     				page.call "parent.$.fn.colorbox.close"
-            page.call 'notifyCreate', {:driver => milestone.driver.username}.update(milestone.attributes).to_json
+            response = if current_user.driver?
+              {:driver => milestone.driver.username}.update(milestone.attributes).to_json 
+            else
+               milestone.to_json 
+            end
+            page.call 'notifyCreate', response
     			end
     		end
     	else

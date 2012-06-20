@@ -81,9 +81,15 @@
       <td> <%= ms.action.try(:to_s).try(:humanize) %> </td>
       <td> <%= ms.location %></td>
       <td> <%= link_to 'link', ms.signature.signature.url, :target => "_blank" rescue nil %></td>
-      <td> <%= damages_urls(ms) %></td>
-      <td> <%= documents_urls(ms) %> </td>
-      <td valign="middle"> <%= check_box_tag :public %><%= t(:text_public) %></td>
+      <td> 
+        <% if ms.damaged? %>
+          <%= ms.damage_desc.blank? ? "Shipment is Damaged" : ms.damage_desc %> 
+          <br />
+          <%= damages_urls(ms,'image') %>
+        <% end %>
+      </td>
+      <td> <%= documents_urls(ms,'doc') %> </td>
+      <td valign="middle"> <%= check_box_tag :public, ms.public, ms.public  %><%= t(:text_public) %></td>
     </tr>  
   <% end %>
 </table>
@@ -91,7 +97,7 @@
 <script type="text/javascript">
   function notifyCreate(data){     
     var response = JSON.parse(data);
-    $("#milestone_table_template").tmpl(response).appendTo("#milestones_table");
+    $("#milestone_table_template").tmpl(response).prependTo("#milestones_table");
   }
 
   function notifyError(data) {
@@ -105,8 +111,13 @@
   <td><strong>${driver}</strong></td>
   <td>${action}</td>
   <td>${location}</td>
+  <td>${signature}</td>
   <td>${damage_desc}</td>
   <td>${doc}</td>
-  <td valign="middle"> <input id="public" name="public" type="checkbox" value="${public}"><%= t(:text_public) %></td>
+  {{if public == 1}}  
+    <td valign="middle"> <input checked="checked" id="public" name="public" type="checkbox" value="${public}"><%= t(:text_public) %></td>
+  {{else}}
+    <td valign="middle"> <input id="public" name="public" type="checkbox" value="${public}"><%= t(:text_public) %></td>
+  {{/if}}  
 </tr>
 </script>

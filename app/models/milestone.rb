@@ -14,6 +14,10 @@ class Milestone < ActiveRecord::Base
   after_save :update_shipment, :if => :completed?
   accepts_nested_attributes_for :damages, :milestone_documents
   
+  def damaged?
+    self.damaged || self.damages.size > 0 || !self.damage_desc.blank?
+  end
+
   private
   def update_shipment
     shipment.update_attribute :service_level, self.action.to_s.humanize
