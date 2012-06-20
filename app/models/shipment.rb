@@ -8,6 +8,8 @@ end
 class Shipment < ActiveRecord::Base
   include ActiveModel::Validations
   has_many :milestones
+
+  validates :hawb, :presence => true, :uniqueness => {:case_sensitive => false}
   
   scope :search, lambda {|params|
     params ||= {}
@@ -44,15 +46,9 @@ class Shipment < ActiveRecord::Base
     Rails.cache.read(:shipment_spec)
   end
   
-  def self.api_search(shipment_id, cargo_code)
-    if shipment_id.to_i > 0
-      self.where("shipment_id = ?", shipment_id).first
-    elsif cargo_code.present?
-      cargo_code.gsub!(/\D/, '')
-      self.where("hawb = :cargo OR mawb = :cargo", {:cargo => cargo_code} ).first
-    else
-      nil
-    end
+  def self.api_search(cargo)
+    return nil if cargo.nil?
+    return self.where("hawb = :cargo OR mawb = :cargo", {:cargo => cargo.gsub!(/\D/, '')}).first
   end
   
   def damaged?
