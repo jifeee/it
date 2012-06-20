@@ -6,7 +6,12 @@ $(document).ready(function() {
     url = this.href;
     $.fn.colorbox({href: url});
     return false;
-  });  
+  });
+
+  $('.popupimage').colorbox({transition:"none",photo:'true', onLoad: function(){
+    $('#cboxClose').css('top',"auto");
+    $('#cboxClose').css('bottom','1px');
+  }});
   
   $(".popup-big").colorbox({innerWidth:640, innerHeight:480, initialWidth:640, initialHeight:480, onLoad: function() {
     $('#cboxClose').remove();

@@ -13,7 +13,10 @@ module ApplicationHelper
 	def damages_urls(milestone, text = nil)
 		urls = []
 		milestone.damages.each_with_index do |damage,i| 
-        	urls << link_to("#{text}#{i+1}", damage.photo.url, :target => "_blank")
+        	urls << link_to("#{text}#{i+1}", damage.photo.url, 
+        		:class => 'popupimage', 
+        		:rel => "dmgg#{milestone.id}"
+        	)
         end if milestone.damages
         raw(urls.join(', '))
 	end
@@ -21,7 +24,14 @@ module ApplicationHelper
 	def documents_urls(milestone, text = nil)
 		urls = []
 		milestone.milestone_documents.each_with_index do |document,i| 
-        	urls << link_to("#{text}#{i+1}", document.name.url, :target => "_blank")
+			options = {}
+			if ['.jpg'].include?(File.extname(document.name.current_path))
+				options[:class] = 'popupimage'
+				options[:rel] = "docg#{milestone.id}"
+			else
+				options[:target] = '_blank'
+			end
+        	urls << link_to("#{text}#{i+1}", document.name.url, options)
         end if milestone.milestone_documents
         raw(urls.join(', '))
 	end
