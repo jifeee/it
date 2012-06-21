@@ -9,7 +9,10 @@ class Api::ShipmentsController < Api::ApiController
 protected
 
   def get_shipment
-    @shipment = Shipment.api_search(params[:shipment_id])
-    render :status => 404, :json => {:errors => "Shipment not found"}.to_json and return unless @shipment
+	shipment_id = params[:shipment_id].to_i
+	render :status => 404, :json => {:errors => "Incorect shipment number"}.to_json and return if shipment_id == 0
+
+	@shipment = Shipment.api_search(shipment_id)
+	render :status => 404, :json => {:errors => "Shipment not found"}.to_json and return unless @shipment
   end
 end

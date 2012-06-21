@@ -35,4 +35,9 @@ module ApplicationHelper
         end if milestone.milestone_documents
         raw(urls.join(', '))
 	end
+
+	def google_location_url(latitude,longitude,zoom=17)
+		"https://maps.google.com/maps?&q=loc:#{latitude},#{longitude}&z=#{zoom}"
+  	end
+
 end

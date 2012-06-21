@@ -5,6 +5,7 @@ Instatrace::Application.routes.draw do
   get "agents/show"  
   match 'language/:language' => 'application#set_locale', :as => :language
   get 'check_locale' => 'application#check_locale'
+  get 'google_static_map/:longitude/:latitude' => 'application#gmap'
   
 
   ActiveAdmin.routes(self)

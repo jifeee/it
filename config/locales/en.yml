@@ -112,6 +112,8 @@ en:
   title_check_to_remove: Check to remove
   title_modify: Modify
   title_remove: Remove
+  title_show: Show
+  title_goto_direction: goto direction
 
   confirm_are_you_sure: Are you sure?
 

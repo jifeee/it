@@ -18,7 +18,12 @@ class Milestone < ActiveRecord::Base
     self.damaged || self.damages.size > 0 || !self.damage_desc.blank?
   end
 
-  private
+  def location?
+    self.latitude && self.longitude && (self.latitude + self.longitude != 0)
+  end
+
+private
+
   def update_shipment
     shipment.update_attribute :service_level, self.action.to_s.humanize
   end

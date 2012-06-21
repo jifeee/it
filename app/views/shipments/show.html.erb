@@ -68,18 +68,23 @@
     <th><%= t(:column_update_date_and_time) %></th>
     <th><%= t(:column_updated_by) %></th>
     <th><%= t(:column_status) %></th>
-    <th><%= t(:column_location) %></th>
+    <th style="width:62px;"><%= t(:column_location) %></th>
     <th><%= t(:column_signature) %></th>
     <th><%= t(:column_damage) %></th>
     <th><%= t(:column_documents) %></th>
-    <th><%= t(:column_note) %></th>
+    <th style="width:62px;"><%= t(:column_note) %></th>
   </tr></thead>
   <% @shipment.milestones.order("updated_at DESC").each do |ms| %>
     <tr>
       <td> <%= ms.updated_at %> </td>
       <td> <strong><%= ms.driver.try(:username) %></strong> </td>
       <td> <%= ms.action.try(:to_s).try(:humanize) %> </td>
-      <td> <%= ms.location %></td>
+      <td align="center">
+        <% if ms.location? %> 
+          <%= link_to "<i class='icon-hand-right'></i>".html_safe, google_location_url(ms.latitude,ms.longitude), :title => t(:title_goto_direction), :target => :blank %>
+          <%= link_to "<i class='icon-eye-open'></i>".html_safe, '#gmap_inline', :class => 'gmap_inline', :longitude => ms.longitude, :latitude => ms.latitude, :title => t(:title_show) %>
+        <% end %>
+      </td>
       <td> <%= link_to 'link', ms.signature.signature.url, :target => "_blank" rescue nil %></td>
       <td> 
         <% if ms.damaged? %>
@@ -93,6 +98,23 @@
     </tr>  
   <% end %>
 </table>
+
+<script type="text/javascript">
+
+  $(".gmap_inline").colorbox({inline:true, width:600, height:600, onOpen: function(){
+    map($(this).attr('longitude'),$(this).attr('latitude'));
+  }});
+
+  function map(longitude,latitude) {
+    $('#gmap_inline').html('<img border="0" src="//maps.googleapis.com/maps/api/staticmap?center='+latitude+','+longitude+'&zoom=17&size=536x510&markers=color:blue%7Clabel:S%7C'+latitude+','+longitude+'&sensor=false">')
+  }
+
+</script>
+<div style='display:none'>
+  <div id='gmap_inline' style='padding:10px; background:#fff;'>
+    <img border="0" src="//maps.googleapis.com/maps/api/staticmap?center=51.477222,0&zoom=14&size=480x480&sensor=false">
+  </div>
+</div>
 
 <script type="text/javascript">
   function notifyCreate(data){     
