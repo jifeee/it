@@ -14,7 +14,15 @@ class Api::MilestonesController < Api::ApiController
     attrs.merge! :latitude => params[:lat] unless params[:lat].blank?
     attrs.merge! :longitude => params[:lon] unless params[:lon].blank?
     
-    @milestone.damages.create(:photo => params[:photo]) if params[:photo].present?
+    if params[:photo].present? && params[:photo].class == Array
+      params[:photo].map do |photo|
+        encoded_img = photo.sub('data:image/png;base64,', '')
+        io = FilelessIO.new(Base64.decode64(encoded_img))
+        io.original_filename = "damage_#{@milestone.shipment.hawb}.jpg"
+        @milestone.damages.create(:photo => io)        
+      end
+    end
+
     @milestone.milestone_documents.create(:name => params[:document], :doc_type => params[:type]) if params[:document].present?
     
     if @milestone.update_attributes attrs
