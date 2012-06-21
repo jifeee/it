@@ -65,7 +65,10 @@ class Shipment < ActiveRecord::Base
       :weight => weight,
       :pick_up => origin,
       :destination => destination,
-      :damaged => damaged? }
+      :damaged => damaged?,
+      :hawb => hawb,
+      :mawb => hawb
+    }
   end
 
 end
