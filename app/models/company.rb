@@ -39,7 +39,8 @@ class Company < ActiveRecord::Base
   end
 
   def allowed?
-    User::current.owner.id == self.id.to_i
+    return false if User::current.nil?
+    User::current.sa? || (User::current.owner.id == self.id.to_i)
   end
 
 
