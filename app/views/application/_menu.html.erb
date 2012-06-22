@@ -21,7 +21,7 @@
     <% end %>
   
     <% if current_user && (current_user.sa? || (can?(:read, Agent) && current_user.belongs_to_agent?)) %>
-      <% if current_user.belongs_to_company? %>
+      <% if current_user.belongs_to_agent? %>
         <%= link_to t(:menu_agents), agent_path(current_user.owner), :class => (controller_name == "agents" ? "active" : "") %>
       <% else %>
         <%= link_to t(:menu_agents), agents_path, :class => (controller_name == "agents" ? "active" : "") %>
