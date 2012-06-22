@@ -8,7 +8,9 @@ class ShipmentsController < ApplicationController
   end
 
   def show
-    redirect_to shipments_path unless !current_user.sa? && Shipment::allowed_shipments.include?(params[:id].to_i)
+    unless current_user && current_user.sa?
+      redirect_to shipments_path if (current_user && !Shipment::allowed_shipments.include?(params[:id].to_i))
+    end
   end
 
   def upload_edi
