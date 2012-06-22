@@ -7,6 +7,10 @@ class ShipmentsController < ApplicationController
     @search = Shipment.new(params[:shipment]) 
   end
 
+  def show
+    redirect_to shipments_path unless Shipment::allowed_shipments.include?(params[:id].to_i)
+  end
+
   def upload_edi
    	upload = params[:file_edi]
     if upload

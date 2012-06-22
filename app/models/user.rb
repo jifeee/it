@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   validates :login, :first_name, :last_name, :email, :phone,
     :presence => true, :length => {:maximum => 255}
     
-  validates :activation_code, :presence => true, :uniqueness => {:case_sensitive => false} if "role_id.to_i == 2"
+  validates :activation_code, :presence => true, :uniqueness => {:case_sensitive => false}, :if => :driver?
 
   enum_attr :language, %w(en es)
   
@@ -25,10 +25,13 @@ class User < ActiveRecord::Base
   
   has_many :milestones, :foreign_key => :driver_id
   Role::ROLES.each do |role|
-    delegate :"#{role}?", :to => :role, :allow_nil => true
+    delegate :"#{role.downcase}?", :to => :role, :allow_nil => true
   end
 
   has_many :user_relations
+
+  scope :free_admins, :include => [:user_relations], :conditions => 'user_relations.owner_id is null and users.role_id = 4'
+  # scope :files_without_document, :include => [:document_files], :conditions => 'filelists.id is null'
 
   scope :freight_forwarders, proc{ where(:role_id => Role.where(:name => "freight_forwarder".humanize).first) }
   scope :drivers, proc{ where(:role_id => Role.where(:name => "driver".humanize).first) }
@@ -50,7 +53,7 @@ class User < ActiveRecord::Base
   end
   
   def manager?
-    admin? || freight_forwarder?
+    sa? || admin?
   end
   
   def generate_token!
@@ -67,6 +70,18 @@ class User < ActiveRecord::Base
 
   def self.current
     Thread.current[:current_user]
+  end
+
+  def owner
+    self.user_relations.first.owner
+  end
+
+  def belongs_to_company?
+    self.user_relations.first.owner.class == Company rescue nil
+  end
+
+  def belongs_to_agent?
+    self.user_relations.first.owner.class == Agent rescue nil
   end
 
 end

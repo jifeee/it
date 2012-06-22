@@ -12,7 +12,7 @@
   <div class="menu">
     <%= link_to "Shipment", root_path, :class => (controller_name == "shipments" ? "active" : "") %>
     <% if user_signed_in? %>
-      <%= link_to "Freight Forwarders", :class => (current_page?(root_path) ? "active" : ""), companies_path if current_user.admin? %>
+      <%= link_to "Freight Forwarders", :class => (current_page?(root_path) ? "active" : ""), companies_path if current_user.sa %>
       <%= link_to "Settings", edit_user_registration_path, :class => (current_page?(edit_user_registration_path) ? "active" : "")%>
     <% end %>
   </div>

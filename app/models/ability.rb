@@ -10,7 +10,7 @@ class Ability
       #  Define current User for access from models
       User.current = user
 
-      if user.admin?
+      if user.sa?
         can :manage, :all
         
       elsif user.role

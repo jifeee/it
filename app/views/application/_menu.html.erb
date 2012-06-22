@@ -11,8 +11,23 @@
   <div class="clearfix"></div>
   <div class="menu">
     <%= link_to t(:menu_shipment), root_path, :class => (controller_name == "shipments" ? "active" : ""), :style => 'margin-left:0;' if can?(:read, Shipment) %>
-    <%= link_to t(:menu_freight_forwarders), companies_path, :class => (controller_name == "companies" ? "active" : "") if can?(:read, Company) %>
-    <%= link_to t(:menu_agents), agents_path, :class => (controller_name == "agents" ? "active" : "") if can?(:read, Agent) %>    
+  
+    <% if current_user && (current_user.sa? || (can?(:read, Company) && current_user.belongs_to_company?)) %>
+      <% if current_user.belongs_to_company? %>
+        <%= link_to t(:menu_freight_forwarders), company_path(current_user.owner), :class => (controller_name == "companies" ? "active" : "") %>
+      <% else %>
+        <%= link_to t(:menu_freight_forwarders), companies_path, :class => (controller_name == "companies" ? "active" : "") %>
+      <% end %>
+    <% end %>
+  
+    <% if current_user && (current_user.sa? || (can?(:read, Agent) && current_user.belongs_to_agent?)) %>
+      <% if current_user.belongs_to_company? %>
+        <%= link_to t(:menu_agents), agent_path(current_user.owner), :class => (controller_name == "agents" ? "active" : "") %>
+      <% else %>
+        <%= link_to t(:menu_agents), agents_path, :class => (controller_name == "agents" ? "active" : "") %>
+      <% end %>
+    <% end %>
+
     <%= link_to t(:menu_settings), edit_user_registration_path, :class => (current_page?(edit_user_registration_path) ? "active" : "") if user_signed_in? %>
   </div>
 </header>

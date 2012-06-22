@@ -1,7 +1,7 @@
 ActiveAdmin.register Role do
   actions :index, :show, :edit, :update
   
-  menu :if => proc{ current_user.admin? }
+  menu :if => proc{ current_user.sa? }
   controller.authorize_resource
   
   # table for index action
@@ -9,7 +9,7 @@ ActiveAdmin.register Role do
     column :name
     column "Permissions" do |role|
       div :for => role do      
-        (role.admin? ? Permission.possible_permissions : role.permissions).group_by(&:subject_class).each do |group|
+        (role.sa? ? Permission.possible_permissions : role.permissions).group_by(&:subject_class).each do |group|
           b group.first.pluralize + ": "
           span group.last.map(&:action).join ', '
           br

@@ -1,22 +1,27 @@
 <%= semantic_form_for [:admin, @user] do |f| %>
+  <%#= f.object.errors.full_messages %>  
   <%= f.inputs "User Details" do %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
     <%= f.input :email %>
     <%#= f.input :company_name %>
     <%= f.input :address %>
     <%= f.input :phone %>
     <%= f.input :login %>
+    <%= f.input :activation_code %>
     <% if f.object.new_record? %>
       <%= f.input :password %>
       <%= f.input :password_confirmation %>
     <% end %>
     <%= f.input :language, :as => :select, :collection => f.object.enums(:language), :include_blank => false %>
-    <% if current_user.admin? %>
+    <% if current_user.sa? %>
       <%= f.input :role, :include_blank => false %>
       <%#= f.input :forwarder, :as => :select, :collection => User.freight_forwarders, :label => "Company" %>
     <% else %>
       <%= f.input :role, :collection => Role.dependant, :include_blank => false %>
       <%= f.input :user_id, :as => :hidden, :input_html => {:value => current_user.id} %>
     <% end %>
+
   <% end %>
   <%= f.buttons %>
 <% end %>

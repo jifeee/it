@@ -28,6 +28,11 @@ class Shipment < ActiveRecord::Base
         chain = chain.where(arg => params[arg]) if params[arg].present?
       end
     end
+
+    if User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
+      chain = chain.where(:id => allowed_shipments)
+    end
+
     chain
   }
   
@@ -39,6 +44,13 @@ class Shipment < ActiveRecord::Base
   before_validation do |record|
     record.mawb.gsub!(/\D/, '') if record.mawb
     record.hawb.gsub!(/\D/, '') if record.hawb
+  end
+
+  def self.allowed_shipments
+    driver_ids = User::current.owner.users.drivers.all.map(&:id) rescue nil
+    shipment_ids = Milestone.where(:driver_id => driver_ids).all.map(&:shipment_id) rescue nil
+    shipment_ids = shipment_ids.compact.uniq rescue nil
+    return shipment_ids
   end
   
   def self.data

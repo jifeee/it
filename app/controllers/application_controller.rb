@@ -49,6 +49,7 @@ class ApplicationController < ActionController::Base
   def current_locale
     return params[:locale] if params[:locale]
     return cookies["language"] unless cookies["language"].nil?
+    return current_user.language
     return extract_locale_from_accept_language_header || i18n.default_locale
   rescue 
     I18n.default_locale || 'en'
@@ -65,7 +66,7 @@ class ApplicationController < ActionController::Base
   
   # path for redirection after user sign_in, depending on user role
   def after_sign_in_path_for(user)
-  	user.admin? ? admin_dashboard_path : root_path
+  	user.sa? ? admin_dashboard_path : root_path
   end
 end
 

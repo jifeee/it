@@ -37,7 +37,7 @@ Instatrace::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { :host => 'localhost' }
+  config.action_mailer.default_url_options = { :host => 'instatrace.mobilezapp.de' }
   config.action_mailer.delivery_method = :sendmail
 
   # Enable threaded mode

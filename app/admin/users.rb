@@ -5,7 +5,7 @@ ActiveAdmin.register User do
   controller.authorize_resource
   controller do
     def scoped_collection
-      current_user.admin? ? User.scoped : current_user.users
+      current_user.sa? ? User.scoped : current_user.users
     end
   end
   
@@ -44,18 +44,18 @@ ActiveAdmin.register User do
   # tabs to group users by roles
   scope :all, :default => true
   
-  scope :admins do 
-    current_user.admin? ? Role.admin.first.users : current_user.users.where(:role_id => Role.admin.first.id)
+  scope :sas do 
+    current_user.sa? ? Role.sa.first.users : current_user.users.where(:role_id => Role.admin.first.id)
   end
-  scope(:freight_forwarders) do
-    current_user.admin? ? Role.freight_forwarder.first.users : current_user.users.where(:role_id => Role.freight_forwarder.first.id)
+  scope(:admins) do
+    current_user.sa? ? Role.admin.first.users : current_user.users.where(:role_id => Role.freight_forwarder.first.id)
   end
   
   scope(:drivers) do
-    current_user.admin? ? Role.driver.first.users : current_user.users.where(:role_id => Role.driver.first.id)
+    current_user.sa? ? Role.driver.first.users : current_user.users.where(:role_id => Role.driver.first.id)
   end
   scope(:operators) do
-    current_user.admin? ? Role.operator.first.users : current_user.users.where(:role_id => Role.operator.first.id)
+    current_user.sa? ? Role.operator.first.users : current_user.users.where(:role_id => Role.operator.first.id)
   end
 end
 

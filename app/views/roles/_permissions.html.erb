@@ -1,4 +1,4 @@
-<% permissions = @role.admin? ? Permission.possible_permissions : @role.permissions %>
+<% permissions = @role.sa? ? Permission.possible_permissions : @role.permissions %>
 
 <% permissions.group_by(&:subject_class).each do |group| %>
   <h3><%= group.first.pluralize %></h3>

@@ -7,6 +7,7 @@ class CompaniesController < ApplicationController
   respond_to :json,:html,:js
 
   def show
+    redirect_to company_path(current_user.owner) unless @company.allowed?
     @company.query = params[:company][:query] if params[:company]
   end
 

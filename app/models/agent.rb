@@ -39,5 +39,9 @@ class Agent < ActiveRecord::Base
   	def alias
     	I18n::t(:header_freight_agent)
   	end
+
+  	def allowed?
+    	User::current.owner.id == self.id.to_i
+  	end
   		
 end

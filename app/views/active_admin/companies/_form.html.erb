@@ -1,0 +1,20 @@
+<%= semantic_form_for [:admin, @company] do |f| %>
+  <%#= f.object.errors.full_messages %>  
+  <%= f.inputs "Freight Forwarders Details" do %>
+    <%= f.input :name %>
+    <%= f.input :address %>
+    <%= f.input :city %>
+    <%= f.input :phone %>
+    <%= f.input :ext %>
+    <%= f.input :zip %>
+  <% end %>
+
+  <%= f.inputs "This is company does not have any Admin, please assign" do %>
+    <li class="string required" id="company_zip_input">
+      <%= label_tag :user, 'Not assigned admins' %>
+      <%= collection_select(:user, :user_id, User.free_admins, :id, :email, :prompt => true) %>
+    </li>
+  <% end if f.object.user_relations.size == 0 || f.object.new_record? %>
+
+  <%= f.buttons %>
+<% end %>

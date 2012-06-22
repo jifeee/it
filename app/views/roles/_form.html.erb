@@ -6,7 +6,7 @@
         <% group.last.sort_by{|p| p.action.to_s}.each_with_index do |perm, i| %>
           <% if (i%5) == 0 %><tr><% end %>
             <td width="100">
-              <%= check_box_tag "role[permission_ids][]", perm.id, @role.admin? || @role.permission_ids.include?(perm.id), :id => "role_"+dom_id(perm), :style => "display: inline;", :disabled => @role.admin? %>
+              <%= check_box_tag "role[permission_ids][]", perm.id, @role.sa? || @role.permission_ids.include?(perm.id), :id => "role_"+dom_id(perm), :style => "display: inline;", :disabled => @role.sa? %>
               <%= f.label dom_id(perm), perm.action.to_s, :style => "display: inline; margin-left:5px;" %>
             </td>
           <%= ('<td width="100"></td>' * (3 - i%5)).html_safe if perm == group.last.max_by{|p| p.action.to_s} %>
@@ -17,5 +17,5 @@
     <% end %>
 
   <% end %>
-  <%= f.buttons :commit unless @role.admin? %>
+  <%= f.buttons :commit unless @role.sa? %>
 <% end %>
