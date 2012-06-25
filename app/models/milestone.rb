@@ -22,6 +22,13 @@ class Milestone < ActiveRecord::Base
     self.latitude && self.longitude && (self.latitude + self.longitude != 0)
   end
 
+  def as_json(options = nil)
+    hash = serializable_hash(options)
+    hash[:created_at] = self.created_at.to_s
+    hash[:updated_at] = self.updated_at.to_s
+    hash
+  end
+
 private
 
   def update_shipment

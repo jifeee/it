@@ -32,7 +32,7 @@ class MilestonesController < ApplicationController
               {:driver => milestone.driver.username}.update(milestone.attributes).to_json 
             else
                milestone.to_json 
-            end
+            end            
             page.call 'notifyCreate', response
     			end
     		end
