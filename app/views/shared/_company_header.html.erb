@@ -35,7 +35,7 @@
     <td>
       <span class="employees btn"><a href="#drivers"><%= t(:button_drivers) %>: <strong><%= company_header.users.drivers.count %></strong></a></span>
       <span class="employees btn"><a href="#operators"><%= t(:button_operators) %>: <strong><%= company_header.users.operators.count %></strong></a></span>
-      <span class="employees btn"><a href="#admins"><%= t(:button_admins) %>: <strong><%= company_header.users.freight_forwarders.count %></strong></a></span>
+      <span class="employees btn"><a href="#admins"><%= t(:button_admins) %>: <strong><%= company_header.users.admins.count %></strong></a></span>
       <% if company_header.class == Agent %>
         <span class="employees btn"><a href="#company"><%= t(:button_ffs) %>: <strong><%= company_header.companies.count %></strong></a></span>
       <% else %>
@@ -44,7 +44,6 @@
     </td>
   </tr>
 </table>
-
 <div class="company">
   <div class="row_info">
     <div class="row">
@@ -62,3 +61,11 @@
   </div>
 </div>
 <br clear=all />
+<script type="text/javascript">
+function updateUsersStatus() {
+  $.each(["admins", "operators", "drivers"], function(i,x) {
+    $('a[href="#'+x+'"] strong').html($('#'+x+'_table input').length-1);  
+  });
+  $('a[href="#company"] strong').html($('#companies_table input').length-1);  
+};
+</script>

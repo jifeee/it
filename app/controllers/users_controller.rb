@@ -100,7 +100,7 @@ protected
   end
 
   def retrieve_users
-  	params[:role] = 'freight_forwarders' unless Role::ROLES.include? params[:role].try(:singularize)
+  	params[:role] = 'admin' unless Role::ROLES.include? params[:role].try(:singularize)
     @users = User.send(params[:role]).page(params[:page]).per(20)
   end
 

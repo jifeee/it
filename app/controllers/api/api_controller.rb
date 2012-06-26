@@ -7,17 +7,18 @@ class Api::ApiController < ApplicationController
       user.generate_token!
       render :json => {:token => user.api_token}.to_json
     else
-      render :status => 403, :json => { :errors => "Not Authorized" }.to_json and return
+      render :status => 402, :json => {:errors => "Invalid activation code"}.to_json and return
     end
   end
   
   protected
+
   def get_session
     @user = User.find_by_api_token params[:token] unless params[:token].blank?
     if @user
       sign_in :user, @user
     else
-      render :status => 403, :json => { :errors => "Not Authorized" } and return
+      render :status => 401, :json => { :errors => "Invalid token" } and return
     end
   end
 end

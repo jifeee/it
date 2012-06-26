@@ -33,10 +33,11 @@ class User < ActiveRecord::Base
   scope :free_admins, :include => [:user_relations], :conditions => 'user_relations.owner_id is null and users.role_id = 4'
   # scope :files_without_document, :include => [:document_files], :conditions => 'filelists.id is null'
 
-  scope :freight_forwarders, proc{ where(:role_id => Role.where(:name => "freight_forwarder".humanize).first) }
-  scope :drivers, proc{ where(:role_id => Role.where(:name => "driver".humanize).first) }
+  scope :sas, proc{ where(:role_id => Role.where(:name => "sa".humanize).first) }
   scope :admins, proc{ where(:role_id => Role.where(:name => "admin".humanize).first) }
   scope :operators, proc{ where(:role_id => Role.where(:name => "operator".humanize).first) }
+  scope :drivers, proc{ where(:role_id => Role.where(:name => "driver".humanize).first) }
+  
   scope :search, lambda {|param|
     where(["email LIKE ? OR login LIKE ? OR first_name LIKE ? OR LAST_NAME LIKE ?", *(["%#{param}%"] * 4)]) if param.present?
   }

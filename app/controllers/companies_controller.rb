@@ -42,7 +42,7 @@ class CompaniesController < ApplicationController
             page.call "parent.$.fn.colorbox.close"
             page.call 'notifyUpdate', {
               :agents => @company.agents.count,
-              :admins => @company.users.freight_forwarders.count,
+              :admins => @company.users.admins.count,
               :operators => @company.users.operators.count, 
               :drivers => @company.users.drivers.count}.update(@company.attributes).to_json
           else
@@ -63,7 +63,7 @@ class CompaniesController < ApplicationController
   def unlink
     @company.company_relations.find_by_agent_id(params[:agent_id]).destroy
     respond_with(@company) do |format|
-      format.json do
+      format.js do
         render :update do |page|
           page.call 'notifyUnlinkAgent', params[:agent_id]
         end
@@ -89,7 +89,7 @@ class CompaniesController < ApplicationController
           unless @company.errors.any?
             new_agents = new_agents.map {|a| {:ffs => a.companies.count,
               :company_id => @company.id,
-              :admins => a.users.freight_forwarders.count,
+              :admins => a.users.admins.count,
               :operators => a.users.operators.count,
               :drivers => a.users.drivers.count
              }.update(a.attributes)}

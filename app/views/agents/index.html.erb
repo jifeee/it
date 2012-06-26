@@ -44,7 +44,7 @@
         <td class="address"> <%= agent.address %> </td>
         <td class="phone"> <%= agent.phone %> </td>
         <td class="count link_bold"> <%= agent.companies.count %> </td>
-        <td class="count"> <%= link_to agent.users.freight_forwarders.count, agent_path(agent, :anchor => "admins"), :class => 'link_bold' %> </td>
+        <td class="count"> <%= link_to agent.users.admins.count, agent_path(agent, :anchor => "admins"), :class => 'link_bold' %> </td>
         <td class="count"> <%= link_to agent.users.operators.count, agent_path(agent, :anchor => "operators"), :class => 'link_bold' %> </td>
         <td class="count"> <%= link_to agent.users.drivers.count, agent_path(agent, :anchor => "drivers"), :class => 'link_bold' %> </td>        
         <td> <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_agent_path(agent), :remote => true, :title => t(:title_modify), :class => 'popup' if can?(:update, Agent) %> </td>

@@ -45,7 +45,7 @@
         <td class="address"> <%= cmp.address %> </td>
         <td class="phone"> <%= cmp.phone %> </td>
         <td class="count link_bold"> <%= cmp.agents.count %> </td>
-        <td class="count"> <%= link_to cmp.users.freight_forwarders.count, company_path(cmp, :anchor => "admins"), :class => 'link_bold' %> </td>
+        <td class="count"> <%= link_to cmp.users.admins.count, company_path(cmp, :anchor => "admins"), :class => 'link_bold' %> </td>
         <td class="count link_bold"> <%= link_to cmp.users.operators.count, company_path(cmp, :anchor => "operators"), :class => 'link_bold'  %> </td>
         <td class="count link_bold"> <%= link_to cmp.users.drivers.count, company_path(cmp, :anchor => "drivers"), :class => 'link_bold'  %> </td>
         <td><%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_company_path(cmp), :class => 'popup', :remote => true, :title => t(:title_modify) if can?(:update, Company) %></td>

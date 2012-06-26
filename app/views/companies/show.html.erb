@@ -6,26 +6,30 @@
   function notifyJoinAgents(data) {
     var response = JSON.parse(data);
     $.each(response, function(i, agent) {
-      $("#agent_table_template").tmpl(agent).appendTo("#agents_table");
+      $("#agent_table_template").tmpl(agent).appendTo("#companies_table");
     });
+    updateUsersStatus();
   }
   function notifyJoinAgentsError(data) {
     alert(data);
   }
   function notifyUnlinkAgent(data) {
-    $('#agent_id_row'+data).fadeOut();
+    $('#agent_id_row'+data).remove();
+    updateUsersStatus();
   }
 
   function notifyUserCreate(data) {
     var response = JSON.parse(data);
     var roles = {"4": "admins","3": "operators","2": "drivers"};
       $("#user_table_template").tmpl(response).appendTo('#'+roles[response.role_id]+'_table');
+    updateUsersStatus();
   }
 
   function notifyUserUpdate(data) {
     var response = JSON.parse(data);
     var roles = {"4": "admins","3": "operators","2": "drivers"};
     $("#user_table_template").tmpl(response).replaceAll($('.'+roles[response.role_id]+'#'+response.id).closest('tr'));
+    updateUsersStatus();
   }
 
   function notifyError(data) {

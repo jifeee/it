@@ -33,6 +33,14 @@ class Api::MilestonesController < Api::ApiController
   rescue => e
     render :status => 400, :json => { :errors => e.message }
   end
+
+  def cancel
+    if @milestone.destroy
+      render :nothing => true
+    else
+      render :status => 400, :json => { :errors => @milestone.errors.full_messages }
+    end    
+  end
   
   def complete
     if @milestone.update_attributes :completed => true

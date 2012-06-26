@@ -8,6 +8,7 @@
     $.each(response, function(i, company) {
       $("#company_table_template").tmpl(company).appendTo("#companies_table");
     });
+    updateUsersStatus();
   };
 
   function notifyJoinCompaniesError(data) {
@@ -15,19 +16,22 @@
   };
 
   function notifyUnlinkCompany(data) {
-    $('#company_id_row'+data).fadeOut();
+    $('#company_id_row'+data).remove();
+    updateUsersStatus();
   };
 
   function notifyUserCreate(data) {
     var response = JSON.parse(data);
     var roles = {"4": "admins","3": "operators","2": "drivers"};
       $("#user_table_template").tmpl(response).appendTo('#'+roles[response.role_id]+'_table');
+    updateUsersStatus();
   }
 
   function notifyUserUpdate(data) {
     var response = JSON.parse(data);
     var roles = {"4": "admins","3": "operators","2": "drivers"};
     $("#user_table_template").tmpl(response).replaceAll($('.'+roles[response.role_id]+'#'+response.id).closest('tr'));
+    updateUsersStatus();
   }
 
   function notifyError(data) {

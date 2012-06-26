@@ -50,9 +50,7 @@ $(document).ready(function() {
         return false;
       } else {
         check = val[val.length-1];
-        alert(check);
         val = val.substring(val.length-8, 7);
-        alert(val);
       }        
     });
   })
