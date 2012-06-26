@@ -3,6 +3,8 @@ class ShipmentsController < ApplicationController
   load_and_authorize_resource
   
   def index
+    @hawbs = Shipment.all.map &:hawb
+    
     @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
     @search = Shipment.new(params[:shipment]) 
   end

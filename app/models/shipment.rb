@@ -14,24 +14,32 @@ class Shipment < ActiveRecord::Base
   scope :search, lambda {|params|
     params ||= {}
     chain = self.scoped
-    if params['service_level'].present?
+    is_search = false
+    
+    #  Scope for simple search    
+    if is_search = params['query'].present? && !params['search_type'].blank?
+      chain = chain.where(params['search_type'] => params['query']) 
+    end
+    #  Scope for advanced search
+    if params['service_level'].present?    
+      is_search = true
       if params['service_level'] == 'open'
         chain = chain.where(:service_level != 'delivered')
       else
         chain = chain.where(:service_level => params['service_level'])
       end
-    end
-    if params['query'].present? && !params['search_type'].blank?
-      chain = chain.where(params['search_type'] => params['query'])
-    else
       %w[hawb mawb origin destination consignee shipper].each do |arg|
         chain = chain.where(arg => params[arg]) if params[arg].present?
-      end
+      end    
     end
 
+    #  For signed users
     if User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
       chain = chain.where(:id => allowed_shipments)
     end
+
+    #  For unsigned users
+    chain = chain.where('0=8') if User::current.nil? && !is_search
 
     chain
   }

@@ -23,7 +23,7 @@ class Ability
           end
         end
       end      
-      can :read, Shipment
+      # can :read, Shipment
     end    
     can :read, Shipment
   end

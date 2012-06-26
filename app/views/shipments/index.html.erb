@@ -106,6 +106,13 @@
 <% else %>
   <%= t(:text_no_shipments_found) %>
 <% end %>
+<br />
+<br />
+<br />
+<pre>
+  <strong>List of all HAWBs for test only. (for HAWB search type)</strong>
+  <%= @hawbs.join(', ') %>
+</pre>
 <% if can? :create, Shipment %>
   <hr>
   <div class="well">
