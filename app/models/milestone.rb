@@ -1,6 +1,6 @@
 class Milestone < ActiveRecord::Base
-  has_many :damages
-  has_many :milestone_documents
+  has_many :damages, :dependent => :destroy
+  has_many :milestone_documents, :dependent => :destroy
   
   has_one :signature
   belongs_to :shipment

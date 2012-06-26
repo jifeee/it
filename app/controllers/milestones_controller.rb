@@ -5,6 +5,13 @@ class MilestonesController < ApplicationController
 
   respond_to :html, :json
 
+  # def destroy
+  #   shipment = Shipment.find(params[:shipment_id])
+  #   m = Milestone.find(params[:id])    
+  #   m.destroy
+  #   redirect_to shipment_path(shipment)
+  # end
+
   def new
   	shipment = Shipment.find(params[:shipment_id])  	
   	@milestone = shipment.milestones.new

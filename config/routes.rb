@@ -76,6 +76,7 @@ Instatrace::Application.routes.draw do
     post '/shipment/signature' => "signatures#create"
     post '/shipment/doc' => "milestones#update" 
     post '/shipment/complete' => "milestones#complete"
+    post '/shipment/cancel' => "milestones#cancel"
   end
 
    match '*path' => "shipments#index"
