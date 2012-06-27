@@ -49,16 +49,8 @@ ActiveRecord::Schema.define(:version => 20120613115447) do
     t.string   "zip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "company_type_id"
     t.string   "created_by"
     t.string   "updated_by"
-  end
-
-  create_table "company_agents", :force => true do |t|
-    t.integer  "company_id"
-    t.integer  "company_parent_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "company_relations", :force => true do |t|
@@ -66,12 +58,6 @@ ActiveRecord::Schema.define(:version => 20120613115447) do
     t.integer  "agent_id",   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "company_types", :force => true do |t|
-    t.string "name",        :null => false
-    t.string "description"
-    t.string "code",        :null => false
   end
 
   create_table "damages", :force => true do |t|
