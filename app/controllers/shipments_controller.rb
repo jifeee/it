@@ -16,7 +16,7 @@ class ShipmentsController < ApplicationController
     #   redirect_to shipments_path 
     # end
     ids = session['user_shipment_ids'].split(',')
-    redirect_to shipments_path unless ids.include?(params[:id].to_i), :notice => session['user_shipment_ids']
+    redirect_to shipments_path, :notice => session['user_shipment_ids'] unless ids.include?(params[:id].to_i)
   rescue
     redirect_to root_path
   end
