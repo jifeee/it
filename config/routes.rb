@@ -10,8 +10,9 @@ Instatrace::Application.routes.draw do
 
   ActiveAdmin.routes(self)
 
-  devise_for :users, :only => :registrations
-  devise_for :users, ActiveAdmin::Devise.config
+  devise_for :users
+  # devise_for :users, :only => :registrations
+  # devise_for :users, ActiveAdmin::Devise.config
 
   resources :shipments do
     resources :milestones
