@@ -4,8 +4,25 @@ class ShipmentsController < ApplicationController
   
   def index
     @hawbs = Shipment.all.map &:hawb
-    
-    @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
+
+    if params[:shipment]
+      @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
+    elsif current_user && (User::current.operator? || User::current.driver? || User::current.admin?)
+      @shipments = Shipment.where(:id => current_user.allowed_shipments).page(params[:page]).per(20)
+    elsif current_user && current_user.sa?
+      @shipments = Shipment.page(params[:page]).per(20)
+    elsif
+      @shipments = nil        
+    end
+    #  For signed users
+    # if User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
+    #   @shipments = @shipments.where(:id => allowed_shipments)
+    # end
+
+    #  For unsigned users
+    # chain = chain.where('0=8') if User::current.nil? && !is_search
+
+
     @search = Shipment.new(params[:shipment]) 
   end
 

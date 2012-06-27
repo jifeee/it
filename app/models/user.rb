@@ -85,5 +85,12 @@ class User < ActiveRecord::Base
     self.user_relations.first.owner.class == Agent rescue nil
   end
 
+  def allowed_shipments
+    driver_ids = self.owner.users.drivers.all.map(&:id) rescue nil
+    shipment_ids = Milestone.where(:driver_id => driver_ids).all.map(&:shipment_id) rescue nil
+    shipment_ids = shipment_ids.compact.uniq rescue nil
+    return shipment_ids
+  end
+
 end
 

@@ -105,7 +105,7 @@
   <%= paginate @shipments %>
 <% else %>
   <%= t(:text_no_shipments_found) %>
-<% end %>
+<% end if @shipments %>
 <br />
 <br />
 <br />

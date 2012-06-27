@@ -17,7 +17,8 @@ class Shipment < ActiveRecord::Base
     is_search = false
     
     #  Scope for simple search    
-    if is_search = params['query'].present? && !params['search_type'].blank?
+    if params['query'].present? && !params['search_type'].blank?
+      is_search = true
       chain = chain.where(params['search_type'] => params['query']) 
     end
     #  Scope for advanced search
@@ -34,13 +35,13 @@ class Shipment < ActiveRecord::Base
     end
 
     #  For signed users
-    if User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
-      chain = chain.where(:id => allowed_shipments)
-    end
+    # if User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
+    #   chain = chain.where(:id => allowed_shipments)
+    # end
 
     #  For unsigned users
-    chain = chain.where('0=8') if User::current.nil? && !is_search
-
+    chain = nil if User::current.nil? && !is_search
+p chain
     chain
   }
   
@@ -52,13 +53,6 @@ class Shipment < ActiveRecord::Base
   before_validation do |record|
     record.mawb.gsub!(/\D/, '') if record.mawb
     record.hawb.gsub!(/\D/, '') if record.hawb
-  end
-
-  def self.allowed_shipments
-    driver_ids = User::current.owner.users.drivers.all.map(&:id) rescue nil
-    shipment_ids = Milestone.where(:driver_id => driver_ids).all.map(&:shipment_id) rescue nil
-    shipment_ids = shipment_ids.compact.uniq rescue nil
-    return shipment_ids
   end
   
   def self.data
