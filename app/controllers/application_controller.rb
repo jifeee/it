@@ -42,6 +42,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def version
+    v = `git tag`
+  end
+
   def locale
     I18n.locale = current_locale
   end
