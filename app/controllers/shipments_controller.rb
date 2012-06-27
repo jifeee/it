@@ -3,14 +3,17 @@ class ShipmentsController < ApplicationController
   load_and_authorize_resource
   
   def index
+    session[:ids] = nil
     @hawbs = Shipment.all.map &:hawb
     @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
     @search = Shipment.new(params[:shipment])
+    session[:ids] = @shipments.all.map(&:id) if current_user.nil?
   end
 
   def show
-    unless current_user && current_user.sa?
-      redirect_to shipments_path if (current_user && !current_user.allowed_shipments.include?(params[:id].to_i))
+    if (current_user && !current_user.sa? && !current_user.allowed_shipments.include?(params[:id].to_i)) || 
+      ((current_user.nil? && session[:ids].nil?) || (current_user.nil? && !session[:ids].include?(params[:id].to_i)))
+      redirect_to shipments_path 
     end
   end
 
