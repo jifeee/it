@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_locale, :application_version
  
   rescue_from CanCan::AccessDenied do
+    flash[:notice] = 'Access denied'
     redirect_to root_path
   end
 
@@ -44,24 +45,6 @@ class ApplicationController < ActionController::Base
 
 protected
 
-
- def local_request?
-    Rails.env.development? or Rails.env.test
-  end
-
-  def rescue_action_in_public(exception)
-    case exception
-    when ::ActionController::RoutingError
-      render 'errors/404', :status => "404"
-    when DownloadDenied then render 'errors/access_denied'
-    when DownloadFileNotFound then render 'errors/filenotfound'
-    when ::ActiveRecord::StatementInvalid  then render 'errors/databaseerror', :locals => {:mes => exception.message }
-    else
-      render 'errors/unknown', :locals => {:mes => exception.message }
-    end # if Rails.env.production?
-  end
-  
-
   def application_version
     APPLICATION_VERSION || '0.0.9'
   end
@@ -85,6 +68,7 @@ protected
 
   # restrict access to admin module for non-admin users
   def authenticate_admin_user
+    flash[:notice] = 'Only for logged users'
     raise CanCan::AccessDenied unless current_user && current_user.manager?
   end
   
