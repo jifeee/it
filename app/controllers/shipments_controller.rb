@@ -6,7 +6,7 @@ class ShipmentsController < ApplicationController
     @hawbs = Shipment.all.map &:hawb
     @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
     @search = Shipment.new(params[:shipment])
-    session[:user_shipment_ids] = @shipments.all.map {|s| s.id.to_i} if current_user.nil?
+    session[:user_shipment_ids] = @shipments.all.map {|s| s.id.to_i}
   end
 
   def show
