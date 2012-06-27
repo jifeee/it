@@ -1,6 +1,5 @@
 class ShipmentsController < ApplicationController
-  load_resource
-  load_and_authorize_resource
+  load_and_authorize_resource :except => :show
   
   def index
     session[:user_shipment_ids] = nil
@@ -11,12 +10,13 @@ class ShipmentsController < ApplicationController
   end
 
   def show
-p session[:user_shipment_ids],current_user,params[:id]
-
+    @shipment = Shipment.find(params[:id])
     if (current_user && !current_user.sa? && !current_user.allowed_shipments.include?(params[:id].to_i)) || 
       ((current_user.nil? && session[:user_shipment_ids].nil?) || (current_user.nil? && !session[:user_shipment_ids].include?(params[:id].to_i)))
       redirect_to shipments_path 
     end
+  rescue
+    redirect_to root_path
   end
 
   def upload_edi

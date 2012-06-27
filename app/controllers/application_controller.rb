@@ -42,7 +42,25 @@ class ApplicationController < ActionController::Base
     @res = d.select {|a| r.include?(a.keys.first.to_s)}
   end
 
-  protected
+protected
+
+
+ def local_request?
+    Rails.env.development? or Rails.env.test
+  end
+
+  def rescue_action_in_public(exception)
+    case exception
+    when ::ActionController::RoutingError
+      render 'errors/404', :status => "404"
+    when DownloadDenied then render 'errors/access_denied'
+    when DownloadFileNotFound then render 'errors/filenotfound'
+    when ::ActiveRecord::StatementInvalid  then render 'errors/databaseerror', :locals => {:mes => exception.message }
+    else
+      render 'errors/unknown', :locals => {:mes => exception.message }
+    end # if Rails.env.production?
+  end
+  
 
   def application_version
     APPLICATION_VERSION || '0.0.9'
