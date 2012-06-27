@@ -21,11 +21,11 @@ class Shipment < ActiveRecord::Base
     #  Scope for simple search    
     if params['query'].present? && !params['search_type'].blank?
       chain = chain.where(params['search_type'] => params['query']) 
-    elsif params['service_level'].present?    
+    elsif !params['service_level'].nil?    
     #  Scope for advanced search
       if params['service_level'] == 'open'
         chain = chain.where(:service_level != 'delivered')
-      else
+      elsif params['service_level'].present?
         chain = chain.where(:service_level => params['service_level'])
       end
       %w[hawb mawb origin destination consignee shipper].each do |arg|

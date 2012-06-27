@@ -11,10 +11,11 @@ class ShipmentsController < ApplicationController
 
   def show
     @shipment = Shipment.find(params[:id])
-    if (current_user && !current_user.sa? && !current_user.allowed_shipments.include?(params[:id].to_i)) || 
-      ((current_user.nil? && session[:user_shipment_ids].nil?) || (current_user.nil? && !session[:user_shipment_ids].include?(params[:id].to_i)))
-      redirect_to shipments_path 
-    end
+    # if (current_user && !current_user.sa? && (!current_user.allowed_shipments.include?(params[:id].to_i) || !session[:user_shipment_ids].include?(params[:id].to_i))) || 
+    #   ((current_user.nil? && session[:user_shipment_ids].nil?) || (current_user.nil? && !session[:user_shipment_ids].include?(params[:id].to_i)))
+    #   redirect_to shipments_path 
+    # end
+    redirect_to shipments_path unless session[:user_shipment_ids].include?(params[:id].to_i)
   rescue
     redirect_to root_path
   end
