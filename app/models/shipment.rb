@@ -11,19 +11,18 @@ class Shipment < ActiveRecord::Base
 
   validates :hawb, :presence => true, :uniqueness => {:case_sensitive => false}
   
+
+  scope :none, where('1=2')
+
   scope :search, lambda {|params|
     params ||= {}
     chain = self.scoped
-    is_search = false
-    
+   
     #  Scope for simple search    
     if params['query'].present? && !params['search_type'].blank?
-      is_search = true
       chain = chain.where(params['search_type'] => params['query']) 
-    end
+    elsif params['service_level'].present?    
     #  Scope for advanced search
-    if params['service_level'].present?    
-      is_search = true
       if params['service_level'] == 'open'
         chain = chain.where(:service_level != 'delivered')
       else
@@ -31,17 +30,13 @@ class Shipment < ActiveRecord::Base
       end
       %w[hawb mawb origin destination consignee shipper].each do |arg|
         chain = chain.where(arg => params[arg]) if params[arg].present?
-      end    
+      end
+    elsif User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
+      chain = chain.where(:id => allowed_shipments)
+    elsif User::current.nil?
+      chain = chain.none
     end
 
-    #  For signed users
-    # if User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
-    #   chain = chain.where(:id => allowed_shipments)
-    # end
-
-    #  For unsigned users
-    chain = nil if User::current.nil? && !is_search
-p chain
     chain
   }
   

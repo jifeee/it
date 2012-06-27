@@ -63,7 +63,7 @@
 		<h4><%= t(:header_search_shipment) %></h4>
 		<%= form_for @search || Shipment.new, :url => shipments_path, :html => {:class => 'form-search', :method => :get} do |f| %>
 		  <table><tr>
-  	    <td><%= f.select :search_type, [[t(:label_hawb_number), :hawb], [t(:label_mawb_number), :mawb]], :include_blank => t(:text_prompt_search) %></td>
+  	    <td><%= f.select :search_type, [[t(:label_hawb_number), :hawb], [t(:label_mawb_number), :mawb]] %></td>
   	    <td><%= f.text_field :query, :class => :hawb %><span class="error"></span></td>
 		  	<td><%= f.submit t(:button_search), :class => "btn btn-success", :id => "simple_search" %></td>
   		</table>
@@ -104,11 +104,14 @@
   </table>
   <%= paginate @shipments %>
 <% else %>
-  <%= t(:text_no_shipments_found) %>
+  <div class="alert alert-info">
+    <%= t(:text_no_shipments_found) %>
+  </div>
 <% end if @shipments %>
 <br />
 <br />
 <br />
+<hr>
 <pre>
   <strong>List of all HAWBs for test only. (for HAWB search type)</strong>
   <%= @hawbs.join(', ') %>
