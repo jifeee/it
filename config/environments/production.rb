@@ -1,6 +1,4 @@
-require: 'rack/ssl'
 Instatrace::Application.configure do
-  config.middleware.insert_before Rack::Lock, Rack::SSL, :exclude => proc { |env| env['HTTPS'] != 'on' }
   # Settings specified here will take precedence over those in config/application.rb
 
   # The production environment is meant for finished, "live" apps.
