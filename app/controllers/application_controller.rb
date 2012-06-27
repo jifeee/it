@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :locale
-  helper_method :current_locale
+  helper_method :current_locale, :application_version
  
   rescue_from CanCan::AccessDenied do
     redirect_to root_path
@@ -42,8 +42,21 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def version
-    v = `git tag`
+  def application_version
+    fName = File.join(Rails.root,'version.info')
+    v = ""
+    unless File.exist?(fName)
+      File.open(fName,'w') do |f|
+        v = `git tag -l`
+        v = v.split("\n").last
+        f.puts(v)
+      end
+    else
+      File.open(fName,'r') do |f|
+        v = f.read
+      end
+    end
+    v
   end
 
   def locale

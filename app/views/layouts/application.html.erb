@@ -46,7 +46,7 @@
     <div class="footer">
       <div class="row-fluid">
         <div class="span6">© <%= Time.now.year %> <%= t(:copyright) %></div>
-        <div class="span6" style="text-align:right">version <%= version %> (<%= Rails.env %>)</div>
+        <div class="span6" style="text-align:right">version <%= application_version %> <%= "(#{Rails.env})" unless Rails.env.production? %></div>
       </div>
     </div>
   </body>
