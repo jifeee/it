@@ -19,7 +19,7 @@ Instatrace::Application.configure do
   # just comment this out and Rails will serve the files
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -50,4 +50,7 @@ Instatrace::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  
+  # Only use best-standards-support built into browsers
+  config.action_dispatch.best_standards_support = :builtin
 end
