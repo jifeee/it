@@ -6,7 +6,8 @@ class ShipmentsController < ApplicationController
     @hawbs = Shipment.all.map &:hawb
     @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
     @search = Shipment.new(params[:shipment])
-    session['user_shipment_ids'] = @shipments.all.map {|s| s.id.to_i}.join(',')
+    # session['user_shipment_ids'] = @shipments.all.map {|s| s.id.to_i}.join(',')
+    session['user_shipment_ids'] = @shipments.all.map &:id
   end
 
   def show
@@ -15,8 +16,7 @@ class ShipmentsController < ApplicationController
     #   ((current_user.nil? && session[:user_shipment_ids].nil?) || (current_user.nil? && !session[:user_shipment_ids].include?(params[:id].to_i)))
     #   redirect_to shipments_path 
     # end
-    ids = session['user_shipment_ids'].split(',')
-p ids    
+    ids = session['user_shipment_ids']
     redirect_to shipments_path, :notice => session['user_shipment_ids'] unless ids.include?(params[:id].to_i)
   rescue
     redirect_to root_path
