@@ -32,7 +32,7 @@ class Shipment < ActiveRecord::Base
         chain = chain.where(arg => params[arg]) if params[arg].present?
       end
     elsif User::current && (User::current.operator? || User::current.driver? || User::current.admin?)
-      chain = chain.where(:id => allowed_shipments)
+      chain = chain.where(:id => User::current.allowed_shipments)
     elsif User::current.nil?
       chain = chain.none
     end

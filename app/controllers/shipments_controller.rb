@@ -10,7 +10,7 @@ class ShipmentsController < ApplicationController
 
   def show
     unless current_user && current_user.sa?
-      redirect_to shipments_path if (current_user && !Shipment::allowed_shipments.include?(params[:id].to_i))
+      redirect_to shipments_path if (current_user && !current_user.allowed_shipments.include?(params[:id].to_i))
     end
   end
 
