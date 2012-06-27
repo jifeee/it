@@ -65,7 +65,7 @@
 <br />
 <table class="table_w bordered-table tablesorter" id="milestones_table">
   <thead><tr>
-    <th><%= t(:column_update_date_and_time) %></th>
+    <th><%= t(:column_update_date_and_time) %><br />(GMT<%= Time.zone.formatted_offset(false).gsub(/0/,'') %>)</th>
     <th><%= t(:column_updated_by) %></th>
     <th><%= t(:column_status) %></th>
     <th style="width:62px;"><%= t(:column_location) %></th>
