@@ -7,10 +7,12 @@ class ShipmentsController < ApplicationController
     @hawbs = Shipment.all.map &:hawb
     @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
     @search = Shipment.new(params[:shipment])
-    session[:ids] = @shipments.all.map(&:id) if current_user.nil?
+    session[:ids] = @shipments.all.map {|s| s.id.to_i} if current_user.nil?
   end
 
   def show
+p session[:ids],current_user,params[:id]
+
     if (current_user && !current_user.sa? && !current_user.allowed_shipments.include?(params[:id].to_i)) || 
       ((current_user.nil? && session[:ids].nil?) || (current_user.nil? && !session[:ids].include?(params[:id].to_i)))
       redirect_to shipments_path 
