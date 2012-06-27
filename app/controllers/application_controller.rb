@@ -2,6 +2,8 @@
 # module I18n; def self.t(id); '~'; end; end
 
 class ApplicationController < ActionController::Base
+  APPLICATION_VERSION = '1.0.6'
+
   protect_from_forgery
 
   before_filter :locale
@@ -43,20 +45,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def application_version
-    fName = File.join(Rails.root,'version.info')
-    v = ""
-    unless File.exist?(fName)
-      File.open(fName,'w') do |f|
-        v = `git tag -l`
-        v = v.split("\n").last
-        f.puts(v)
-      end
-    else
-      File.open(fName,'r') do |f|
-        v = f.read
-      end
-    end
-    v
+    APPLICATION_VERSION || '0.0.9'
   end
 
   def locale
