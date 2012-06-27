@@ -35,7 +35,7 @@ class AgentsController < ApplicationController
   end
 
   def update
-    respond_with(@company) do |format|
+    respond_with(@agent) do |format|
       format.js do
           render :update do |page|
             if @agent.update_attributes(params[:agent])
@@ -47,7 +47,7 @@ class AgentsController < ApplicationController
                 :drivers => @agent.users.drivers.count}.update(@agent.attributes).to_json
             else
               page.call '$("#agent_submit").button','reset'
-              page.call 'notifyError', @agent.errors.full_messages.first
+              page.call "$('#edit_agent_#{@agent.id}').replaceWith", render(:template => 'agents/edit')
             end          
           end
         end

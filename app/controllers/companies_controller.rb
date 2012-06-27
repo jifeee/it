@@ -47,7 +47,7 @@ class CompaniesController < ApplicationController
               :drivers => @company.users.drivers.count}.update(@company.attributes).to_json
           else
             page.call '$("#company_submit").button','reset'
-            page.call 'notifyError', @company.errors.full_messages.first
+            page.call "$('#edit_company_#{@company.id}').replaceWith", render(:template => 'companies/edit')
           end          
         end
       end

@@ -522,4 +522,4 @@ footer#dialog-footer {
 
 form span.error { color: #610e0e; }
 .field_with_errors { display: inline; }
-.field_with_errors input { background-color: #ff6f6f; }
+.field_with_errors input { background-color: #00FFFF; }
