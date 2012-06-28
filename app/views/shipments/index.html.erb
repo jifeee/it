@@ -76,6 +76,8 @@
 <div class="clearfix"></div>
 <br />
 
+<%= secret_key = Digest::SHA256.hexdigest('a secret key') %>
+
 <% if @shipments.any? %>
   <h3 class="table_header_h3"><%= t(:header_shipment) %></h3>
   <table class="table_w bordered-table tablesorter">
@@ -91,7 +93,9 @@
     </tr></thead>
     <% @shipments.each do |ship| %>
       <tr>
-        <td><%= link_to ship.hawb, shipment_path(ship), :class => 'link_bold' %></td>
+        <td>
+          <%= link_to ship.hawb, shipment_path(ship.hawb), :class => 'link_bold' %>
+        </td>
         <td><%= ship.ship if ship.ship %> </td> 
         <td><%= ship.delivery if ship.delivery %></td>
         <td><%= ship.current_status %></td>
