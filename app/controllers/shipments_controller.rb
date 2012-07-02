@@ -1,5 +1,5 @@
 class ShipmentsController < ApplicationController
-  # session :on
+  session :on
   # load_and_authorize_resource :except => :show
   
   def index
