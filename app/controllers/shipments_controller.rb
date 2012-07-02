@@ -6,8 +6,7 @@ class ShipmentsController < ApplicationController
     @hawbs = Shipment.all.map &:hawb
     @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
     @search = Shipment.new(params[:shipment])
-    cookies[:appversion] = "1.0.1" 
-    session['user_shipment_ids'] = [1,2,3]
+    cookies[:appversion] = application_version
   end
 
   def show
