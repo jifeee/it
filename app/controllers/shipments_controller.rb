@@ -1,12 +1,12 @@
 class ShipmentsController < ApplicationController
-  session :on
+  # session :on
   # load_and_authorize_resource :except => :show
   
   def index
     @hawbs = Shipment.all.map &:hawb
     @shipments = Shipment.search(params[:shipment]).page(params[:page]).per(20)
     @search = Shipment.new(params[:shipment])
-    cookies[:appversion] = "1.0.0" 
+    cookies[:appversion] = "1.0.1" 
     session['user_shipment_ids'] = [1,2,3]
   end
 
