@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_filter :set_current_user
   before_filter :locale
   helper_method :current_locale, :application_version
  
@@ -44,6 +45,10 @@ class ApplicationController < ActionController::Base
   end
 
 protected
+
+  def set_current_user   
+    User.current = current_user
+  end
 
   def application_version
     APPLICATION_VERSION || '0.0.9'

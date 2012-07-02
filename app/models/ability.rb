@@ -4,10 +4,11 @@ class Ability
 
   def initialize(user)
     user ||= User.new
+
     alias_action :destroy, :to => :batch_delete
 
     #  Define current User for access from models
-    if  user.new_record?
+    if user.new_record?
       User.current = nil
     else
       User.current = user
