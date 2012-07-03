@@ -11,6 +11,7 @@ class Api::SignaturesController < Api::MilestonesController
     signature.milestone = @milestone
     
     if signature.save
+      Mailer.send_milestone_signature(@milestone).deliver if @milestone.signature.email
       render :status => 200, :nothing => true
     else
       render :status => 400, :json => { :errors => signature.errors.full_messages }.to_json
