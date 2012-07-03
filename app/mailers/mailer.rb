@@ -20,6 +20,7 @@ class Mailer < ActionMailer::Base
   end
 
   def send_milestone_signature(milestone)
+    @milestone = milestone
     subject = "Milestone's signature for shipment #{milestone.shipment.hawb}" 
     mail(:to => milestone.signature.email, :subject => subject) if milestone.signature.email
   end

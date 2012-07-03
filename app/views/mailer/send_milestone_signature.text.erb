@@ -1,2 +1,15 @@
-New milestone signature for shipment ...
+You can see signature by this url: <%= @milestone.signature.signature.url %>
+
+Milestone details:
+<br /><br />
+<% @milestone.attributes.map do |s| %>
+  - <%= "#{s[0]}: #{s[1]}"  %><br />
+<% end %>
+<br /><br /><br /><br />
+Shipment details:
+<br /><br />
+<% @milestone.shipment.attributes.map do |s| %>
+  - <%= "#{s[0]}: #{s[1]}"  %><br />
+<% end %>
+
 
