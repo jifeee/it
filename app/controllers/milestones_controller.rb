@@ -31,7 +31,7 @@ class MilestonesController < ApplicationController
     respond_to do |format|
       if milestone.save
         Mailer.damage_notifier(milestone).deliver if current_user.driver? && milestone.damages && milestone.damages.size > 0
-        format.html { redirect_to shipment_path(shipment.id), :notice => t('messages.notice.milestone_created_ok')}  
+        format.html { redirect_to shipment_path(shipment.hawb), :notice => t('messages.notice.milestone_created_ok')}  
         format.js do
     			render :update do |page|
     				page.call "parent.$.fn.colorbox.close"
@@ -46,7 +46,7 @@ class MilestonesController < ApplicationController
     	else
     		format.html do
           flash[:error] = milestone.errors.full_messages.join(', ')
-          redirect_to shipment_path(shipment)
+          redirect_to shipment_path(shipment.hawb)
         end
     		format.js do
     			render :update do |page|
