@@ -1,0 +1,36 @@
+.agreement .block-text{
+    height:170px;
+}
+
+.complete-block {
+	padding-top:25px;
+}
+
+.final-block {
+	padding-top:25px;
+}
+.final-block p {
+	margin: 0 auto 20px;
+}
+.page-damage-info .field textarea {
+	height: 180px;
+}
+
+#imagebox, #imagepod {
+	padding-left:12%;
+	height:100%;
+	width:75%;
+	position:relative;
+	top:0;
+	left:0;
+}
+
+.cam-shots-second {
+	left:55%;
+}
+
+#photo-preview {
+	height:90%;
+	width:75%;
+	padding-left:12%;
+}
