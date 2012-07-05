@@ -1,7 +1,22 @@
+/**
+   Overload javascript alert
+   @param {string} message Message string 
+   @param {function} callback Callback function
+   @param {string} title Title of message
+   @param {string} buttonname Name of button
+   
+*/
 alert = function(message, callback, title, buttonname) {
 	if(!title) title = 'InstaTrace';
 	navigator.notification.alert(message,callback, title, t('ok'));
 };
+/**
+   Overload javascript confirm
+   @param {string} message Message string 
+   @param {function} callback Callback function
+   @param {string} title Title of confirm
+   @param {string} buttonLabels Name of buttons
+*/
 confirm = function(message, callback, title, buttonLabels) {
 	if(!title) title = 'InstaTrace';
 	navigator.notification.confirm(message, callback, title, t('ok')+','+t('cancel'));
@@ -23,6 +38,10 @@ var views = [
 	'page-complete',
 	'page-final'
 ];
+/**
+   Show page
+   @param {string} view Name of page.
+*/
 function show(view)
 {
 	for(var i in views) {
@@ -31,19 +50,25 @@ function show(view)
 	if(view) {
 		active_page = view;
 		$("."+view).fadeIn("fast");
-		if(view == 'page-agree') {
-            loaded();
-            prepare_agree();
-        }
-		if(view == 'page-ship-det') loaded_ship();
+		if(view == 'page-agree') load_page_agree();
+		if(view == 'page-ship-det') load_ship_det();
+		if(view == 'page-driver-act') load_actions();
         if(view == 'page-signature') {
-        	prepare_signature();
+        	load_signature();
         	resize();
         }
 		if(view == 'page-album') resize();
 	}
 }
-
+/**
+   Send request to server
+   @param {string} url Url address
+   @param {string} type Type of request (get,post)
+   @param {array} data List of parameters
+   @param {function} success (optional) Success callback
+   @param {function} fail (optional) Fail callback
+   @param {bool} async (optional) asynchronous flag
+*/
 function send_request(url, type, data, success, fail, async)
 {
 	if(async == null) async = true;
@@ -67,9 +92,12 @@ function send_request(url, type, data, success, fail, async)
         console.log("textStatus: "+ textStatus);
     });
 }
+/**
+	Check internet connection
+	@returns {boolean} status of internet connection
+*/
 function check_connection()
 {
-console.log("connection: "+ navigator.network.connection.type);
 	if(navigator.network.connection.type == 'none' || 
 	 navigator.network.connection.type == 'unknown') {
 		alert(t('error_no_internet'));
@@ -77,6 +105,9 @@ console.log("connection: "+ navigator.network.connection.type);
 	}
 	return true;
 }
+/**
+	Login driver
+*/
 function login()
 {
     var data = {
@@ -92,7 +123,9 @@ function login()
         }
     );
 }
-
+/**
+	Get shipment details
+*/
 function get_shipment_details()
 {
     var data = {
@@ -111,7 +144,10 @@ function get_shipment_details()
     );
 }
 
-
+/**
+	Fill page 'shipment details'
+	@param {object} shipment
+*/
 function fill_shipment_data(shipment){
 	$('.page-ship-det .info-block .ib-value').html(shipment.hawb);
 	$('#shipment-details-form .num_of_pieces .input-value').html(shipment.pieces);
@@ -122,10 +158,9 @@ function fill_shipment_data(shipment){
 	$('#shipment-details-form .damage #checbox').attr('checked', true);
 }
 
-$('#agree-button').click(function(){
-	show('page-profile');
-});
-
+/**
+	Submit signature 
+*/
 function signature_submit()
 {
 	if(!ValidateEmail()) return;
@@ -151,7 +186,9 @@ function signature_submit()
         }
     );
 }
-
+/**
+	Check damage checkbox and go to next page 	
+*/
 function shipment_submit()
 {
 	if(action == undefined || action == '') {
@@ -162,7 +199,9 @@ function shipment_submit()
 	else show('page-damage-info');
 	getcurentposition();
 }
-
+/**
+	Complete shipment
+*/
 function complete_submit()
 {
     uploadPhoto();
@@ -182,13 +221,9 @@ function complete_submit()
     );
 }
 
-$('#final-submit').click(function(){
-	show('page-home');
-});
-
-$('.icon-home').click(function(){
-	show('page-home');
-});
+/**
+	Prepare and show driver actions page
+*/
 function show_driver_act()
 {
 	if(action == 'pick-up') 
@@ -214,6 +249,9 @@ function show_driver_act()
 	else $('.page-driver-act .main-form #f7').attr('checked', false);
 	show('page-driver-act');
 }
+/**
+	Check driver action
+*/
 function change_driver_act()
 {
 	var title ='';
@@ -252,6 +290,9 @@ function change_driver_act()
 	$('.page-ship-det #shipment-details-form #action-select .link-more').html(title);
 	show('page-ship-det');
 }
+/**
+	Go to home page
+*/
 function go_home()
 {
 	confirm(t('confirm_go_home'), function(ch){
@@ -278,13 +319,11 @@ function go_home()
       );
 	}},t('confirm_go_home_title')); 
 }
-function check_damage()
-{
-	if($('#shipment-details-form .damage #checbox').is(':checked')) alert('false');
-	else alert('true');
-	
-}
+
 var upload_params;
+/**
+	Prepare params for upload shipment
+*/
 function prepare_params()
 {
 	var data = {
@@ -300,6 +339,9 @@ function prepare_params()
 	
 	upload_params = data;	
 }
+/**
+	Submit shipment
+*/
 function send_shipment_info()
 {
 	prepare_params();
@@ -318,18 +360,29 @@ function send_shipment_info()
       );
     }
 }
-
+/** 
+	Get current Gps coordinates
+*/
 function getcurentposition()
 {
 	navigator.geolocation.getCurrentPosition(GeoOnSuccess, GeoOnError);
 }
+/**
+	Success getting gps coordinates
+*/
 function GeoOnSuccess(position) {
 	latitude = position.coords.latitude;
 	longitude = position.coords.longitude;
 }
+/**
+	Failed getting gps coordinates
+*/
 function GeoOnError(error) {
-
+	//Do nothing
 }
+/**
+	Check and go to page "signature", if necessary 
+*/
 function check_go_signature()
 {
 	if(action == 'pick-up' || action == 'delivery') {
@@ -338,6 +391,9 @@ function check_go_signature()
 		check_go_image_pod();
 	}
 }
+/** 
+	Check and go to page "capture document photo", if necessary
+*/
 function check_go_image_pod()
 {
 	if(action == 'delivery' || action == 'tendered_to_carrier' || action == 'recovered_from_carrier') {
@@ -346,6 +402,9 @@ function check_go_image_pod()
 		show('page-complete');
 	}
 }
+/**
+	Submit document photo
+*/
 function send_pod()
 {
 	var data = {
@@ -368,11 +427,16 @@ function send_pod()
 		show('page-complete');
 	}
 }
+/**
+	Success upload document photo
+*/
 function sendpodSuccess(data) {
 	show('page-complete');
 	reset_image_pod();
 }
-
+/**
+	Prepare to start next shipment
+*/
 function next_shipment()
 {
 	show('page-home');
@@ -382,6 +446,9 @@ function next_shipment()
 	action = '';
     $('#damage_info').val('');
 }
+/**
+	Reset "Capture image box" page
+*/
 function reset_image_box() {
 	box_photos = [];
 	var image = document.getElementById('imagebox');
@@ -391,12 +458,18 @@ function reset_image_box() {
 	$('#photos-small-second img').remove();
 	$('#album_wrapper div').remove();
 }
+/**
+	Reset "Capture document" page
+*/
 function reset_image_pod() {
 	pod_photo = '';
 	var image = document.getElementById('imagepod');
 	image.src = '';
 	image.style.visibility = "hidden";
 }
+/**
+	Reset "Signature" page
+*/
 function reset_signature() {
 	api.clearCanvas();
 	$('.page-signature input#name').val('');
@@ -410,6 +483,9 @@ function uploadError(error) {
     console.log(JSON.stringify(error));
 	alert("Error upload photo.\n Please try again later.");
 }
+/**
+	Prepare photos to upload
+*/
 function clear_photos_array()
 {
 	var result = [];
@@ -419,7 +495,9 @@ function clear_photos_array()
 	}
 	box_photos = result;
 }
-
+/**
+	Upload photos to server
+*/
 function uploadPhoto() 
 {
 	clear_photos_array();	
@@ -441,13 +519,32 @@ function uploadPhoto()
         false
     );
 }
-
+/**
+	Transfer from "Damage info" page
+*/
 function damageinfo_submit()
 {
 	show('page-image-box');
 }
-
-function go_back()
+/**
+	Go back from Complete page
+*/
+function back_from_complete()
+{
+	if(action == 'delivery' || action == 'tendered_to_carrier' || action == 'recovered_from_carrier') {
+		show('page-image-doc');
+	} else {
+		if(action == 'pick-up') {
+			show('page-signature');
+		} else {
+			show('page-album');
+		}
+	}
+}
+/**
+	Go back from "Capture document" page
+*/
+function back_from_image_doc()
 {
 	if(action == 'delivery' || action == 'pick-up') {
 		show('page-signature');
@@ -474,7 +571,9 @@ function getfilesuccess(fileEntry)
 {
     fileEntry.remove(function(){}, function(){});
 }
-
+/**
+	Update album
+*/
 function update_album() 
 {
     $('#album_wrapper > div').remove();
@@ -502,17 +601,27 @@ function update_album()
 		album.appendChild(div);
     }
 }
+/**
+	Submit album
+*/
 function album_submit()
 {
     check_go_signature();
 }
-
+/**
+	@function
+	Show preview photo page
+*/
 $('.photo_in_album').live('click', function(){
 	var image = document.getElementById('photo-preview');
 	image.src = this.src;
 	show('page-photo-preview');
 	
 });
+/**
+	@function
+	Delete a photo from album
+*/
 $('#album_wrapper .del').live('click', function(){
     var self = this;
 
@@ -525,32 +634,9 @@ $('#album_wrapper .del').live('click', function(){
     });
     console.log("photos count: "+box_photos.length);
 });
-var orientarion;
-function AccelerationSuccess(acceleration)
-{
-    console.log("x: "+acceleration.x+ " y: "+acceleration.y);
-    console.log("z: "+acceleration.z);
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext("2d");
-    if(Math.abs(acceleration.x) > Math.abs(acceleration.y) +1 && Math.abs(acceleration.z) <9) {
-        if(orientation == 'portrait' || orientation == 'undefined') {
-            orientation = 'landscape';
-        
-        } else {
-            orientation = 'landscape';
-        }
-    } else {
-        //portrait
-        if(orientation == 'undefined') {
-            orientation = 'portrait';
-        }
-        if(orientation == 'landscape') {
-            orientation = 'portrait';
-            console.log(canvas.style.width);
-        }
-    }
-}
-
+/**
+	Function is called when the body is resized
+*/
 function resize(){
 	if(active_page == 'page-signature') {
 		canvas = document.getElementById("canvas");
@@ -575,7 +661,11 @@ function resize(){
 		}
 	}
 }
-
+/**
+	Check email address
+	@param {string} email
+	@returns {boolean} status
+*/
 function echeck(str) {
 
 		var at="@"
@@ -594,7 +684,10 @@ function echeck(str) {
 
  		return true;
 	}
-
+/**
+	Validate email
+	@returns {boolean} status
+*/
 function ValidateEmail(){
 	var email = document.getElementById("email");
 	

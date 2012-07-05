@@ -1,7 +1,7 @@
 var es = {
 	back: "<span class='pointer'></span>Regresar",
 	ok: "OK",
-	cancel: "Cancel",
+	cancel: "Cancelar",
 	
 	// language texts 
 	language_title: "Seleccione Lenguaje",
@@ -64,24 +64,26 @@ var es = {
 	
 	// Completion
 	complete_title: "Completo",// (Concluido)
-	complete_descr: "Presionar ‘Completo’ para Ingresar Dellates del Envio",
+	complete_descr: "Presionar 'Completo' para Ingresar Dellates del Envio",
 	complete_submit: "Completo",// (Concluir, Ingresar)
 	
 	// Final
 	final_title: "Gracias por Ingresar Detalles de Envio!",
 	final_submit: "Siguiente Envio",
 	
-	confirm_go_home_title: "¡Advertencia! \nUsted perderá los datos y tendrá que volver a empezar de nuevo el proceso.",
+	damage_description: "Descripción del daño",
+	
+	confirm_go_home_title: "Advertencia! perderá información y tendrá que empezar el proceso otra vez",
 	confirm_go_home: "Esta Seguro que Desea Abandonar esta Pagina?",
 	error_no_photo: "Por favor, Crear una foto",
 	error_no_data: "Por favor Ingrese Información",
-	error_activation: "Código de Activación Incorrecto",
+	error_activation: "Código de Activación Incorrecto",	
 	error_shipment_id: "ID de Envio Incorrecto",
-	error_action_submit: "Por favor, hacer su elección",
-	error_complete: "Por favor, introduzca todos los datos en los pasos anteriores",
-	error_action_required: "La actuación del chofer se requiere",
-	error_no_internet: "Please check internet connection",
-	error_many_photos: "You can make only 3 photos per one time",
+	error_action_submit: "Por favor haga una selección",
+	error_complete: "Por favor ingrese toda la información en los pasos anteriores",
+	error_action_required: "Se require Intervención del conductor",
+	error_no_internet: "Por favor verifique su conexión a Internet",
+	error_many_photos: "Solo se pueden tomar 3 fotos a la vez",
     delete_confirm: "Do you really want to delete a photo?",
 	error_not_auth: "Sorry, you are not authorized, another driver is logged in under your account. Please contact with your operator and get another activation code.",
 	error_invalid_email: "Invalid email",

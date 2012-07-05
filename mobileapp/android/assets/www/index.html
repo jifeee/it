@@ -28,26 +28,35 @@
 	var latitude, longitude, api;
     var scrollAgree, scrollShip, scrollSignature,scrollPreview;
 	var watchID;
-	function loaded() {
+	function load_page_agree() {
 		if(scrollAgree == undefined)
 			scrollAgree = new iScroll("scroller");
 		else scrollAgree.refresh();
+		$('body').css({background: '#cecece'});
 	}
-	function loaded_ship() {
+	function load_ship_det() {
 		if(scrollShip == undefined)
 			scrollShip = new iScroll("shipscroll");
 		else scrollShip.refresh();
+		if(lang == 'es') {
+			$('.checkbox input[type=checkbox] + label').css({'background-image': "url(images/checkbox_es.png)"});
+		} else {
+			$('.checkbox input[type=checkbox] + label').css({'background-image': "url(images/checkbox.png)"});
+		}
 	}
-	function prepare_signature() {
+	function load_signature() {
 		$('body').css({ background: '#969696' });
 //		watchID = navigator.accelerometer.watchAcceleration(AccelerationSuccess, function(){}, {frequency:3000});		
 	}
-	function prepare_agree() {
-		$('body').css({background: '#cecece'});
+	function load_actions()
+	{
+		if(lang == 'es')
+			$('.page-driver-act #title').css({padding:'0 70px 0 85px'});
+		else $('.page-driver-act #title').css({padding:'0 70px'}); 
 	}
 
 	//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-    document.addEventListener('deviceready', function () { loaded(); }, false);
+    document.addEventListener('deviceready', function () { load_page_agree(); }, false);
 
 	function onBodyLoad()
 	{
@@ -460,7 +469,7 @@
 <!-- capture image doc -->
   <div id="container" class="page-capture page-image-doc">
     <header id="header">
-	  <a href="#" onclick="go_back();" class="button left arrow-left-red"><span class="pointer"></span>Back</a>
+	  <a href="#" onclick="back_from_image_doc();" class="button left arrow-left-red"><span class="pointer"></span>Back</a>
       <h1 id="title">Take Photo of POD</h1>
       <a href="#" onclick="send_pod();" class="button red right done-butt">Done</a>
     </header>
@@ -481,7 +490,7 @@
 <!-- complete -->
   <div id="container" class="page-complete">
     <header id="header">
-      <a href="#" onclick="go_back();" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
+      <a href="#" onclick="back_from_complete();" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
       <h1 id="title">Completion</h1>
       <a href="#" onclick="go_home();" class="button pink with-icon icon-home right"></a>
     </header>

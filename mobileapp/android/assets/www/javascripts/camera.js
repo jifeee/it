@@ -1,24 +1,17 @@
+/**
+	Success make photo of box
+*/
 function boxSuccess(imageData){
-console.log(imageData);
 	var image = document.getElementById('imagebox');
 	image.style.display = 'block';
 	image.src = "data:image/jpeg;base64,"+imageData;
     image.style.visibility = "visible";
-/*	if(box_photos.length >= 4) {
-		var smallImages_wrap = document.getElementById('photos-small-second');
-	} else {
-		var smallImages_wrap = document.getElementById('photos-small');
-	}
-	var smallimage = new Image();
-	smallimage.style.display = 'block';
-	smallimage.src = "data:image/jpeg;base64,"+imageData;
-	smallImages_wrap.appendChild(smallimage);
-*/
 	box_photos.push(imageData);
     update_album();
-    console.log(box_photos.length);
 }
-
+/**
+	Success make photo of document
+*/
 function podSuccess(imageData){
 	var image = document.getElementById('imagepod');
 	image.style.display = 'block';
@@ -26,24 +19,20 @@ function podSuccess(imageData){
     image.style.visibility = "visible";
 	pod_photo = imageData;
 }
-
+/**
+	‘allback if could not take photo
+*/
 function cameraError(message) {}
-function check_photos_count()
-{
-	if(box_photos.length > 9) {
-		alert(t('error_many_photos'));
-		return false;
-	}
-	return true;
-}
+/**
+	Calling native interface for make photo
+	@param {integer} type Type of photo (1 - Box photo, 2 - Document photo).
+*/
 function make_photo(type) {
 	if(type == 1) {
-//	  if(!check_photos_count()) return;
 	  navigator.camera.getPicture( boxSuccess, cameraError, {
 		quality: 30,
 		targetWidth:640,
 		targetHeight:480,
-//        saveToPhotoAlbum: true,
 		destinationType: navigator.camera.DestinationType.DATA_URL,
 		encodingType: navigator.camera.EncodingType.JPEG
       });
@@ -53,13 +42,14 @@ function make_photo(type) {
 		targetWidth:1024,
 		targetHeight:768,
 		quality: 30,
-//        saveToPhotoAlbum: true,
 		destinationType: navigator.camera.DestinationType.FILE_URI,
 		encodingType: navigator.camera.EncodingType.JPEG
       });
 	}
 }
-
+/**
+	Calling scan barcode plugin
+*/
 function scanbarcode()
 {
 	if(scannerrun) return;
