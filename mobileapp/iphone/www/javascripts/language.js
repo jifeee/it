@@ -1,3 +1,6 @@
+/**
+	Select language 
+*/
 function select_language()
 {
 	if(document.getElementById('lang1').value == 'on') {
@@ -16,17 +19,25 @@ function select_language()
 		show('page-agree');
 	}
 }
-
+/**
+	Get translated string for a key 
+	@param {string} key Key of string in language file
+	@returns {string} Translated string
+*/
 function t(key)
 {
 	eval('var voc = ' + lang);
 	return voc[key];
 }
-
+/**
+	Apply Language
+*/
 function apply_language()
 {
 	$("#lang-form > legend").html(t('language_title'));
 	document.getElementById('lang-submit').value = t('language_submit');
+	
+	$('#agree-button').html(t('agree_submit'));
 	
 	$("#profile-form > legend").html(t('profile_title'));
 	$("#profile-form .input_text label").html(t('profile_code'));
@@ -57,7 +68,7 @@ function apply_language()
 	$(".page-driver-act .recover_carrier label span").html(t('action_recovered_carrier'));
 	$(".page-driver-act .out_deliver label span").html(t('action_out'));
 	$(".page-driver-act .deliver label span").html(t('action_delivery'));
-	$(".page-driver-act .header .action_save").html(t('action_submit'));
+	$(".page-driver-act #header .action_save").html(t('action_submit'));
 	
 	$(".page-damage-info .buttons button").html(t('signature_submit'));
 	
@@ -65,6 +76,11 @@ function apply_language()
 	$(".page-image-box #header #title").html(t('image_box'));
 	$(".page-image-box #header .button.done-butt").html(t('image_submit'));
 
+	$(".page-album #header .button-back").html(t('back'));
+	$(".page-album #header .action_save").html(t('action_submit'));
+	
+	$('.page-photo-preview #header .button-back').html(t('back'));
+	
 	$(".page-signature #header .button-back").html(t('back'));
 	$(".page-signature #header #title").html(t('signature_title'));
 	$(".page-signature .main-form .name label").html(t('signature_name'));
@@ -82,4 +98,6 @@ function apply_language()
 	
 	$(".page-final .final-block p").html(t('final_title'));	
 	$(".page-final .final-block #final-submit").html(t('final_submit'));
+	
+	document.getElementById('damage_info').placeholder = t('damage_description');
 }

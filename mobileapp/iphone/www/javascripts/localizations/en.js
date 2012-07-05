@@ -70,6 +70,8 @@ var en = {
 	// Final
 	final_title: "Thanks for submitting shipment details!",
 	final_submit: "Next Shipment",
+
+	damage_description: "Description of damage",
 	
 	confirm_go_home_title: "Warning! \nYou will loose the data and will have to start over the process again.",
 	confirm_go_home: "Are you sure you want to navigate away from this screen?",

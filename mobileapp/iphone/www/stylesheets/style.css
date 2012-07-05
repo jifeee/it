@@ -884,7 +884,7 @@ display: none;
 }
 .page-driver-act #title {
 	font-size: 14px;
-	padding-left:25px;
+	margin:0 auto;
 	width:auto;
 }
 .sig .clearButton {

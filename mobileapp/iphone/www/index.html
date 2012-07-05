@@ -5,11 +5,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
 	<meta charset="utf-8">
 
-	<!-- iPad/iPhone specific css below, add after your main css >
-	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
-	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
-	-->
-	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
 	<link rel="stylesheet" href="stylesheets/style.css">
 	<link rel="stylesheet" media="all and (orientation:landscape)" href="stylesheets/landscape.css">
 	<script type="text/javascript" charset="utf-8" src="cordova-1.7.0.js"></script>
@@ -28,7 +23,10 @@
 	var latitude, longitude, api, isInputFocus = false;
     var scrollAgree, scrollShip, scrollSignature,scrollPreview,scrollHome,scrollActions,scrollAlbum;
 	var watchID;
-	function loaded() {
+	/**
+		Prepare agree page
+	*/
+	function load_page_agree() {
 		$('body').css({background: '#cecece'});
 		if(scrollAgree == undefined) 
 			scrollAgree = new iScroll("scroller");
@@ -37,6 +35,9 @@
 			scrollAgree = new iScroll("scroller");
 		}
 	}
+	/**
+		Prepare Shipment details page
+	*/
 	function load_ship_det() {
 		if(scrollShip == undefined)
 			scrollShip = new iScroll("shipscroll");
@@ -44,12 +45,21 @@
 			scrollShip.disable();
 			scrollShip = new iScroll("shipscroll");
 		}
+		if(lang == 'es') {
+			$('.checkbox input[type=checkbox] + label').css({'background-image': "url(images/checkbox_es.png)"});
+		} else {
+			$('.checkbox input[type=checkbox] + label').css({'background-image': "url(images/checkbox.png)"});
+		}
 	}
+	/**
+		Prepare signature page
+	*/
 	function load_signature() {
 		$('body').css({ background: '#969696' });
-		//watchID = navigator.accelerometer.watchAcceleration(AccelerationSuccess, function(){}, {frequency:3000});
 	}
-	
+	/**
+		Prepare album page
+	*/
 	function load_album()
 	{
 		if(scrollAlbum == undefined)
@@ -59,6 +69,9 @@
 			scrollAlbum = new iScroll("albumscroll");
 		}
 	}
+	/**
+		Prepare driver actions page
+	*/
 	function load_actions()
 	{
 		if(scrollActions == undefined)
@@ -67,9 +80,12 @@
 			scrollActions.disable();
 			scrollActions = new iScroll("actionsScroll");
 		}
+		if(lang == 'es')
+			$('.page-driver-act #title').css({padding:'0 70px 0 85px'});
+		else $('.page-driver-act #title').css({padding:'0 70px'}); 
 	}
-	//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-    document.addEventListener('deviceready', function () { loaded(); }, false);
+
+    document.addEventListener('deviceready', function () { load_page_agree(); }, false);
 	
 	function onBodyLoad()
 	{
@@ -483,7 +499,7 @@
 <!-- capture image doc -->
   <div id="container" class="page-capture page-image-doc">
     <header id="header">
-	  <a href="#" onclick="go_back();" class="button left arrow-left-red"><span class="pointer"></span>Back</a>
+	  <a href="#" onclick="back_from_image_doc();" class="button left arrow-left-red"><span class="pointer"></span>Back</a>
       <h1 id="title">Take Photo of POD</h1>
       <a href="#" onclick="send_pod();" class="button red right done-butt">Done</a>
     </header>
@@ -504,7 +520,7 @@
 <!-- complete -->
   <div id="container" class="page-complete">
     <header id="header">
-      <a href="#" onclick="go_back();" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
+      <a href="#" onclick="back_from_complete();" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
       <h1 id="title">Completion</h1>
       <a href="#" onclick="go_home();" class="button pink with-icon icon-home right"></a>
     </header>

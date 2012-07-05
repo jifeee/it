@@ -1,26 +1,17 @@
+/**
+	Success make photo of box
+*/
 function boxSuccess(imageData){
-console.log(imageData);
 	var image = document.getElementById('imagebox');
 	image.style.display = 'block';
 	image.src = "data:image/jpeg;base64,"+imageData;
     image.style.visibility = "visible";
-	
-/*		mini preview photos
-	if(box_photos.length >= 4) {
-		var smallImages_wrap = document.getElementById('photos-small-second');
-	} else {
-		var smallImages_wrap = document.getElementById('photos-small');
-	}
-	var smallimage = new Image();
-	smallimage.style.display = 'block';
-	smallimage.src = "data:image/jpeg;base64,"+imageData;
-	smallImages_wrap.appendChild(smallimage);
-*/
 	box_photos.push(imageData);
     update_album();
-    console.log(box_photos.length);
 }
-
+/**
+	Success make photo of document
+*/
 function podSuccess(image) {
 	var imag = document.getElementById("imagepod");
 	pod_photo = image;
@@ -28,19 +19,18 @@ function podSuccess(image) {
 	imag.src = image;
 	image = null;
 }
-
-function cameraError(message) {}
-function check_photos_count()
-{
-	if(box_photos.length > 9) {
-		alert(t('error_many_photos'));
-		return false;
-	}
-	return true;
+/**
+	Сallback if could not take photo
+*/
+function cameraError(message) {
+	//Do nothing
 }
+/**
+	Calling native interface for make photo
+	@param {integer} type Type of photo (1 - Box photo, 2 - Document photo).
+*/
 function make_photo(type) {
 	if(type == 1) {
-//	  if(!check_photos_count()) return;
 	  navigator.camera.getPicture( boxSuccess, cameraError, {
 		quality: 30,
 		targetWidth:640,
@@ -59,7 +49,9 @@ function make_photo(type) {
       });
 	}
 }
-
+/**
+	Calling scan barcode plugin
+*/
 function scanbarcode()
 {
 	if(scannerrun) return;
