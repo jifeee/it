@@ -9,7 +9,7 @@ class Milestone < ActiveRecord::Base
   enum_attr :action, %w(pick-up back_at_base en_route_to_carrier tendered_to_carrier recovered_from_carrier out_for_delivery delivery)
   
   validates :shipment_id, :driver_id, :action, :presence => {:if => :completed?}  
-  validates :latitude, :longitude, :numericality => true, :presence => {:if => :completed?}  
+  validates :latitude, :longitude, :numericality => true #, :presence => {:if => :completed?}  
 
   after_save :update_shipment, :if => :completed?
   accepts_nested_attributes_for :damages, :milestone_documents
