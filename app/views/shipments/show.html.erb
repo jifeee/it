@@ -88,11 +88,9 @@
       </td>
       <td> <%= link_to 'link', ms.signature.signature.url, :target => :blank rescue nil %></td>
       <td> 
-        <% if ms.damaged? %>
-          <%= ms.damage_desc.blank? ? "Shipment is Damaged" : ms.damage_desc %> 
-          <br />
-          <%= damages_urls(ms,'image') %>
-        <% end %>
+        <%= (ms.damaged? && ms.damage_desc.blank?) ? "Shipment is Damaged" : ms.damage_desc %> 
+        <br />
+        <%= damages_urls(ms,'image') %>
       </td>
       <td> <%= documents_urls(ms,'doc') %> </td>
       <td valign="middle"> <%= check_box_tag :public, ms.public, ms.public  %><%= t(:text_public) %></td>

@@ -15,7 +15,8 @@ class Milestone < ActiveRecord::Base
   accepts_nested_attributes_for :damages, :milestone_documents
   
   def damaged?
-    self.damaged || self.damages.size > 0 || !self.damage_desc.blank?
+    self.damaged
+    # || self.damages.size > 0 || !self.damage_desc.blank?
   end
 
   def location?
