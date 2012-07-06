@@ -46,7 +46,7 @@ class Api::MilestonesController < Api::ApiController
     if @milestone.update_attributes :completed => true
     # if @milestone.update_attributes :action => params[:driver_action], 
     #   :latitude => params[:latitude], :longitude => params[:longitude], :completed => true
-    #   render :nothing => true
+      render :nothing => true
     else
       render :status => 400, :json => { :errors => @milestone.errors.full_messages }
     end
