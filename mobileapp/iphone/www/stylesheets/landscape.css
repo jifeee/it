@@ -1,0 +1,55 @@
+.agreement .block-text{
+    height:170px;
+}
+#actionsScroll {
+	height:85%;
+}
+.page-album #album_wrapper .photo {
+	margin: 0 0 5px 10px;
+}
+.page-home .scanstart-type {
+	padding-top: 0;
+	padding-bottom: 0;
+	height:155px;
+}
+.page-home .scanstart-id {
+	padding-top:10px;
+}
+.page-home #id-shipment-value {
+	width: 75%;
+	float: left;
+}
+
+.page-home .button {
+	float:right;
+} 
+.complete-block {
+	padding-top:25px;
+}
+
+.final-block {
+	padding-top:25px;
+}
+.final-block p {
+	margin: 0 auto 20px;
+}
+#shipscroll {
+	height:250px;
+	overflow: hidden;
+}
+
+.page-damage-info .field textarea {
+	height: 180px;
+}
+#albumscroll {
+	height:250px;
+}
+.cam-shots-second {
+	left:55%;
+}
+
+#photo-preview {
+	height:90%;
+	width:75%;
+	padding-left:12%;
+}

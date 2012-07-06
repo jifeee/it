@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	<meta charset="utf-8">
+
+	<!-- iPad/iPhone specific css below, add after your main css >
+	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+	-->
+	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+	<link rel="stylesheet" href="stylesheets/style.css">
+	<link rel="stylesheet" media="all and (orientation:landscape)" href="stylesheets/landscape.css">
+	<script type="text/javascript" charset="utf-8" src="cordova-1.8.1.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/barcodescanner.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/iscroll.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/localizations/en.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/localizations/es.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/app.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/language.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/camera.js"></script>
+	<script type="text/javascript" charset="utf-8" src="javascripts/jquery.signaturepad.min.js"></script>
+	<script type="text/javascript">
+	var lang = 'en', url = 'http://instatrace.mobilezapp.de/', scannerrun = false;
+	var active_page, token, action, box_photos = [], pod_photo = '';
+	var latitude, longitude, api;
+    var scrollAgree, scrollShip, scrollSignature,scrollPreview;
+	var watchID;
+	function load_page_agree() {
+		if(scrollAgree == undefined)
+			scrollAgree = new iScroll("scroller");
+		else scrollAgree.refresh();
+		$('body').css({background: '#cecece'});
+	}
+	function load_ship_det() {
+		if(scrollShip == undefined)
+			scrollShip = new iScroll("shipscroll");
+		else scrollShip.refresh();
+		if(lang == 'es') {
+			$('.checkbox input[type=checkbox] + label').css({'background-image': "url(images/checkbox_es.png)"});
+		} else {
+			$('.checkbox input[type=checkbox] + label').css({'background-image': "url(images/checkbox.png)"});
+		}
+	}
+	function load_signature() {
+		$('body').css({ background: '#969696' });
+//		watchID = navigator.accelerometer.watchAcceleration(AccelerationSuccess, function(){}, {frequency:3000});		
+	}
+	function load_actions()
+	{
+		if(lang == 'es')
+			$('.page-driver-act #title').css({padding:'0 70px 0 85px'});
+		else $('.page-driver-act #title').css({padding:'0 70px'}); 
+	}
+
+	//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    document.addEventListener('deviceready', function () { load_page_agree(); }, false);
+
+	function onBodyLoad()
+	{
+		document.addEventListener("deviceready", onDeviceReady, false);		
+	}
+	
+	function onDeviceReady()
+	{
+		lang = window.localStorage.getItem('lang');
+		if(!lang) {
+			lang = 'en';
+			active_page = 'page-lang';
+		} else {
+			active_page = 'page-profile';
+		}
+		apply_language();
+		
+		$('.'+active_page).css({display: 'block'});
+		api = $('#sigPad').signaturePad({drawOnly : true, validateFields:false, lineTop: 120, lineMargin: 20});
+	}
+	
+    </script>
+  </head>
+  <body id="wrap" onload="onBodyLoad()" onresize="resize();">
+  <!-- select language page -->
+  <div id="container" class="page-profile page-lang">
+    <header id="header">
+      <div id="logo"><img src="images/instatrace.png" alt="InstaTrace" width="109" height="20" /></div>
+    </header>
+    <div id="main" role="main">
+      
+      <form action="#" onsubmit="return false;" class="main-form" id="lang-form">
+      
+        <legend>Select Language</legend>
+        
+        <div class="listview inset">
+          <div class="listview-item">
+            <div class="input input_radio">
+              <label for="lang1"><input type="radio" checked="checked" id="lang1" name="actions" /> <span>English</span></label>
+            </div>
+          </div>
+          <div class="listview-item">
+            <div class="input input_radio">
+              <label for="lang2"><input type="radio" id="lang2" name="actions" /> <span>Español</span></label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="buttons">
+          <input id="lang-submit" type="submit" onclick="select_language();" class="button red" value="Select" />
+        </div>
+      
+      </form>
+      
+    </div>
+  </div>
+  <!-- end select language page -->
+  <!-- Agreements page -->
+  <div id="container" class="page-content page-agree">
+    <header id="header">
+      <div id="logo"><img src="images/instatrace.png" alt="InstaTrace" width="109" height="20" /></div>
+      <a href="#" onclick="show('page-lang');" class="button pink with-icon icon-settings right"></a>
+    </header>
+    <div id="main" role="main">
+      
+      <div class="agreement">
+        <div class="block-text" id="scroller">
+          <div class="block-text_i">
+            <p>
+			This End User License Agreement (“EULA”) constitutes an Agreement between you and InstaTrace, LLC. (Indicated as “we” or “us”) for the use of the InstaTrace software application on a mobile device.  The software is a Licensed Application and associated Service being made available to you under the following conditions.  InstaTrace may change these conditions at its discretion in the future. Your continued use of the application and service is conditioned upon your acceptance of updated EULAs.
+			</p>
+			<p>
+			You agree to not use the Licensed Application in any manner that conflicts with or violates the terms of service or other agreements between you and any third-party, and it will not be used in any manner that violates federal, state, or local laws.
+			</p>
+			<p>
+			Use of the Licensed Application and Service may be conditioned upon and subject to the terms of one or more other agreements between you and us. 
+			</p>
+			<p>
+			Subject to the terms of this EULA, we hereby grant you a limited, revocable, non-exclusive license and right to use the Licensed Application for the sole purpose of accessing Services provided by us.  This license is not reassignable, not transferable, and not resalable by you.
+			</p>
+			<p>
+			Any and all intellectual property rights in the Licensed Application and Service are the exclusive property and shall remain the property of InstaTrace, LLC. You agree not to take or cause any action to jeopardize, limit or interfere with these rights. 
+			</p>
+			<p>
+			You agree to not undertake, cause, permit or authorize the modification, translation, reverse engineering, decompilation, or hacking of the Licensed Application, the Services, or any part thereof.  You agree not to intercept, capture, emulate, or redirect the communications protocols used by the Licensed Application for any purpose, including without limitation causing the Services or Licensed Application to connect to any computer server or other device not authorized by us.
+			</p>
+			<p>
+			We, in our sole discretion, reserve the right to modify features or functions, or provide program changes to the Services or Licensed Application in future versions. You acknowledge and agree that we have no obligation to make available any subsequent versions of the Licensed Application. 
+			</p>
+			<p>
+			We reserve the right to modify your use of the Service and Licensed Application at our discretion, including blocking access to the Services if we determine that your use of the Licensed Application or Service violates or has at any time violated this EULA or any other applicable agreement between you and us.
+			</p>
+			<p>
+			Upon termination of this EULA by you or by us, you (a) acknowledge and agree that all licenses and rights to use the Service and Licensed Application shall terminate, (b) will cease any and all use of the Licensed Application, and (c) will remove the Licensed Application from all mobile devices, hard drives, networks, and other storage media in your possession or under your control.
+			</p>
+			<p>
+			THE SERVICE AND LICENSED APPLICATION PROVIDED HEREUNDER IS PROVIDED “AS IS,” AND WE MAKE NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE AND ANY SIMILAR WARRANTY WHETHER SAID WARRANTY ARISES UNDER PROVISIONS OF ANY LAW OF THE UNITED STATES OR ANY STATE THEREOF. WE MAKE NO REPRESENTATIONS OR WARRANTIES THAT THE SOTWARE IS FREE OF RIGHTFUL CLAIMS OF ANY THIRD PARTY FOR INFRINGEMENT OF PROPRIETARY RIGHTS. THE ENTIRE RISK ASSOCIATED WITH THE USE OF THE SERVICES AND LICENSED APPLICATION SHALL BE BORNE SOLELY BY YOU.
+			</p>
+			<p>
+			WE MAKE NO WARRANTY THAT THE SERVICE AND LICENSED APPLICATION WILL MEET YOUR REQUIREMENTS, THAT ACCESS TO THE SERVICE WILL BE UNINTERRUPTED, TIMELY, OR ERROR FREE. YOU ACKNOWLEDGE THAT ANY DATA OR INFORMATION DOWNLOADED OR OTHERWISE OBTAINED OR ACQUIRED THROUGH THE USE OF THE SERVICE AND LICENSED APPLICATION ARE AT YOUR SOLE RISK AND DISCRETION AND THAT WE  WILL NOT BE LIABLE OR RESPONSIBLE FOR ANY DAMAGE TO YOU OR YOUR PROPERTY. 
+			</p>
+          </div>
+        </div>
+        
+        <div class="block-buttons">
+          <a href="#" onclick="show('page-profile');" class="button red" id="agree-button">I Agree</a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!-- end Agreements page -->
+  <!-- profile page (login) -->
+    <div id="container" class="page-profile">
+    <header id="header">
+      <div id="logo"><img src="images/instatrace.png" alt="InstaTrace" width="109" height="20" /></div>
+    </header>
+    <div id="main" role="main">
+      
+      <form action="#" onsubmit="login(); return false;" class="main-form" id="profile-form">
+      
+        <legend>Driver Profile</legend>
+
+        <div class="listview inset">
+          <div class="listview-item">
+            <div class="input input_text">
+              <label for="activate_code">Activation code</label>
+              <input type="text" id="activation_code" />
+            </div>
+          </div>
+        </div>
+
+		<div class="buttons">
+          <button type="submit" id="login-button" class="button red">Login</button>
+        </div>
+      
+      </form>
+      
+    </div>
+  </div>
+  <!-- end profile page (login) -->
+  <!-- home page -->
+    <div id="container" class="page-home">
+    <header id="header">
+      <div id="logo"><img src="images/instatrace.png" alt="InstaTrace" width="109" height="20" /></div>
+      <a href="#" onclick="show('page-lang');" class="button pink with-icon icon-settings right"></a>
+    </header>
+    <div id="main" role="main">
+      
+      <div class="scanstart-type">
+        <p>Tap here to Scan Cargo Code or enter shipment ID below</p>
+        <span id="scancode" onclick="scanbarcode();" class="scanstart-type--action">
+          <a href="#"><img src="images/qr.png" alt="QR" width="60" height="61" /></a>
+          <a href="#"><img src="images/bar.png" alt="Bar" width="75" height="58" /></a>
+        </span>
+      </div>
+      
+      <form class="scanstart-id" onsubmit="get_shipment_details(); return false;">
+        <div class="field">
+          <label for="">Input Shipment ID</label>
+          <input id="id-shipment-value" type="number" pattern="[0-9]*" />
+        </div>
+        <button type="submit" class="button">Submit</button>
+      </form>
+      
+    </div>
+  </div>
+  <!-- end home page-->
+  <!-- shipment details -->
+    <div id="container" class="page-content_alt page-ship-det">
+    <header id="header">
+      <h1 id="title">Shipment Details</h1>
+      <a href="#" onclick="go_home();" class="button pink with-icon icon-home right"></a>
+    </header>
+	<div id="shipscroll" style="height:90%; overflow:hidden; position:relative;">
+    <div id="main" role="main">
+      <h2 class="info-block clearfix">
+        <span class="ib-lavel">Shipment ID</span>
+        <span class="ib-value"></span>
+      </h2>
+    
+      <form action="#" onsubmit="shipment_submit(); return false;" class="main-form" id="shipment-details-form">
+        <legend>Shipment Information</legend>
+        
+        <div class="listview inset">
+          <div class="listview-item">
+            <div class="input input_text num_of_pieces">
+              <span class="input-label">Number of Pieces</span>
+              <span class="input-value"></span>
+            </div>
+          </div>
+          <div class="listview-item">
+            <div class="input input_text total_weight">
+              <span class="input-label">Total Weight</span>
+              <span class="input-value"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="listview inset">
+          <div class="listview-item">
+            <div class="input input_text pick_up">
+              <span class="input-label">Pick Up</span>
+              <span class="input-value"></span>
+            </div>
+          </div>
+          <div class="listview-item">
+            <div class="input input_text destination">
+              <span class="input-label">Destination</span>
+              <span class="input-value"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="listview inset">
+          <div class="listview-item" id="action-select">
+            <a href="#" onclick="show_driver_act();" class="input input_text">
+              <span class="input-label">Driver Action</span>
+              <span class="input-value"><span class="link-more">Select</span></span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="listview inset">
+          <div class="listview-item">
+            <div class="input input_checbox clearfix damage">
+              <span class="input-label">Cargo is Damaged</span>
+              <span class="checkbox"><input type="checkbox" id="checbox" /><label onclick="" for="checbox">&nbsp;</label></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="buttons">
+          <!--<a href="#" class="link_complete_det">See Complete Details</a>-->
+          <button type="submit" class="button red">Confirm</button>
+        </div>
+      </form>
+    </div>
+	</div>
+  </div> <!--! end of #container -->
+  <!-- end shipment details -->
+  <!-- Driver actions -->
+    <div id="container" class="page-content_alt page-driver-act">
+    <header id="header">
+      <a href="#" onclick="show('page-ship-det');" class="button pink left arrow-left"><span class="pointer"></span>Back</a>
+      <h1 id="title">Driver Action</h1>
+      <a href="#" onclick="change_driver_act();" class="button right action_save">Save</a>
+    </header>
+    <div id="main" role="main">
+      <form action="#" onsubmit="return false;" class="main-form">
+      
+        <ul class="listview">
+          <li class="listview-item">
+            <div class="input input_radio pick_up">
+              <label for="f1" onclick=""><input type="radio" id="f1" name="actions" /> <span>Pick-up</span></label>
+            </div>
+          </li>
+          <li class="listview-item">
+            <div class="input input_radio back_base">
+              <label for="f2" onclick=""><input type="radio" id="f2" name="actions" /> <span>Back at Base</span></label>
+            </div>
+          </li>
+          <li class="listview-item">
+            <div class="input input_radio route_carrier">
+              <label for="f3" onclick=""><input type="radio" id="f3" name="actions" /> <span>En route to Carrier</span></label>
+            </div>
+          </li>
+          <li class="listview-item">
+            <div class="input input_radio tender_carrier">
+              <label for="f4" onclick=""><input type="radio" id="f4" name="actions" /> <span>Tendered to Carrier</span></label>
+            </div>
+          </li>
+          <li class="listview-item">
+            <div class="input input_radio recover_carrier">
+              <label for="f5" onclick=""><input type="radio" id="f5" name="actions" /> <span>Recovered from Carrier</span></label>
+            </div>
+          </li>
+          <li class="listview-item">
+            <div class="input input_radio out_deliver">
+              <label for="f6" onclick=""><input type="radio" id="f6" name="actions" /> <span>Out for Delivery</span></label>
+            </div>
+          </li>
+          <li class="listview-item">
+            <div class="input input_radio deliver">
+              <label for="f7" onclick=""><input type="radio" id="f7" name="actions" /> <span>Delivery</span></label>
+            </div>
+          </li>
+        </ul>
+        
+      </form>
+    </div>
+  </div> <!--! end of #container -->
+  <!-- end Driver antions -->
+  <!-- damage info -->
+ <div id="container" class="page-content_alt page-damage-info">
+	<header id="header">
+      <div id="logo"><img src="images/instatrace.png" alt="InstaTrace" width="109" height="20" /></div>
+    </header>
+    <div id="main" role="main">
+    
+      <form action="#" onsubmit="damageinfo_submit(); return false;" class="main-form">
+      
+        <div class="field">
+          <textarea name="" id="damage_info" cols="30" rows="15" placeholder="Description of Damage"></textarea>
+        </div>
+        
+        <div class="buttons">
+          <button type="submit" class="button red">Continue</button>
+        </div>
+        
+      </form>
+    </div>
+  </div> <!--! end of #container -->
+<!-- end damage info -->
+  <!-- capture image box -->
+   <div id="container" class="page-capture page-image-box">
+    <header id="header" >
+	  <a href="#" onclick="show('page-ship-det');" class="button left arrow-left-red"><span class="pointer"></span>Back</a>
+      <h1 id="title">Take Photo of the Box</h1>
+      <a onclick="send_shipment_info();" href="#" class="button red right done-butt">Done</a>
+    </header>
+    <div id="main" role="main" style="background:black;">
+      
+      <img class="capture-temp" id="imagebox" border="0" src="" />
+      
+    </div>
+    <footer id="footer">
+      <div class="cam-block">
+        <div id="photos-small" class="cam-shots">
+          <!-- fake temporary images
+		  <img src="images/temp/p1.png" alt="" />
+          <img src="images/temp/p2.png" alt="" />
+          <img src="images/temp/p3.png" alt="" />
+		  -->
+		</div>
+        <div class="cam-nav">
+          <a href="#" onclick="make_photo(1);" class="button transp with-icon icon-cam"></a>
+        </div>
+        <div id="photos-small-second" class="cam-shots-second"></div>
+      </div>
+    </footer>
+  </div> <!--! end of #container -->
+<!-- end capture box -->
+<!-- preview photos -->
+ <div id="container" class="page-content_alt page-album">
+    <header id="header">
+      <a href="#" onclick="show('page-image-box');" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
+      <h1 id="title">Album</h1>
+      <a href="#" onclick="album_submit();" class="button right action_save">Save</a>
+    </header>
+    <div id="main" role="main">
+    	<div id="album_wrapper">
+    	</div>
+    </div>
+  </div> <!--! end of #container -->
+<!-- end preview photos -->
+<!-- single photo preview -->
+<div id="container" class="page-content_alt page-photo-preview">
+	<header id="header">
+      <a href="#" onclick="show('page-album');" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
+      <h1 id="title">Photo Preview</h1>
+      <!--<a href="#" onclick="album_submit();" class="button right action_save">Save</a>-->
+    </header>
+	<img id="photo-preview" src="" style="border:0;" />
+</div>
+<!-- end single photo preview -->
+<!-- signature -->
+ <div id="container" class="page-content_alt page-signature">
+    <header id="header">
+      <a href="#" onclick="show('page-album');" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
+      <h1 id="title">Signature</h1>
+      <a href="#" onclick="go_home();" class="button pink with-icon icon-home right"></a>
+    </header>
+	<div id="signaturescroll" style="overflow:hidden; position:relative;">
+    <div id="main" role="main">
+    
+      <form action="#" id="sigPad" onsubmit="signature_submit(); return false;" class="main-form">
+      
+       <div class="sig sigWrapper">
+		  <!--<div class="typed"></div>--> 
+		  <a href="#" class="clearButton">x</a>
+		  <canvas id="canvas" class="pad" style="width:100%; border-radius:8px; height:150px;"></canvas>
+		  <input type="hidden" name="output" class="output">
+	    </div>
+		
+        <div class="listview inset">
+          <div class="listview-item">
+            <div class="input input_text name">
+              <label for="name">Name</label>
+              <input type="text" id="name" placeholder="Name" />
+            </div>
+          </div>
+          <div class="listview-item">
+            <div class="input input_text email">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="sample@email.com" />
+            </div>
+          </div>
+        </div>
+                
+        <div class="buttons">
+          <button type="submit" class="button red">Continue</button>
+        </div>
+        
+      </form>
+    </div>
+    </div>
+  </div> <!--! end of #container -->
+<!-- end signature -->
+<!-- capture image doc -->
+  <div id="container" class="page-capture page-image-doc">
+    <header id="header">
+	  <a href="#" onclick="back_from_image_doc();" class="button left arrow-left-red"><span class="pointer"></span>Back</a>
+      <h1 id="title">Take Photo of POD</h1>
+      <a href="#" onclick="send_pod();" class="button red right done-butt">Done</a>
+    </header>
+    <div id="main" role="main">
+      
+      <img class="capture-temp" src="" border="0" id="imagepod" />
+      
+    </div>
+    <footer id="footer">
+      <div class="cam-block">
+        <div class="cam-nav">
+          <a href="#" onclick="make_photo(2);" class="button transp with-icon icon-cam"></a>
+        </div>
+      </div>
+    </footer>
+  </div> <!--! end of #container -->
+<!-- end capture image doc -->
+<!-- complete -->
+  <div id="container" class="page-complete">
+    <header id="header">
+      <a href="#" onclick="back_from_complete();" class="button pink left arrow-left button-back"><span class="pointer"></span>Back</a>
+      <h1 id="title">Completion</h1>
+      <a href="#" onclick="go_home();" class="button pink with-icon icon-home right"></a>
+    </header>
+    <div id="main" role="main">
+      
+      <div class="complete-block">
+        <p>Tap 'Complete' to submit shipment details</p>
+        <a id="complete-submit" onclick="complete_submit();" href="#" class="button red big">Complete</a>
+      </div>
+      
+    </div>
+  </div> <!--! end of #container -->
+<!-- end complete -->
+<!-- finish page -->
+ <div id="container" class="page-final">
+    <header id="header">
+      <div id="logo"><img src="images/instatrace.png" alt="InstaTrace" width="109" height="20" /></div>
+      <a href="#" onclick="next_shipment();" class="button pink with-icon icon-home right"></a>
+    </header>
+    <div id="main" role="main">
+      
+      <div class="final-block">
+        <p>Thanks for submitting shipment details!</p>
+        <a id="final-submit" onclick="next_shipment();" href="#" class="button grey middle">Next Shipment</a>
+      </div>
+      
+    </div> 
+  </div> 
+  <!-- end finish page -->
+  </body>
+</html>
