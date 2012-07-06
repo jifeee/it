@@ -1,0 +1,38 @@
+/* =============================================================================
+   Lists
+   ========================================================================== */
+.listview{
+  margin:-10px;
+  padding:0;
+  }
+  .listview-item{
+    margin:0;
+    padding:18px 13px 16px;
+    list-style:none;
+    background:#f1f1f1;
+    border-bottom:1px solid #6e6e6e;
+    }
+
+.listview.inset{
+  border:1px solid #6e6e6e;
+  background:#fff;
+  
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  
+  margin:0 0 10px;
+  }
+  .inset .listview-item{
+    border-top:1px solid #6e6e6e;
+    border-bottom:0;
+    padding:10px 13px;
+    background:transparent;
+    }
+    .inset .listview-item:first-child{
+      border-top:0;
+      }

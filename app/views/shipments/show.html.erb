@@ -88,8 +88,12 @@
       </td>
       <td> <%= link_to 'link', ms.signature.signature.url, :target => :blank rescue nil %></td>
       <td> 
-        <%= (ms.damaged? && ms.damage_desc.blank?) ? "Shipment is Damaged" : ms.damage_desc %> 
-        <br />
+        <% if ms.damaged? && ms.damage_desc.blank? %> 
+          Shipment is Damaged<br />
+        <% end %>
+        <% unless ms.damage_desc.blank? %>
+          <%= ms.damage_desc %><br />
+        <% end %>
         <%= damages_urls(ms,'image') %>
       </td>
       <td> <%= documents_urls(ms,'doc') %> </td>
