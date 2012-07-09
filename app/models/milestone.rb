@@ -17,8 +17,12 @@ class Milestone < ActiveRecord::Base
   after_save :update_shipment, :if => :completed?
   accepts_nested_attributes_for :damages, :milestone_documents
 
-  after_create do |record|
+  after_update do |record|
     record.delay.update_attribute :timezone, timeshift
+  end
+
+  after_save do |record|
+    record.delay.update_attribute(:timezone, timeshift) if record.latitude_changed? or record.longitude_changed?
   end
   
   def damaged?
