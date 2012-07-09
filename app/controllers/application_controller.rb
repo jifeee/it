@@ -2,7 +2,7 @@
 # module I18n; def self.t(id); '~'; end; end
 
 class ApplicationController < ActionController::Base
-  APPLICATION_VERSION = '1.0.20'
+  APPLICATION_VERSION = '1.1.0'
 
   protect_from_forgery
 
@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_locale, :application_version
  
   rescue_from CanCan::AccessDenied do
-    flash[:notice] = 'Access denied'
     redirect_to root_path
   end
 
@@ -73,7 +72,6 @@ protected
 
   # restrict access to admin module for non-admin users
   def authenticate_admin_user
-    flash[:notice] = 'Only for logged users'
     raise CanCan::AccessDenied unless current_user && current_user.manager?
   end
   

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120613115447) do
+ActiveRecord::Schema.define(:version => 20120709143744) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -67,6 +67,22 @@ ActiveRecord::Schema.define(:version => 20120613115447) do
     t.datetime "updated_at"
   end
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "milestone_documents", :force => true do |t|
     t.integer  "milestone_id", :null => false
     t.string   "name",         :null => false
@@ -86,8 +102,9 @@ ActiveRecord::Schema.define(:version => 20120613115447) do
     t.boolean  "public"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "latitude",    :limit => 10, :default => 0.0
-    t.float    "longitude",   :limit => 10, :default => 0.0
+    t.float    "latitude",    :limit => 10,                               :default => 0.0
+    t.float    "longitude",   :limit => 10,                               :default => 0.0
+    t.decimal  "timezone",                  :precision => 2, :scale => 1, :default => 0.0
   end
 
   create_table "notifications", :force => true do |t|
@@ -132,7 +149,7 @@ ActiveRecord::Schema.define(:version => 20120613115447) do
   create_table "shipments", :force => true do |t|
     t.string   "shipment_id"
     t.integer  "pieces"
-    t.float    "weight"
+    t.decimal  "weight",        :precision => 12, :scale => 2
     t.string   "origin"
     t.string   "shipper"
     t.datetime "ship"

@@ -33,3 +33,5 @@ gem 'unicorn'
 
 gem 'routing-filter'
 gem 'rest-client', :git => 'git://github.com/archiloque/rest-client.git'
+gem 'delayed_job_active_record'
+

@@ -65,7 +65,7 @@
 <br />
 <table class="table_w bordered-table tablesorter" id="milestones_table">
   <thead><tr>
-    <th><%= t(:column_update_date_and_time) %><br />(GMT<%= Time.zone.formatted_offset(false).gsub(/0/,'') %>)</th>
+    <th><%= t(:column_update_date_and_time) %></th>
     <th><%= t(:column_updated_by) %></th>
     <th><%= t(:column_status) %></th>
     <th style="width:62px;"><%= t(:column_location) %></th>
@@ -76,7 +76,7 @@
   </tr></thead>
   <% @shipment.milestones.order("updated_at DESC").each do |ms| %>
     <tr>
-      <td><%= ms.updated_at %></td>
+      <td><%= ms.updated_at.in_time_zone(ms.timezone) %></td>
       <td> <strong><%= ms.driver.try(:username) %></strong> </td>
       <td> <%= ms.action.try(:to_s).try(:humanize) %> </td>
       <td align="center">

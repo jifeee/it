@@ -1,4 +1,7 @@
+
 class Milestone < ActiveRecord::Base
+  include GeoHelper
+
   has_many :damages, :dependent => :destroy
   has_many :milestone_documents, :dependent => :destroy
   
@@ -13,6 +16,10 @@ class Milestone < ActiveRecord::Base
 
   after_save :update_shipment, :if => :completed?
   accepts_nested_attributes_for :damages, :milestone_documents
+
+  after_create do |record|
+    record.delay.update_attribute :timezone, timeshift
+  end
   
   def damaged?
     self.damaged
