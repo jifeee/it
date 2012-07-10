@@ -470,12 +470,13 @@ ul.selections li>*{
 
 .pagination a, .pagination span {
   line-height: 16px;
-  font-size: 12px;
-  
+  font-size: 13px;
+  color: #000;  
+  font-weight: normal;
 }
 
 .pagination a {
-  text-decoration: none;
+  text-decoration: underline;
   border: none;
   padding: 0;
 }
