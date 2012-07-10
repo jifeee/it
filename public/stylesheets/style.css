@@ -463,30 +463,26 @@ ul.selections li>*{
   font-weight: bold;
 }
 
-.paginate ul {
+.pagination {
   display: inline-block;
   *display: inline;
 }
-.paginate li {
-  display: inline;
-}
-.paginate a {
-  float: left;
-  padding: 0 6px;
+
+.pagination a, .pagination span {
   line-height: 16px;
+  font-size: 12px;
+  
+}
+
+.pagination a {
   text-decoration: none;
+  border: none;
+  padding: 0;
 }
-.paginate a:hover, .paginate .active a {
-  background-color: #f5f5f5;
-}
-.paginate .active a {
-  color: #999999;
-  cursor: default;
-}
-.paginate .disabled a, .paginate .disabled a:hover {
-  color: #999999;
-  background-color: transparent;
-  cursor: default;
+
+.pagination span {
+  padding: 0 6px;
+  float: left;  
 }
 
 footer#dialog-footer {
