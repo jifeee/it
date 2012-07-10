@@ -107,15 +107,7 @@
 <% else %>
   <%= t(:text_no_shipments_found) %>
 <% end if @shipments %>
-<br />
-<br />
-<br />
-<hr>
-<pre>
-  <strong>List of all HAWBs for test only. (for HAWB search type)</strong>
-  <%= @hawbs.join(', ') %>
-</pre>
-<% if can? :create, Shipment %>
+<% if current_user && current_user.sa? %>
   <hr>
   <div class="well">
     <% form_for Shipment.new, :url => upload_edi_shipments_path, :html => {:multipart => true} do |f| %>

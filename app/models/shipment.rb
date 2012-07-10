@@ -9,8 +9,7 @@ class Shipment < ActiveRecord::Base
   include ActiveModel::Validations
   has_many :milestones
 
-  validates :hawb, :presence => true, :uniqueness => {:case_sensitive => false}
-  
+  validates :hawb, :presence => true, :uniqueness => {:case_sensitive => false}  
 
   scope :none, where('1=2')
 

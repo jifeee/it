@@ -5,9 +5,8 @@ ActiveAdmin.register Shipment do
 
   # table for index action
   index do
-    column(:shipment_id) {|s| link_to s.shipment_id, admin_shipment_path(s)}
+    column(:hawb) {|s| link_to s.hawb, admin_shipment_path(s)}
     column :service_level
-    column :hawb
     column :mawb
     column :pieces
     column("Weight") {|s| "#{s.weight} Lb." }
