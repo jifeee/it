@@ -103,7 +103,10 @@
       </tr>  
     <% end %>
   </table>
-  <%= paginate @shipments %>
+  <div class="pull-right">
+    <%= paginate @shipments %>
+  </div>
+  <br clear="all" />
 <% else %>
   <%= t(:text_no_shipments_found) %>
 <% end if @shipments %>
