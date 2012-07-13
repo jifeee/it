@@ -20,6 +20,7 @@ class MilestonesController < ApplicationController
   def create
   	shipment = Shipment.find(params[:shipment_id])
     milestone = shipment.milestones.new(params[:milestone])
+    milestone.completed = true
     
     # Fix one doc type for all documents
     milestone.milestone_documents.map {|document| document.doc_type = params[:doc_type]}
