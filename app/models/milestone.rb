@@ -20,6 +20,8 @@ class Milestone < ActiveRecord::Base
   after_save do |record|
     record.delay.update_attribute(:timezone, timeshift) if record.latitude_changed? or record.longitude_changed?
   end
+
+  scope :completed, where(:completed => true)
   
   def damaged?
     self.damaged

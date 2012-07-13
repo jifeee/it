@@ -7,9 +7,7 @@ class Parser
 
       raise 'File has wrong format' unless self.isa?
 
-
-
-      plain = data.gsub(/\r\n/, '').split('~').map{|line| line.split('*')}
+      plain = data.gsub(/\r\n/, '~').split('~').map{|line| line.split('*')}
 
       isa = plain.find{|d| d.first.eql? "ISA"}
       self.ship = Time.parse("20" << isa[9] << isa[10])
@@ -54,9 +52,10 @@ class Parser
     File.join(Rails.root, "lib", "parser")    
   end
   
-  def create_shipment action
+  def create_shipment(action)
     b10 = action.find{|d| d.first.eql? "B10"}
-
+p b10    
+p action    
     return if action.empty? || !b10
     
     shipment = Shipment.find_or_initialize_by_hawb b10[1]
