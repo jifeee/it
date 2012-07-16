@@ -12,7 +12,7 @@ class AgentsController < ApplicationController
 	end
 
 	def show
-    redirect_to current_user.owner unless @agent.allowed?
+    # redirect_to current_user.owner unless @agent.allowed?
 		@agent.query = params[:agent][:query] if params[:agent]
 	end
 
