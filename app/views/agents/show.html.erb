@@ -1,5 +1,5 @@
 <%= render :partial => 'shared/company_header', :object => @agent %>
-<%= render :partial => 'shared/company_relation', :object => @agent %>
+<%= render :partial => 'shared/company_relation', :object => @agent if @agent.allowed? %>
 <%= render :partial => 'shared/company_users', :object => @agent %>
 
 <script type="text/javascript">

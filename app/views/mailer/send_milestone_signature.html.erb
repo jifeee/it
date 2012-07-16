@@ -1,5 +1,5 @@
-You can see signature by this url: <%= @milestone.signature.signature.url %>
-
+<%= link_to 'You can see signature by this url', "#{root_url}#{@milestone.signature.signature.url}" %>
+<br />
 Milestone details:
 <br /><br />
 <% @milestone.attributes.map do |s| %>

@@ -14,9 +14,8 @@ class Mailer < ActionMailer::Base
   def damage_notifier(milestone)
   	@shipment = milestone.shipment
   	subject = "Shimpent #{@shipment.shipment_id} was damaged"
-  	milestone.driver.user_relations.first.owner.users.operators do |operator|
-    	mail(:to => operator.email, :subject => subject)
-  	end
+  	operators = milestone.driver.user_relations.first.owner.users.operators.map &:email
+    mail(:to => operators, :subject => subject)
   end
 
   def send_milestone_signature(milestone)
