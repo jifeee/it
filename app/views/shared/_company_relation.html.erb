@@ -27,7 +27,7 @@
       <td class="mark">
         <%= check_box_tag company.id, nil, nil, :class => company.class.to_s.pluralize, :title => t(:title_check_to_remove), :disabled => !company_relation.allowed? || cannot?(:update, company_relation.class) %>
       </td>
-      <td> <%= link_to_if false, company.name_with_prefix, url_for(company), :class => 'link_bold' %> </td>
+      <td> <%= link_to_if true, company.name_with_prefix, url_for(company), :class => 'link_bold' %> </td>
       <td> <%= company.address %> </td>
       <td> <%= company.phone %> </td>
       <td class='link_bold'> <%= company.relation_objects.count %></td>
