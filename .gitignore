@@ -3,5 +3,5 @@ db/*.sqlite3
 log/*.log
 tmp/
 public/uploads/
-database.yml
+database.yml000
 db/schema.rb
