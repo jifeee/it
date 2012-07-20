@@ -18,6 +18,7 @@ test:
 
 production:
   adapter: mysql2
+  username: instatrace
   database: instatrace
   pool: 5
   timeout: 5000
