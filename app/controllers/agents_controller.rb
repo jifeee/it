@@ -67,7 +67,13 @@ class AgentsController < ApplicationController
 	end
 
   def get_agents
-    agents = Agent.select('id, name').search('name' => params[:q]).limit(params[:limit].to_i)
+    agents = Agent.select('id, name')
+    if params[:company_id]
+      cr = CompanyRelation.where(:company_id => params[:company_id])
+      ids = cr.map &:agent_id
+      agents = agents.where(['id not in (?)',ids]) if ids.size > 0
+    end
+    p agents.to_sql
     respond_with(agents) do |format|
       format.json {render :json => agents.collect {|a| {:value => a.name, :data => {:id => a.id, :obj => a}}}.to_json}
       format.any {render :nothing => true}

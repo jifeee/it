@@ -105,7 +105,12 @@ class CompaniesController < ApplicationController
   end
 
   def get_companies
-    companies = Company.select('id, name').search('name' => params[:q]).limit(params[:limit].to_i)
+    companies = Company.select('id, name')
+    if params[:agent_id]
+      cr = CompanyRelation.where(:agent_id => params[:agent_id])
+      ids = cr.map &:company_id
+      companies = companies.where(['id not in (?)',ids]) if ids.size > 0
+    end
     respond_with(companies) do |format|
       format.json {render :json => companies.collect {|a| {:value => a.name, :data => {:id => a.id, :obj => a}}}.to_json}
       format.any {render :nothing => true}

@@ -1,16 +1,21 @@
-<%= form_for @agent, :url => join_agent_path(@agent), :html => {:style => 'padding:30px', :class => "form-vertical"}, :remote => true do |f| %>
+<%= form_for @agent, :url => join_agent_path(@agent), :html => {:class => "form-vertical"}, :remote => true do |f| %>
   <fieldset>
-    <legend><%= t(:header_create_new_company) %></legend>
+    <legend><%= t(:button_add_new_company) %></legend>
   </fieldset>
-  <div style="padding:30px">
-    <div class="control-group">
-      <div class="controls">
-        <%= text_field_tag :agent, nil, :class => 'input-xxlarge' %>
-        <span class="help-inline"><%= t(:text_prompt_select_company) %></span>
+  Please select a companies from the existing list
+  <br />
+  <div class="row">
+    <div class="span4">
+      <div class="well">
+        <ul class="listSelect" id="agents">
+        </ul>
       </div>
     </div>
-    <div class="well">
-      <ul id="selected_agents" class="selections"></ul>
+    <div class="span4">
+      <div class="well">
+        <ul class="listSelect" id="selected_agents">
+        </ul>
+      </div>      
     </div>
   </div>
   <br clear=all />
@@ -27,26 +32,33 @@
     $('#agent_submit').button('loading');
   })
 
-  $("#agent").autocomplete({
-    url: "<%= get_companies_companies_path(:json) -%>",
-    remoteDataType: 'json',
-    mustMatch: true,
-    maxItemsToShow: 5,
-    selectFirst: false,
-    autoFill: false,
-    selectOnly: true,
-    extraParams: {'doc_id':<%= @agent.id %>,'exclude':0},
-    onItemSelect: function(item) {
-      if ($('#agent_'+item.data.id).text() == '') 
-        $("#agent_template").tmpl(item.data.obj).appendTo("#selected_agents");
-      $('#agent').val('');
-    }
-  });
+  $.get('<%= get_companies_companies_path(:json) %>',{"agent_id":<%= @agent.id %>}, function(data){
+    $.each(data,function(idx,item){
+      $("#agents_row").tmpl(item.data.obj).appendTo("#agents");
+    });
+  })
+
+  function addAgent(id) {
+    $('#agent1_'+id).hide();
+    $("#agent_template").tmpl({"id":id,"name":$('#agent1_'+id+' a').html()}).appendTo("#selected_agents");
+  }
+
+  function removeAgent(id) {
+    $('#agent_'+id).remove()
+    $('#agent1_'+id).show();
+  }
+
+</script>
+
+<script id="agents_row" type="text/x-jquery-tmpl">
+<li id="agent1_${id}">
+  <a href="#" onclick="addAgent(${id}); return false;">${name}</a>
+</li>
 </script>
 
 <script id="agent_template" type="text/x-jquery-tmpl">
-<li id="company_${id}">
-  <a href="#" class="btn" onclick="$('#company_${id}').remove(); return false;"><i class="icon-remove"></i>${name}</a>
+<li id="agent_${id}">
+  <a href="#" class="btn" onclick="removeAgent(${id}); return false;"><i class="icon-remove"></i>${name}</a>
   <input type="hidden" name="company_ids[]" value="${id}" />
 </li>
 </script>

@@ -38,6 +38,8 @@ ActiveAdmin.register Shipment do
       f.input :destination
       f.input :shipper
       f.input :consignee
+      f.input :ship
+      f.input :delivery
     end
     f.buttons
   end

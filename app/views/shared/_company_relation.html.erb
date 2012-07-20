@@ -2,7 +2,7 @@
 <section>
 <div class="header-container">
   <h3 class="table_header_h3"><strong><%= company_relation.relation_object_name.capitalize.pluralize %></strong> / <%= company_relation.name_with_prefix %> </h3>
-  <%= link_to "#{t(:button_create_new)} #{company_relation.relation_object_name.capitalize}", url_for(:action => 'join', :controller => company_relation.class.to_s.pluralize.downcase, :id => company_relation.id),
+  <%= link_to "#{t(:button_add_new)} #{company_relation.relation_object_name.capitalize}", url_for(:action => 'join', :controller => company_relation.class.to_s.pluralize.downcase, :id => company_relation.id),
   :class => 'popup-big btn create btn-inverse', :remote => true if company_relation.allowed? && can?(:update, company_relation.class) %>
   <br clear=all />
 </div>
