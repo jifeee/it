@@ -1,6 +1,5 @@
 #!/bin/sh
 
-cd /mnt/www/instatrace
 RAILS_ENV=production script/delayed_job stop
 git reset --hard
 git pull origin master
